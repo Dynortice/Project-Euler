@@ -9,5 +9,5 @@ My PC configuration: Windows 10 Pro x64, Intel Core i7-9750H, DDR4-3200. Python 
 
 Problem | R | Python | Julia
 -: | -: | -: | -:
-1 | 3.25 µs | 1.616 µs | 0.164 µs
+1 | 3.2 µs | 1.616 µs | 0.164 µs
 2 | 1.4 µs | 4.198 µs | 0.204 µs
