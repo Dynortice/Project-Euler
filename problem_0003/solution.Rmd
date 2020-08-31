@@ -1,0 +1,45 @@
+---
+title: "Problem 3"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+
+## Largest prime factor
+The prime factors of $13195$ are $5, 7, 13$ and $29$. What is the largest prime factor of the number $600851475143$?
+
+## Solution
+Firstly we need just to find prime numbers. For this task we'll use sieve of Eratosthenes. Secondly, we need to divide number by smallest prime without remainder until we get prime number. This prime number would largest prime factor of that number.
+
+```{r}
+library(microbenchmark)
+source("../euler/R/primes.R")
+```
+
+```{r}
+compute <- function(n) {
+    while (TRUE) {
+        prime <- smallest_prime_factor(n)
+        if (prime < n) {
+            n = n / prime
+        }
+        else {
+            return(n)
+        }
+    }
+}
+```
+
+```{r}
+compute(13195)
+```
+
+```{r}
+compute(600851475143)
+```
+
+```{r}
+microbenchmark(compute(600851475143))
+```
