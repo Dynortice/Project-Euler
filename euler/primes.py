@@ -3,6 +3,7 @@ import math
 
 def get_primality(n: int) -> list:
     """
+    Get the sieve of primes below n
     :param n: integer number
     :return: boolean list with length n where index is number and boolean values is whether prime or not
     """
@@ -19,6 +20,7 @@ def get_primality(n: int) -> list:
 
 def get_primes(n: int) -> list:
     """
+    Get vector of primes below n
     :param n: integer number
     :return: list with primes below n
     """
@@ -27,6 +29,7 @@ def get_primes(n: int) -> list:
 
 def smallest_prime_factor(n: int) -> int:
     """
+    Get smallest prime factor of number
     :param n: integer number
     :return: smallest prime factor of n
     """

@@ -9,7 +9,7 @@ sum_arithmetic_series <- function(a, d, n) {
   return(n * (2 * a + d * (n - 1)) / 2)
 }
 
-#' Find the sum of arithmetic sequence
+#' Get nth Fibonacci number
 #' 
 #' @param n index of Fibonacci number
 #' @return Fibonacci number with index n
@@ -18,7 +18,7 @@ fibonacci_number <- function(n) {
     return((((1 + sqrt(5)) / 2) ^ n - ((1 - sqrt(5)) / 2) ^ n) / sqrt(5))
 }
 
-#' Find the sum of arithmetic sequence
+#' Get index of closest Fibonacci number
 #' 
 #' @param n integer number
 #' @return index of closest Fibonacci number below n

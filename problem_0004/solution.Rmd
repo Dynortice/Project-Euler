@@ -1,0 +1,54 @@
+---
+title: "Problem 4"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+
+## Largest palindrome product
+A palindromic number reads the same both ways. The largest palindrome made from the product of two $2$-digit numbers is $9009 = 91 \times 99$. Find the largest palindrome made from the product of two $3$-digit numbers.
+
+## Solution
+Firstly we need construct a palindromic number as
+
+$$'abccba'=100000a+10000b+1000c+100c+10b+a=100001a+10010b+1100c=11(9091a+910b+100c)$$
+
+It's mean that one of two number must be divisible by $11$.
+
+```{r}
+library(microbenchmark)
+source("../euler/R/numbers.R")
+```
+
+```{r}
+compute <- function(n) {
+    result <- 0
+    numbers <- c(0, 0)
+    for (i in seq(10 ^ n %/% 11 * 11, 10 ^ (n - 1), -11)) {
+        for (j in seq(10 ^ n - 1, 10 ^ (n - 1))) {
+            candidate <- i * j
+            if (candidate <= result) {
+                break
+            } else if (is.palindrome(as.character(candidate))) {
+                result <- candidate
+                numbers <- c(i, j)
+            }
+        }
+    }
+    return(list(result, numbers))
+}
+```
+
+```{r}
+compute(2)
+```
+
+```{r}
+compute(3)
+```
+
+```{r}
+microbenchmark(compute(3))
+```
