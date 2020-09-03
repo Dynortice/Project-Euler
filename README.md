@@ -9,8 +9,8 @@ My PC configuration: Windows 10 Pro x64, Intel Core i7-9750H, DDR4-3200. Python 
 
 Problem | R | Python | Julia
 -: | -: | -: | -:
-1 | 3.2 µs | 1.616 µs | 0.164 µs
-2 | 1.4 µs | 4.198 µs | 0.204 µs
-3 | 178.352 ms | 285.215 ms | 14.561 ms
-4 | 19.586 ms | 8.09 ms | 0.146 ms
-5 | 42.8 µs | 7.455 µs | 1.408 µs
+1 | [3.2 µs](https://github.com/Dynortice/Project-Euler/blob/master/problem_0001/solution.rmd) | [1.616 µs](https://github.com/Dynortice/Project-Euler/blob/master/problem_0001/solution.ipynb) | [0.164 µs](https://github.com/Dynortice/Project-Euler/blob/master/problem_0001/solution.jl)
+2 | [1.4 µs]((https://github.com/Dynortice/Project-Euler/blob/master/problem_0002/solution.rmd)) | [4.198 µs](https://github.com/Dynortice/Project-Euler/blob/master/problem_0002/solution.ipynb) | [0.204 µs](https://github.com/Dynortice/Project-Euler/blob/master/problem_0002/solution.jl)
+3 | [178.352 ms]((https://github.com/Dynortice/Project-Euler/blob/master/problem_0003/solution.rmd)) | [285.215 ms](https://github.com/Dynortice/Project-Euler/blob/master/problem_0003/solution.ipynb) | [14.561 ms](https://github.com/Dynortice/Project-Euler/blob/master/problem_0003/solution.jl)
+4 | [19.586 ms]((https://github.com/Dynortice/Project-Euler/blob/master/problem_0004/solution.rmd)) | [8.09 ms](https://github.com/Dynortice/Project-Euler/blob/master/problem_0004/solution.ipynb) | [0.146 ms]((https://github.com/Dynortice/Project-Euler/blob/master/problem_0004/solution.jl))
+5 | [42.8 µs]((https://github.com/Dynortice/Project-Euler/blob/master/problem_0005/solution.rmd)) | [7.455 µs](https://github.com/Dynortice/Project-Euler/blob/master/problem_0005/solution.ipynb) | [1.408 µs]((https://github.com/Dynortice/Project-Euler/blob/master/problem_0005/solution.jl))
