@@ -1,0 +1,39 @@
+---
+title: "Problem 7"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+
+## $10001$st prime
+By listing the first six prime numbers: $2, 3, 5, 7, 11$ and $13$, we can see that the $6$th prime is $13$.
+
+What is the $10 001$st prime number?
+
+## Solution
+Using sieve of Eratosthenes we could find $10001$st prime number by index. Under $100$ millions there more than $5%$ prime numbers. Therefore we can use sieve with size of $20n$.
+
+```{r}
+library(microbenchmark)
+source("../euler/R/primes.R")
+```
+
+```{r}
+compute <- function(n) {
+    return(get_primes(n * 20)[n])
+}
+```
+
+```{r}
+compute(6)
+```
+
+```{r}
+compute(10001)
+```
+
+```{r}
+microbenchmark(compute(10001))
+```

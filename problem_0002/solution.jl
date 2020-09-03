@@ -1,4 +1,4 @@
-include("../euler/Julia/calculus.jl")
+include("euler/Julia/calculus.jl")
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 

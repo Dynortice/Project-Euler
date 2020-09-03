@@ -9,10 +9,11 @@ output:
 
 ## Smallest multiple
 $2520$ is the smallest number that can be divided by each of the numbers from $1$ to $10$ without any remainder. What is the smallest positive number that is *evenly divisible* by all of the numbers from $1$ to $20$.
+
 ## Solution
 Let's look at example.
 
-$$2520=8\times9\times5\times7=2^3\times3^2\times5^1\times7^1$$.
+$$2520=8\times9\times5\times7=2^3\times3^2\times5^1\times7^1$$
 
 $8$ divisible by $2, 4, 8$; $9$ divisible by $3, 9$. And if number divisible by $2$ and $3$ then number divisible by $6$. Also if number divisible by $2$ and $5$ then number divisible by $10$. So we need only prime numbers and max power that less or equal $n$.
 

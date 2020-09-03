@@ -1,4 +1,4 @@
-include("../euler/Julia/primes.jl")
+include("euler/Julia/primes.jl")
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
