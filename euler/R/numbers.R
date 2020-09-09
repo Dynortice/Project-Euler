@@ -24,3 +24,26 @@ digits_to_number <- function(n) {
 is.palindrome <- function(n) {
     return(n == digits_to_number(rev(number_to_digits(n))))
 }
+
+#' Counting number of divisors of n
+#'
+#' @param n integer number
+#' @return number of divisors of n
+
+count_divisors <- function(n) {
+    factors <- 1
+    i <- 2
+    while (i * i < n) {
+        f <- 1
+        while (n %% i == 0) {
+            n <- n / i
+            f <- f + 1
+        }
+        i <- i + 1
+        factors <- factors * f
+    }
+    if (n > 1) {
+        factors <- factors * 2
+    }
+    return(factors)
+}
