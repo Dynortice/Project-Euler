@@ -1,0 +1,37 @@
+---
+title: "Problem 10"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+
+## Summation of primes
+The sum of the primes below $10$ is $2 + 3 + 5 + 7 = 17$.
+Find the sum of all the primes below two million.
+
+## Solution
+Let's just use sieve of Eratosthenes.
+```{r}
+library(microbenchmark)
+source("../euler/R/primes.R")
+```
+
+```{r}
+compute <- function(n) {
+    return(sum(get_primes(n)))
+}
+```
+
+```{r}
+compute(10)
+```
+
+```{r}
+compute(2000000)
+```
+
+```{r}
+microbenchmark(compute(2000000))
+```
