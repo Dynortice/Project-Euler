@@ -1,0 +1,76 @@
+---
+title: "Problem 9"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+
+## Special Pythagorean triplet
+A Pythagorean triplet is a set of three natural numbers, $a < b < c$, for which,
+
+$$a^2 + b^2 = c^2$$
+
+For example, $3^2 + 4^2 = 9 + 16 = 25 = 5^2$.
+
+There exists exactly one Pythagorean triplet for which $a + b + c = 1000$.
+
+Find the product $abc$.
+
+## Solution
+Since $a<b<c$,
+
+$$\begin{cases}a\le\frac{n}{3}\\a<b\le\frac{n}{2}\\b<c<n\end{cases}$$
+
+We know that $a+b=n-c$ and $a^2+b^2=c^2$, so
+
+$$a^2+b^2=c^2$$
+
+$$\iff a^2+2ab+b^2=c^2+2ab$$
+
+$$\iff (a+b)^2=c^2+2ab$$
+
+$$\iff 2ab=(n-c)^2-c^2$$
+
+Then we get
+
+$$a^2-2ab+b^2=c^2-(n-c)^2+c^2$$
+
+$$\iff (a-b)^2=c^2-n^2+2nc-c^2+c^2$$
+
+$$\iff (a-b)^2=c^2-n^2+2nc$$
+
+Therefore right part must be square.
+
+```{r}
+library(microbenchmark)
+```
+
+```{r}
+compute <- function(n) {
+    for (c in (n %/% 3 + 1):(n %/% 2)) {
+        s <- c * c - n * n + 2 * c * n
+        if (s > 0) {
+            t <- as.integer(sqrt(s))
+            if (t * t == s) {
+                b <- (n - c + t) / 2
+                a <- n - c - b
+                return(a * b * c)
+            }
+        }
+    }
+}
+```
+
+```{r}
+compute(12)
+```
+
+```{r}
+compute(1000)
+```
+
+```{r}
+microbenchmark(compute(1000))
+```
