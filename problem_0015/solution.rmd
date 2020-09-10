@@ -1,0 +1,35 @@
+---
+title: "Problem 15"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Lattice paths
+Starting in the top left corner of a $2 \times 2$ grid, and only being able to move to the right and down, there are exactly $6$ routes to the bottom right corner.<br/><br/>
+
+<center><img src = 'https://projecteuler.net/project/images/p015.png' title = 'Lattice paths'></center><br/>
+
+How many such routes are there through a $20 \times 20$ grid?
+
+## Solution
+
+This paths just Pascal's triangle, so we can find answer just using binomial coefficient.
+```{r}
+library(microbenchmark)
+```
+```{r}
+compute <- function(n) {
+    return(choose(2 * n, n))
+}
+```
+```{r}
+compute(2)
+```
+```{r}
+compute(20)
+```
+```{r}
+microbenchmark(compute(20))
+```
