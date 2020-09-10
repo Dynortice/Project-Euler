@@ -28,3 +28,15 @@ def fibonacci_index(n: int) -> int:
     :return: index of closest Fibonacci number below n
     """
     return int(math.log(n * math.sqrt(5) + 0.5, (math.sqrt(5) + 1) / 2))
+
+
+def len_collatz_chain(n: int, hashmap: dict) -> int:
+    """
+    Get length of Collatz chain
+    :param n: starting number
+    :param hashmap: dictionary with Collatz chains lengths
+    :return: length of Collatz chain for n
+    """
+    if n not in hashmap:
+        hashmap[n] = 1 + len_collatz_chain(n // 2, hashmap) if n % 2 == 0 else 2 + len_collatz_chain((3 * n + 1) // 2, hashmap)
+    return hashmap[n]

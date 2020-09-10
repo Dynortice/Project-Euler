@@ -26,3 +26,26 @@ fibonacci_number <- function(n) {
 fibonacci_index <- function(n) {
     return(as.integer(log(n * sqrt(5) + 0.5, (sqrt(5) + 1) / 2)))
 }
+
+#' Get length of Collatz chain
+#'
+#' @param n starting number
+#' @param hashmap vector with Collatz chains lengths
+#' @return hashmap of Collatz chains
+
+len_collatz_chain <- function(n, hashmap) {
+    chain <- 1
+    while(n > 1) {
+        if (!is.na(hashmap[n])) {
+            return(chain + hashmap[n])
+        }
+        if (n %% 2 == 0) {
+            chain <- chain + 1
+            n <- n / 2
+        } else {
+            chain <- chain + 2
+            n <- (3 * n + 1) / 2
+        }
+    }
+    return(chain)
+}
