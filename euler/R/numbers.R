@@ -47,3 +47,31 @@ count_divisors <- function(n) {
     }
     return(factors)
 }
+
+#' Adding two integer string-like numbers (for really big numbers)
+#'
+#' @param a first term
+#' @param b second term
+#' @result string-like sum of a and b
+
+add <- function(a, b) {
+    a <- rev(number_to_digits(a))
+    b <- rev(number_to_digits(b))
+    if (length(a) > length(b)) {
+        b <- c(b, rep(0, length(a) - length(b)))
+    } else if (length(b) > length(a)) {
+        a <- c(a, rep(0, length(b) - length(a)))
+    }
+    result <- NULL
+    carry <- 0
+    for (i in seq_along(a)) {
+        carry <- sum(carry, a[i], b[i])
+        result <- c(carry %% 10, result)
+        carry <- carry %/% 10
+    }
+    if (carry == 0) {
+        return(digits_to_number(result))
+    } else {
+        return(digits_to_number(c(carry, result)))
+    }
+}
