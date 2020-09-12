@@ -17,7 +17,7 @@ Using sieve of Eratosthenes we could find $10001$st prime number by index. Under
 
 ```{r}
 library(microbenchmark)
-source("../euler/R/primes.R")
+source("../../euler/R/primes.R")
 ```
 
 ```{r}

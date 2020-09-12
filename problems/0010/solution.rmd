@@ -15,7 +15,7 @@ Find the sum of all the primes below two million.
 Let's just use sieve of Eratosthenes.
 ```{r}
 library(microbenchmark)
-source("../euler/R/primes.R")
+source("../../euler/R/primes.R")
 ```
 
 ```{r}

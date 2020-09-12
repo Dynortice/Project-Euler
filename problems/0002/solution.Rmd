@@ -35,7 +35,7 @@ $$n(F)=\lfloor{log_{\phi}(\sqrt{5}F+\frac{1}{2})\rfloor}$$
 
 ```{r}
 library(microbenchmark)
-source("../euler/R/calculus.R")
+source("../../euler/R/calculus.R")
 ```
 
 ```{r}

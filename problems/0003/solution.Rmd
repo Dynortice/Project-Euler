@@ -15,7 +15,7 @@ Firstly we need just to find prime numbers. For this task we'll use sieve of Era
 
 ```{r}
 library(microbenchmark)
-source("../euler/R/primes.R")
+source("../../euler/R/primes.R")
 ```
 
 ```{r}
@@ -23,7 +23,7 @@ compute <- function(n) {
     while (TRUE) {
         prime <- smallest_prime_factor(n)
         if (prime < n) {
-            n = n / prime
+            n <- n / prime
         }
         else {
             return(n)
