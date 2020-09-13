@@ -1,6 +1,8 @@
 module numbers
     include("calculus.jl")
 
+    export is_palindrome, count_divisors, sum_proper_factors
+
     is_palindrome(n::String)::Bool = n ≡ reverse(n)
 
     function count_divisors(n::Int)::Int

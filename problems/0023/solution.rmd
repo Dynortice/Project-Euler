@@ -1,0 +1,52 @@
+---
+title: "Problem 23"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Non-abundant sums
+
+A perfect number is a number for which the sum of its proper divisors is exactly equal to the number. For example, the sum of the proper divisors of $28$ would be $1 + 2 + 4 + 7 + 14 = 28$, which means that $28$ is a perfect number.
+
+A number $n$ is called deficient if the sum of its proper divisors is less than $n$ and it is called abundant if this sum exceeds $n$.
+
+As $12$ is the smallest abundant number, $1 + 2 + 3 + 4 + 6 = 16$, the smallest number that can be written as the sum of two abundant numbers is $24$. By mathematical analysis, it can be shown that all integers greater than $28123$ can be written as the sum of two abundant numbers. However, this upper limit cannot be reduced any further by analysis even though it is known that the greatest number that cannot be expressed as the sum of two abundant numbers is less than this limit.
+
+Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.
+
+## Solution
+```{r}
+library(microbenchmark)
+source("../../euler/R/primes.R")
+source("../../euler/R/numbers.R")
+```
+```{r}
+compute <- function() {
+    n <- 28123
+    primes <- get_primes(as.integer(sqrt(n)))
+    abundant_sieve <- rep(FALSE, n)
+    not_expressible <- rep(TRUE, n)
+    result <- 0
+    for (i in seq_len(n)) {
+        abundant_sieve[i] <- (i < sum_proper_factors(i, primes))
+        for (j in seq_len(i %/% 2)) {
+            if (abundant_sieve[j] & abundant_sieve[i - j]) {
+                not_expressible[i] <- FALSE
+                break
+            }
+        }
+        if (not_expressible[i]) {
+            result <- result + i
+        }
+    }
+    return(result)
+}
+```
+```{r}
+compute()
+```
+```{r}
+microbenchmark(compute())
+```
