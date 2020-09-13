@@ -1,5 +1,5 @@
 module primes
-    function get_primality(n::Integer)::Array
+    function get_primality(n::Integer)::Array{Bool, 1}
         sieve = repeat([true], n)
         sieve[1] = false
         for i in 4:2:n
@@ -15,7 +15,7 @@ module primes
         return sieve
     end
 
-    get_primes(n::Integer)::Array = findall(get_primality(n))
+    get_primes(n::Integer)::Array{Int64, 1} = findall(get_primality(n))
 
     function smallest_prime_factor(n::Integer)::Integer
         primes = get_primes(trunc(Int, sqrt(n)))

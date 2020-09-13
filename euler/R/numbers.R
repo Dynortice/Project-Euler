@@ -1,3 +1,5 @@
+source("../../euler/R/calculus.R")
+
 #' Digits of number
 #'
 #' @param n number as string
@@ -46,4 +48,26 @@ count_divisors <- function(n) {
         factors <- factors * 2
     }
     return(factors)
+}
+
+#' Get sum of proper divisors of number
+#'
+#' @param n integer number
+#' @param primes list of primes numbers (until sqrt(n) as minimum)
+#' @return sum of proper divisors
+sum_proper_factors <- function(n, primes) {
+    result <- 1
+    number <- n
+    for (prime in primes) {
+        j <- 1
+        while (number %% prime == 0) {
+            number <- number / prime
+            j <- j + 1
+        }
+        result <- result * sum_geometric_series(1, prime, j)
+    }
+    if (number > 1) {
+        result <- result * (number + 1)
+    }
+    return(result - n)
 }

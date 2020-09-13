@@ -1,12 +1,23 @@
 #' Find the sum of arithmetic sequence
 #' 
 #' @param a first number in sequence
-#' @param b common difference of series
+#' @param b common difference of sequence
 #' @param n number of terms in sequence
 #' @return sum of n first terms in arithmetic sequence
 
 sum_arithmetic_series <- function(a, d, n) {
   return(n * (2 * a + d * (n - 1)) / 2)
+}
+
+#' Find the sum of geometric sequence
+#'
+#' @param a first number in sequence
+#' @param b common ratio of sequence
+#' @param n number of terms in sequence
+#' @return sum of n first terms in geometric sequence
+
+sum_geometric_series <- function(a, r, n) {
+  return(a * (r ^ n - 1) / (r - 1))
 }
 
 #' Get nth Fibonacci number

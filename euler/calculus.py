@@ -5,11 +5,22 @@ def sum_arithmetic_series(a: float, d: float, n: int) -> float:
     """
     Find the sum of arithmetic sequence
     :param a: first number in sequence
-    :param d: common difference of series
+    :param d: common difference of sequence
     :param n: number of terms in sequence
     :return: sum of n first terms in arithmetic sequence
     """
     return n * (2 * a + d * (n - 1)) / 2
+
+
+def sum_geometric_series(a: float, r: float, n: int) -> float:
+    """
+    Find the sum of geometric sequence
+    :param a: first term in sequence
+    :param r: common ratio of sequence
+    :param n: number of terms in sequence
+    :return: sum of n first terms in geometric sequence
+    """
+    return a * (r ** n - 1) / (r - 1)
 
 
 def fibonacci_number(n: int) -> int:

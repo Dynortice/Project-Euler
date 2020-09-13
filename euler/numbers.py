@@ -1,3 +1,5 @@
+from euler.calculus import sum_geometric_series
+
 def is_palindrome(n: str) -> bool:
     """
     Checking is the number a palindrome
@@ -25,3 +27,23 @@ def count_divisors(n: int) -> int:
     if n > 1:
         factors *= 2
     return factors
+
+
+def sum_proper_factors(n: int, primes: list) -> int:
+    """
+    Get sum of proper divisors of number
+    :param n: integer number
+    :param primes: list of primes numbers (until sqrt(n) as minimum)
+    :return: sum of proper divisors
+    """
+    result = 1
+    number = n
+    for prime in primes:
+        j = 1
+        while number % prime == 0:
+            number //= prime
+            j += 1
+        result *= sum_geometric_series(1, prime, j)
+    if number > 1:
+        result *= number + 1
+    return result - n

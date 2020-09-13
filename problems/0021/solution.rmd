@@ -1,0 +1,50 @@
+---
+title: "Problem 21"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Amicable numbers
+
+Let $d(n)$ be defined as the sum of proper divisors of $n$ (numbers less than $n$ which divide evenly into $n$).
+
+If $d(a) = b$ and $d(b) = a$, where $a \ne b$, then $a$ and $b$ are an amicable pair and each of $a$ and $b$ are called amicable numbers.
+
+For example, the proper divisors of $220$ are $1, 2, 4, 5, 10, 11, 20, 22, 44, 55$ and $110$; therefore $d(220) = 284$. The proper divisors of $284$ are $1, 2, 4, 71$ and $142$; so $d(284) = 220$.
+
+Evaluate the sum of all the amicable numbers under $10000$.
+
+## Solution
+```{r}
+library(microbenchmark)
+source("../../euler/R/primes.R")
+source("../../euler/R/numbers.R")
+```
+```{r}
+compute <- function(n) {
+    sum_factors <- rep(0, n)
+    primes <- get_primes(as.integer(sqrt(n)))
+    result <- 0
+    for (i in seq_len(n)) {
+        sum_factors[i] <- sum_proper_factors(i, primes)
+    }
+    for (i in 2:n) {
+        j <- sum_factors[i]
+        if ((j != i) & (j <= n) & (sum_factors[j] == i)) {
+            result <- result + i
+        }
+    }
+    return(result)
+}
+```
+```{r}
+compute(1000)
+```
+```{r}
+compute(10000)
+```
+```{r}
+microbenchmark(compute(10000))
+```
