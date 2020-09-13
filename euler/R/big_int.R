@@ -20,22 +20,17 @@ zero_pad <- function (a, b, right = TRUE) {
 BigInt <- R6Class(classname = "BigInt",
                   public = list(
                       str = "0",
-                      digits = 0L,
                       positive = TRUE,
                       initialize = function(n) {
                           if (n == "") {
                               self$str <- "0"
-                              self$digits <- 0L
                               self$positive <- TRUE
                           } else {
-                              digits <- strsplit(n, NULL)[[1]]
-                              if ("-" == digits[1]) {
+                              if (grepl("-", n)) {
                                   self$str <- substr(n, 2, nchar(n))
-                                  self$digits <- as.integer(digits[-1])
                                   self$positive <- FALSE
                               } else {
                                   self$str <- n
-                                  self$digits <- as.integer(digits)
                                   self$positive <- TRUE
                               }
                           }
@@ -44,7 +39,7 @@ BigInt <- R6Class(classname = "BigInt",
                           return(BigInt$new(paste0(ifelse(self$positive, "", "-"), self$str)))
                       },
                       len = function() {
-                          return(length(self$digits))
+                          return(nchar(self$str))
                       },
                       getitem = function(n, m) {
                           if (missing(m)) {
@@ -57,25 +52,22 @@ BigInt <- R6Class(classname = "BigInt",
                           if (self$positive) {
                               return(BigInt$new(paste0("-", self$str)))
                           } else {
-                              return(BigInt$new(paste(self$digits, collapse = "")))
+                              return(BigInt$new(self$str))
                           }
                       },
                       isub = function(other) {
                           result <- self$sub(other)
                           self$str <- result$str
-                          self$digits <- result$digits
                           self$positive <- result$positive
                       },
                       iadd = function(other) {
                           result <- self$add(other)
                           self$str <- result$str
-                          self$digits <- result$digits
                           self$positive <- result$positive
                       },
                       imul = function(other) {
                           result <- self$mul(other)
                           self$str <- result$str
-                          self$digits <- result$digits
                           self$positive <- result$positive
                       },
                       eq = function(other) {
@@ -99,7 +91,7 @@ BigInt <- R6Class(classname = "BigInt",
                                   if (self$str == other$str) {
                                       return(FALSE)
                                   } else {
-                                      for (i in seq_along(self$digits)) {
+                                      for (i in seq_len(nchar(self$str))) {
                                           if (self$getitem(i) == other$getitem(i)) {
                                               next
                                           } else {
@@ -210,14 +202,14 @@ BigInt <- R6Class(classname = "BigInt",
                                       return(BigInt$new(paste0("-", as.integer(e$str) * as.integer(f$str))))
                                   }
                               }
-                              g <- rev(e$digits)
-                              h <- rev(f$digits)
+                              g <- intToUtf8(rev(utf8ToInt(e$str)))
+                              h <- intToUtf8(rev(utf8ToInt(f$str)))
                               result <- BigInt$new("0")
-                              for (i in seq_along(g)) {
+                              for (i in seq_len(nchar(g))) {
                                   carry <- 0
                                   sub_result <- strrep("0", i - 1)
-                                  for (j in seq_along(h)) {
-                                      carry <- carry + g[i] * h[j]
+                                  for (j in seq_len(nchar(h))) {
+                                      carry <- carry + as.numeric(substr(g, i, i)) * as.numeric(substr(h, j, j))
                                       sub_result <- paste0(carry %% 10, sub_result)
                                       carry <- carry %/% 10
                                   }

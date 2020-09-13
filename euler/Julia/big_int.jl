@@ -1,13 +1,12 @@
 mutable struct Big_Int
     str::AbstractString
-    digits::Array
     positive::Bool
 
     function Big_Int(str::AbstractString)
         if str ≠ ""
-            str[1] ≡ '-' ? new(str[2:end], [parse(Int, i) for i in str[2:end]], false) : new(str, [parse(Int, i) for i in str], true)
+            str[1] ≡ '-' ? new(str[2:end], false) : new(str, true)
         else
-            new("0", [0], true)
+            new("0", true)
         end
     end
 end
@@ -40,7 +39,7 @@ Base.:-(x::Big_Int) = Big_Int(string("-", x.str))
 function Base.isless(x::Big_Int, y::Big_Int)
     if x.positive ≡ y.positive
         if length(x) ≡ length(y)
-            if x ≡ y
+            if x.str ≡ y.str
                 return false
             else
                 for i in 1:length(x)
@@ -57,6 +56,10 @@ function Base.isless(x::Big_Int, y::Big_Int)
     else
         return !x.positive
     end
+end
+
+function Base.:(==)(x::Big_Int, y::Big_Int)
+    return (x.str ≡ y.str) & (x.positive ≡ y.positive)
 end
 
 function Base.:+(x::Big_Int, y::Big_Int)
@@ -90,7 +93,7 @@ end
 
 function Base.:-(x::Big_Int, y::Big_Int)
     if x.positive ≡ y.positive
-        if x ≡ y
+        if x == y
             return Big_Int("0")
         else
             if x.positive
@@ -144,13 +147,13 @@ function Base.:*(x::Big_Int, y::Big_Int)
         if max(length(e), length(f)) < 10
             return e.positive ≡ f.positive ? Big_Int(string(parse(Int, e.str) * parse(Int, f.str))) : Big_Int(string('-', parse(Int, e.str) * parse(Int, f.str)))
         end
-        g, h = reverse(e.digits), reverse(f.digits)
+        g, h = reverse(e.str), reverse(f.str)
         result = Big_Int("0")
         for i in 1:length(g)
             carry = 0
             sub_result = repeat('0', i - 1)
             for j in 1:length(h)
-                carry += g[i] * h[j]
+                carry += parse(Int, g[i]) * parse(Int, h[j])
                 sub_result = string(carry % 10, sub_result)
                 carry ÷= 10
             end

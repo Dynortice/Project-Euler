@@ -31,15 +31,13 @@ class BigInt:
     def __init__(self, n: str):
         if n == '':
             self.str = '0'
-            self.digits = [0]
             self.positive = True
         else:
             self.str = n if n[0] != '-' else n[1:]
-            self.digits = list(map(int, n)) if n[0] != '-' else list(map(int, n[1:]))
             self.positive = n[0] != '-'
 
     def __len__(self) -> int:
-        return len(self.digits)
+        return len(self.str)
 
     def __getitem__(self, item: int) -> str:
         return self.str[item]
@@ -55,17 +53,17 @@ class BigInt:
 
     def __isub__(self, other: 'BigInt'):
         result = self - other
-        self.str, self.digits, self.positive = result.str, result.digits, result.positive
+        self.str, self.positive = result.str, result.positive
         return self
 
     def __iadd__(self, other: 'BigInt'):
         result = self + other
-        self.str, self.digits, self.positive = result.str, result.digits, result.positive
+        self.str, self.positive = result.str, result.positive
         return self
 
     def __imul__(self, other: 'BigInt'):
         result = self * other
-        self.str, self.digits, self.positive = result.str, result.digits, result.positive
+        self.str, self.positive = result.str, result.positive
         return self
 
     def __eq__(self, other: 'BigInt') -> bool:
@@ -157,13 +155,13 @@ class BigInt:
         def mul(e: 'BigInt', f: 'BigInt') -> 'BigInt':
             if max(len(e), len(f)) < 10:
                 return BigInt(str(int(e.str) * int(f.str)) if e.positive == f.positive else '-' + str(int(e.str) * int(f.str)))
-            g, h = e.rev_digits(), f.rev_digits()
+            g, h = e.str[::-1], f.str[::-1]
             result = BigInt('0')
             for i in range(len(g)):
                 carry = 0
                 sub_result = '0' * i
                 for j in range(len(h)):
-                    carry += g[i] * h[j]
+                    carry += int(g[i]) * int(h[j])
                     sub_result += str(carry % 10)
                     carry //= 10
                 sub_result = sub_result[::-1]
@@ -192,9 +190,6 @@ class BigInt:
             value *= value
             power //= 2
         return result
-
-    def rev_digits(self) -> list:
-        return self.digits[::-1]
 
     def copy(self):
         return BigInt(('' if self.positive else '-') + self.str)
