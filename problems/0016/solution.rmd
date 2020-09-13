@@ -1,0 +1,32 @@
+---
+title: "Problem 16"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Power digit sum
+
+$2^{15} = 32768$ and the sum of its digits is $3 + 2 + 7 + 6 + 8 = 26$. What is the sum of the digits of the number $2^{1000}$?
+
+## Solution
+We'll use [Karatsuba algorithm](https://en.wikipedia.org/wiki/Karatsuba_algorithm) for multiplication and [exponentiation by squaring method](https://en.wikipedia.org/wiki/Exponentiation_by_squaring).
+```{r}
+library(microbenchmark)
+source("../../euler/R/big_int.R")
+```
+```{r}
+compute <- function(n, p) {
+    return(sum(BigInt$new(as.character(n))$pow(p)$digits))
+}
+```
+```{r}
+compute(2, 15)
+```
+```{r}
+compute(2, 1000)
+```
+```{r}
+microbenchmark(compute(2, 1000))
+```
