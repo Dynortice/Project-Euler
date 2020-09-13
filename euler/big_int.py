@@ -45,7 +45,7 @@ class BigInt:
         return self.str[item]
 
     def __repr__(self) -> str:
-        return repr(self.str)
+        return repr(self.str if self.positive else '-' + self.str)
 
     def __neg__(self) -> 'BigInt':
         if self.positive:
@@ -69,7 +69,7 @@ class BigInt:
         return self
 
     def __eq__(self, other: 'BigInt') -> bool:
-        return self.str == other.str
+        return self.str == other.str and self.positive == other.positive
 
     def __lt__(self, other: 'BigInt') -> bool:
         if self.positive == other.positive:
@@ -118,7 +118,6 @@ class BigInt:
             carry = 0
             for i in range(math.ceil(len(x) / 18)):
                 carry += int(x[-(i + 1) * 18:(-i * 18 if i > 0 else None)]) - int(y[-(i + 1) * 18:(-i * 18 if i > 0 else None)])
-                print(carry)
                 if carry < 0:
                     result = '0' * (18 - len(str(10 ** 18 + carry))) + str(10 ** 18 + carry) + result
                     carry = -1
@@ -129,7 +128,7 @@ class BigInt:
             if positive:
                 return BigInt(result)
             else:
-                return -BigInt(result)
+                return BigInt('-' + result)
 
     def __add__(self, other: 'BigInt') -> 'BigInt':
         if self.positive == other.positive:
@@ -157,7 +156,7 @@ class BigInt:
     def __mul__(self, other: 'BigInt') -> 'BigInt':
         def mul(e: 'BigInt', f: 'BigInt') -> 'BigInt':
             if max(len(e), len(f)) < 10:
-                return BigInt(str(int(e.str) * int(f.str)))
+                return BigInt(str(int(e.str) * int(f.str)) if e.positive == f.positive else '-' + str(int(e.str) * int(f.str)))
             g, h = e.rev_digits(), f.rev_digits()
             result = BigInt('0')
             for i in range(len(g)):
@@ -169,6 +168,7 @@ class BigInt:
                     carry //= 10
                 sub_result = sub_result[::-1]
                 result += BigInt((str(carry) + sub_result).lstrip('0'))
+            result.positive = e.positive == f.positive
             return result
 
         if max(len(self), len(other)) < 10 or min(len(self), len(other)) == 1:
@@ -179,7 +179,22 @@ class BigInt:
         ac, bd, ab_cd = a * c, b * d, (a + b) * (c + d)
         r = BigInt(pad(ac.str, 2 * m))
         s = BigInt(pad((ab_cd - ac - bd).str, m))
-        return r + s + bd
+        res = r + s + bd
+        res.positive = self.positive == other.positive
+        return res
+
+    def __pow__(self, power: int, modulo=None) -> 'BigInt':
+        value = self.copy()
+        result = BigInt("1")
+        while power > 0:
+            if power % 2 == 1:
+                result *= value
+            value *= value
+            power //= 2
+        return result
 
     def rev_digits(self) -> list:
         return self.digits[::-1]
+
+    def copy(self):
+        return BigInt(('' if self.positive else '-') + self.str)

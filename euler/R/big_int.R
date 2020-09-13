@@ -40,11 +40,18 @@ BigInt <- R6Class(classname = "BigInt",
                               }
                           }
                       },
+                      copy = function() {
+                          return(BigInt$new(paste0(ifelse(self$positive, "", "-"), self$str)))
+                      },
                       len = function() {
                           return(length(self$digits))
                       },
-                      getitem = function(n) {
-                          return(self$digits[n])
+                      getitem = function(n, m) {
+                          if (missing(m)) {
+                              return(substr(self$str, n, n))
+                          } else {
+                              return(substr(self$str, n, m))
+                          }
                       },
                       neg = function() {
                           if (self$positive) {
@@ -115,15 +122,15 @@ BigInt <- R6Class(classname = "BigInt",
                               result <- ""
                               carry <- 0
                               len <- nchar(x)
-                              for (i in 1:ceiling(len / 14)) {
-                                  carry <- carry + as.numeric(substr(x, 1 + len - 14 * i, len - 14 * (i - 1))) + as.numeric(substr(y, 1 + len - 14 * i, len - 14 * (i - 1)))
-                                  result <- paste0(strrep("0", 14 - min(nchar(carry), 14)), substr(carry, nchar(carry) - 13, nchar(carry)), result)
-                                  carry <- carry %/% 10 ^ 14
+                              for (i in seq_len(ceiling(len / 4))) {
+                                  carry <- carry + as.integer(substr(x, len - 4 * i + 1, len - 4 * (i - 1))) + as.integer(substr(y, len - 4 * i + 1, len - 4 * (i - 1)))
+                                  result <- paste0(strrep("0", max(4 - nchar(carry), 0)), substr(carry, nchar(carry) - 3, nchar(carry)), result)
+                                  carry <- carry %/% 10 ^ 4
                               }
-                              if (carry != 0) {
-                                  result <- c(carry, result)
-                              } else {
+                              if (carry == 0) {
                                   result <- trimws(result, "left", "0")
+                              } else {
+                                  result <- paste0(carry, result)
                               }
                               if (self$positive) {
                                   return(BigInt$new(result))
@@ -139,70 +146,73 @@ BigInt <- R6Class(classname = "BigInt",
                           }
                       },
                       sub = function(other) {
-                          if (self$positive != other$positive) {
+                          if (self$positive == other$positive) {
+                              if (self$str == other$str) {
+                                  return(BigInt$new("0"))
+                              }
+                              if (self$positive) {
+                                  if (self$gt(other)) {
+                                      positive <- TRUE
+                                      x <- self$str
+                                      y <- other$str
+                                  } else {
+                                      positive <- FALSE
+                                      x <- other$str
+                                      y <- self$str
+                                  }
+                              } else {
+                                  if (self$gt(other)) {
+                                      positive <- TRUE
+                                      x <- other$str
+                                      y <- self$str
+                                  } else {
+                                      positive <- FALSE
+                                      x <- self$str
+                                      y <- other$str
+                                  }
+                              }
+                              xy <- zero_pad(x, y, FALSE)
+                              x <- xy[1]
+                              y <- xy[2]
+                              result <- ""
+                              carry <- 0
+                              len <- nchar(x)
+                              for (i in seq_len(ceiling(len / 4))) {
+                                  carry <- carry + as.integer(substr(x, len - 4 * i + 1, len - 4 * (i - 1))) - as.integer(substr(y, len - 4 * i + 1, len - 4 * (i - 1)))
+                                  if (carry < 0) {
+                                      result <- paste0(strrep("0", max(4 - nchar(carry + 10 ^ 4), 0)), carry + 10 ^ 4, result)
+                                      carry <- -1
+                                  } else {
+                                      result <- paste0(strrep("0", max(4 - nchar(carry), 0)), carry, result)
+                                      carry <- 0
+                                  }
+                              }
+                              result <- trimws(result, "left", "0")
+                              if (positive) {
+                                  return(BigInt$new(result))
+                              } else {
+                                  return(BigInt$new(paste0("-", result)))
+                              }
+                          } else {
                               if (self$positive) {
                                   return(self$add(other$neg()))
                               } else {
                                   return(self$neg()$add(other)$neg())
                               }
-                          } else {
-                              if (self$eq(other)){
-                                  return(BigInt("0"))
-                              } else {
-                                  if (self$positive) {
-                                      if (self$gt(other)) {
-                                          positive <- TRUE
-                                          x <- self$str
-                                          y <- other$str
-                                      } else {
-                                          positive <- FALSE
-                                          x <- other$str
-                                          y <- self$str
-                                      }
-                                  } else {
-                                      if (self$gt(other)) {
-                                          positive <- TRUE
-                                          x <- other$str
-                                          y <- self$str
-                                      } else {
-                                          positive <- FALSE
-                                          x <- self$str
-                                          y <- other$str
-                                      }
-                                  }
-                                  xy <- zero_pad(rev(x), rev(y), FALSE)
-                                  x <- xy[1]
-                                  y <- xy[2]
-                                  result <- ""
-                                  carry <- 0
-                                  len <- nchar(x)
-                                  for (i in 1:ceiling(len / 14)) {
-                                      carry <- carry + as.numeric(substr(x, 1 + len - 14 * i, len - 14 * (i - 1))) - as.numeric(substr(y, 1 + len - 14 * i, len - 14 * (i - 1)))
-                                      if (carry < 0) {
-                                          result <- paste0(strrep("0", 14 - nchar(10 ^ 14 + carry)), 10 ^ 14 + carry, result)
-                                          carry <- -1
-                                      } else {
-                                          result <- paste0(strrep("0", 14 - nchar(carry)), carry, result)
-                                          carry <- 0
-                                      }
-                                  }
-                                  result <- trimws(result, "left", "0")
-                                  if (positive) {
-                                      return(BigInt$new(result))
-                                  } else {
-                                      return(BigInt$new(result)$neg())
-                                  }
-                              }
                           }
                       },
                       mul = function(other) {
                           mul <- function(e, f) {
-                              if (max(e$len(), f$len()) < 10) {
-                                  return(BigInt$new(as.character(prod(as.integer(c(e$str, f$str))))))
+                              if (max(e$len(), f$len()) < 5) {
+                                  if (e$positive == f$positive) {
+                                      return(BigInt$new(as.character(as.integer(e$str) * as.integer(f$str))))
+                                  } else {
+                                      return(BigInt$new(paste0("-", as.integer(e$str) * as.integer(f$str))))
+                                  }
                               }
-                              g <- rev(e$gigits)
+                              g <- rev(e$digits)
                               h <- rev(f$digits)
-                              result <- BigInt("0")
+                              result <- BigInt$new("0")
                               for (i in seq_along(g)) {
                                   carry <- 0
                                   sub_result <- strrep("0", i - 1)
@@ -211,29 +221,42 @@ BigInt <- R6Class(classname = "BigInt",
                                       sub_result <- paste0(carry %% 10, sub_result)
                                       carry <- carry %/% 10
                                   }
-                                  result <- result$add(BigInt(trimws(paste0(carry, sub_result), "left", "0")))
+                                  result$iadd(BigInt$new(trimws(paste0(carry, sub_result), "left", "0")))
                               }
+                              result$positive <- e$positive == f$positive
                               return(result)
                           }
                           x_len <- self$len()
                           y_len <- other$len()
-                          if (max(x_len, y_len) < 10 | min(x_len, y_len) == 1) {
+                          if ((max(x_len, y_len) < 5) | (min(x_len, y_len) == 1)) {
                               return(mul(self, other))
                           }
-                          x <- self$str
-                          y <- other$str
                           n <- max(x_len, y_len)
                           m <- n %/% 2
-                          a_ <- BigInt$new(substr(x, 1, max(x_len - m, 0)))
-                          b_ <- BigInt$new(substr(x, x_len - m + 1, x_len))
-                          c_ <- BigInt$new(substr(y, 1, max(y_len - m, 0)))
-                          d_ <- BigInt$new(substr(y, y_len - m + 1, y_len))
+                          a_ <- BigInt$new(self$getitem(1, x_len - m))
+                          b_ <- BigInt$new(self$getitem(x_len - m + 1, x_len))
+                          c_ <- BigInt$new(other$getitem(1, y_len - m))
+                          d_ <- BigInt$new(other$getitem(y_len - m + 1, y_len))
                           ac <- a_$mul(c_)
                           bd <- b_$mul(d_)
                           ab_cd <- a_$add(b_)$mul(c_$add(d_))
                           r <- BigInt$new(pad(ac$str, 2 * m))
                           s <- BigInt$new(pad(ab_cd$sub(ac)$sub(bd)$str, m))
-                          return(r$add(s)$add(bd))
+                          res <- r$add(s)$add(bd)
+                          res$positive <- self$positive == other$positive
+                          return(res)
+                      },
+                      pow = function(other) {
+                          value <- self$copy()
+                          result <- BigInt$new("1")
+                          while (other > 0) {
+                              if (other %% 2 == 1) {
+                                  result$imul(value)
+                              }
+                              value$imul(value)
+                              other <- other %/% 2
+                          }
+                          return(result)
                       }
                   )
 )
