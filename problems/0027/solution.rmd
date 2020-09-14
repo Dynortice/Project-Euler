@@ -1,0 +1,78 @@
+---
+title: "Problem 27"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Quadratic primes
+
+Euler discovered the remarkable quadratic formula:
+
+$$n^2+n+41$$
+
+It turns out that the formula will produce $40$ primes for the consecutive integer values $0 \leq n \leq 39$. However, when $n = 40$, $40^2 + 40 + 41 = 40 \times (40 + 1) + 41$ is divisible by $41$, and certainly when $n = 41$, $41^2 + 41 + 41$ is clearly divisible by $41$.
+
+The incredible formula $n^2 - 79 \times n + 1601$ was discovered, which produces $80$ primes for the consecutive values $0 \leq n \leq 79$. The product of the coefficients, $-79$ and $1601$, is $-126479$.
+
+Considering quadratics of the form:
+
+$n^2 + an + b$, where $|a| < 1000$ and $|b| \leq 1000$
+
+where $|n|$ is the modulus / absolute value of $n$
+
+e.g. $|11| = 11$ and $|-4| = 4$
+
+Find the products of the coefficients, $a$ and $b$, for the quadratic expression that produces the maximum number of primes for consecutive values of $n$, starting with $n = 0$.
+
+## Solution
+Since $n^2 + an + b$ must be prime for $n_0=0$,
+
+$$n^2_0+an_0+b=b$$
+
+So $b$ must be prime. Also for $n_1=1$:
+
+$$n^2_1+an_1+b=1+a+b$$.
+
+Since $b$ is prime and all primes but $2$ are odd, it follows that $a$ must be odd for all $b\ne2$ and even for $b=2$.
+```{r}
+library(microbenchmark)
+source("../../euler/R/primes.R")
+```
+```{r}
+compute <- function(max_a, max_b) {
+    prime <- get_primality(max_a * max_b)
+    primes <- which(prime[1:max_b])
+    primes <- c(primes, -primes)
+    max_sequence <- 0
+    result <- 0
+    for (a in seq(-max_a + ifelse(max_a %% 2 == 0, 1, 2), max_a - 1, 2)) {
+        for (b in primes) {
+            n <- 0
+            while (TRUE) {
+                candidate <- abs(n * (n + a) + b)
+                if (candidate != 0){
+                    if (!prime[candidate]) {
+                        break
+                    }
+                } else {
+                    break
+                }
+                n <- n + 1
+            }
+            if (n > max_sequence) {
+                max_sequence <- n
+                result <- a * b
+            }
+        }
+    }
+    return(result)
+}
+```
+```{r}
+compute(1000, 1000)
+```
+```{r}
+microbenchmark(compute(1000, 1000))
+```
