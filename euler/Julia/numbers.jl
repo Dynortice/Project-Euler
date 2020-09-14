@@ -3,9 +3,9 @@ module numbers
 
     export is_palindrome, count_divisors, sum_proper_factors
 
-    is_palindrome(n::String)::Bool = n ≡ reverse(n)
+    is_palindrome(n::AbstractString)::Bool = n ≡ reverse(n)
 
-    function count_divisors(n::Int)::Int
+    function count_divisors(n::Int64)::Int64
         factors = 1
         i = 2
         while i * i ≤ n
@@ -23,7 +23,7 @@ module numbers
         return factors
     end
 
-    function sum_proper_factors(n::Integer, primes::Array{Int64, 1})::Int64
+    function sum_proper_factors(n::Int64, primes::Array{Int64, 1})::Int64
         result = 1
         number = n
         for prime in primes
@@ -38,5 +38,14 @@ module numbers
             result *= number + 1
         end
         return result - n
+    end
+
+    function multiplicative_order(a::Int64, n::Int64)::Int64
+        i, k = 1, a
+        while (k ≠ 1) & (i < n)
+            k = k * a % n
+            i += 1
+        end
+        return i
     end
 end

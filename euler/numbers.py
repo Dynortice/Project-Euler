@@ -1,5 +1,6 @@
 from euler.calculus import sum_geometric_series
 
+
 def is_palindrome(n: str) -> bool:
     """
     Checking is the number a palindrome
@@ -47,3 +48,17 @@ def sum_proper_factors(n: int, primes: list) -> int:
     if number > 1:
         result *= number + 1
     return result - n
+
+
+def multiplicative_order(a: int, n: int) -> int:
+    """
+    Get multiplicative order of a modulo n
+    :param a: integer number
+    :param n: integer n
+    :return: order of a in the multiplicative group of the units in the ring of the integers modulo n
+    """
+    i, k = 1, a
+    while k != 1 and i < n:
+        k = k * a % n
+        i += 1
+    return i

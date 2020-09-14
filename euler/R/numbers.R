@@ -71,3 +71,18 @@ sum_proper_factors <- function(n, primes) {
     }
     return(result - n)
 }
+
+#' Get multiplicative order of a modulo n
+#' @param a integer number
+#' @param n integer number
+#' @return order of a in the multiplicative group of the units in the ring of the integers modulo n
+
+multiplicative_order <- function(a, n) {
+    i <- 1
+    k <- a
+    while ((k != 1) & (i < n)) {
+        k <- k * a %% n
+        i <- i + 1
+    }
+    return(i)
+}
