@@ -1,0 +1,65 @@
+---
+title: "Problem 30"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Digit fifth powers
+
+Surprisingly there are only three numbers that can be written as the sum of fourth powers of their digits:
+
+$$1634 = 1^4 + 6^4 + 3^4 + 4^4$$
+
+$$8208 = 8^4 + 2^4 + 0^4 + 8^4$$
+
+$$9474 = 9^4 + 4^4 + 7^4 + 4^4$$
+
+As $1 = 1^4$ is not a sum it is not included.
+
+The sum of these numbers is $1634 + 8208 + 9474 = 19316$.
+
+Find the sum of all the numbers that can be written as the sum of fifth powers of their digits.
+
+## Solution
+
+Firstly we need to find the max number that can be represented as fifth powers of number. As max digit is $9$, then we need to check if number of digits of that number $9^5n$ less or equal to $n$. So for fifth power $n = 6$, eg $\sum^n_{i=1}9^5$ is $6$-digit number but for $n = 7$ number would be still $6$-digit.
+
+Then we just need to find the all combinations with replacements for each $n$ from $2$ (as $1^n$ isn't sum) to $6$ digits. So we don't need to check both $98$ and $89$ 'coz the sum of fifth powers their digits are equal.
+```{r}
+library(arrangements)
+library(microbenchmark)
+```
+```{r}
+compute <- function(n) {
+    max_len <- 2
+    result <- 0
+    while (nchar(as.character(max_len * 9 ^ n)) >= max_len) {
+        combs <- combinations(0:9, max_len, replace = TRUE)
+        for (i in seq_len(nrow(combs))) {
+            candidate <- 0
+            for (j in seq_len(max_len)) {
+                candidate <- candidate + combs[i, j] ^ n
+            }
+            candidate_digits <- sort(as.integer(strsplit(as.character(candidate), NULL)[[1]]))
+            if (length(candidate_digits) == max_len) {
+                if (sum(candidate_digits == sort(combs[i,])) == max_len) {
+                    result <- result + candidate
+                }
+            }
+        }
+        max_len <- max_len + 1
+    }
+    return(result)
+}
+```
+```{r}
+compute(4)
+```
+```{r}
+compute(5)
+```
+```{r}
+microbenchmark(compute(5))
+```
