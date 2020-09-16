@@ -10,7 +10,7 @@ def compute(n):
         power_counts[power] += 1
         j = i * i
         while j <= limit_numbers:
-            power_counts[int(log(n, j))] -=  1
+            power_counts[int(log(n, j))] -= 1
             j *= i
 
     sieve = [False] * (limit_powers * n + 1)
