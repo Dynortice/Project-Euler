@@ -1,0 +1,56 @@
+---
+title: "Problem 37"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Truncatable primes
+
+The number $3797$ has an interesting property. Being prime itself, it is possible to continuously remove digits from left to right, and remain prime at each stage: $3797, 797, 97$, and $7$. Similarly we can work from right to left: $3797, 379, 37$, and $3$.
+
+Find the sum of the only eleven primes that are both truncatable from left to right and right to left.
+
+NOTE: $2, 3, 5$, and $7$ are not considered to be truncatable primes.
+
+## Solution
+
+```{r}
+library(microbenchmark)
+source("../../euler/R/primes.R")
+```
+```{r}
+compute <- function() {
+    check_truncatable_prime <- function(n) {
+        p <- 10
+        while (p < n) {
+            if (sieve[n %% p] & sieve[n %/% p]) {
+                p <- p * 10
+            } else {
+                return(FALSE)
+            }
+        }
+        return(TRUE)
+    }
+    sieve <- get_primality(1000000)
+    primes <- which(sieve)[-(1:4)]
+    truncatable_primes <- 0
+    i <- 1
+    result <- 0
+    while (truncatable_primes < 11) {
+        if (check_truncatable_prime(primes[i])) {
+            truncatable_primes <- truncatable_primes + 1
+            result <- result + primes[i]
+        }
+        i <- i + 1
+    }
+    return(result)
+}
+```
+```{r}
+compute()
+```
+```{r}
+microbenchmark(compute())
+```
