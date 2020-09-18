@@ -60,3 +60,17 @@ len_collatz_chain <- function(n, hashmap) {
     }
     return(chain)
 }
+
+#' Get greatest common divisor
+#'
+#' @param a first term
+#' @param b second term
+#' @return greatest common divisor
+
+gcd <- function(a, b) {
+    if (b > 0) {
+        return(gcd(b, a %% b))
+    } else {
+        return(a)
+    }
+}
