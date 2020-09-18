@@ -14,7 +14,7 @@ def compute(n):
             j *= i
 
     sieve = [False] * (limit_powers * n + 1)
-    duplicate_counts = [0]  * (limit_powers + 1)
+    duplicate_counts = [0] * (limit_powers + 1)
     count = 0
     for i in range(1, limit_powers + 1):
         for j in range(2, n + 1):
