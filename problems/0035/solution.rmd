@@ -1,0 +1,52 @@
+---
+title: "Problem 35"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Circular primes
+
+The number, $197$, is called a circular prime because all rotations of the digits: $197$, $971$, and $719$, are themselves prime.
+
+There are thirteen such primes below $100$: $2, 3, 5, 7, 11, 13, 17, 31, 37, 71, 73, 79$, and $97$.
+
+How many circular primes are there below one million?
+
+## Solution
+```{r}
+library(microbenchmark)
+source("../../euler/R/primes.R")
+```
+```{r}
+compute <- function(n) {
+    sieve <- get_primality(n)
+    primes <- which(sieve)
+    result <- 0
+    for (prime in primes) {
+        digits_prime <- as.integer(strsplit(as.character(prime), NULL)[[1]])
+        is_circular_prime <- TRUE
+        for (i in seq_len(length(digits_prime))) {
+            digits_prime <- c(digits_prime[-1], digits_prime[1])
+            if (!sieve[as.integer(paste0(digits_prime, collapse = ""))]) {
+                is_circular_prime <- FALSE
+                break
+            }
+        }
+        if (is_circular_prime) {
+            result <- result + 1
+        }
+    }
+    return(result)
+}
+```
+```{r}
+compute(100)
+```
+```{r}
+compute(1000000)
+```
+```{r}
+microbenchmark(compute(1000000))
+```
