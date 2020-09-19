@@ -1,0 +1,56 @@
+---
+title: "Problem 38"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Pandigital multiplies
+
+Take the number $192$ and multiply it by each of $1, 2$, and $3$:
+
+$$192 \times 1 = 192$$
+
+$$192 \times 2 = 384$$
+
+$$192 \times 3 = 576$$
+
+By concatenating each product we get the $1$ to $9$ pandigital, $192384576$. We will call $192384576$ the concatenated product of $192$ and $(1,2,3)$
+
+The same can be achieved by starting with $9$ and multiplying by $1, 2, 3, 4$, and $5$, giving the pandigital, $918273645$, which is the concatenated product of $9$ and $(1,2,3,4,5)$.
+
+What is the largest $1$ to $9$ pandigital $9$-digit number that can be formed as the concatenated product of an integer with $(1,2, ... , n)$ where $n > 1$?
+
+## Solution
+
+We need to find a $9$-digit pandigital number greater than the given $918273645$, which implies that the first digit of the concatenated number starts with 9 as well. Since $n > 1$, the trivial solution of $987654321 \times 1$ is not allowed and with $n$ being at least two, the maximum digit count of the fixed number $x$ is forced to be $\le 4$.
+
+If the fixed number $x$ is a two-digit number, all resulting numbers will have $<9$ digits with $n \le 3$ and $>9$ with $n \ge 4$, which allows us to exclude the range $90 \le x < 100$. If the fixed number $x$ is a three-digit number, all resulting numbers will be $\ne 9$ as well, which excludes the range $900 \le x < 1000$. Finally, if $x$ is a four-digit number, we will get a $9$ digit number, which leaves us with the first rough valid range of $9000 \le x < 10000$. This interval can be reduced to valid pandigital values, which results in an interval of $9123 \le x \le 9876$. If we check again the length argument, we can lift the lower bound to $9213$, since $9123$ will not result in a $9$ digit number, which gives the new interval $9213 \le x \le 9876$.
+
+When digging a little deeper, we see that if the second digit is $>4$, a carry over happens and two $9$s are produced in the solution. A similar observation shows that non of the digits can be $1$ since we will otherwise end up with two $1$s in the solution. This allows us to further reduce the search space to $9234 \le x \le 9487$.
+
+Multiplied by two, the interval is $18468 \le x \le 18974$, which says that concatenating $x$ and $2x$ can be done with $100000x + 2x$ or better $100002x$.
+```{r}
+library(microbenchmark)
+```
+```{r}
+compute <- function() {
+    digits <- as.character(1:9)
+    for (i in 9487:9234) {
+        candidate <- i * 100002
+        candidate_digits <- sort(unique(strsplit(as.character(candidate), NULL)[[1]]))
+        if (length(candidate_digits) == 9) {
+            if (sum(candidate_digits == digits) == 9) {
+                return(candidate)
+            }
+        }
+    }
+}
+```
+```{r}
+compute()
+```
+```{r}
+microbenchmark(compute())
+```
