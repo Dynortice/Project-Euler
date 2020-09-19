@@ -1,0 +1,45 @@
+---
+title: "Problem 39"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Integer right triangles
+
+If $p$ is the perimeter of a right angle triangle with integral length sides, $\{a,b,c\}$, there are exactly three solutions for $p = 120$.
+
+$$\{20,48,52\}, \{24,45,51\}, \{30,40,50\}$$
+
+For which value of $p \le 1000$, is the number of solutions maximised?
+
+## Solution
+```{r}
+library(microbenchmark)
+```
+```{r}
+compute <- function(n) {
+    perimeters <- NA
+    for (a in 3:(n %/% 3)) {
+        for (b in a:(n %/% 2)) {
+            k <- a * a + b * b
+            if (k == as.integer(sqrt(k)) ^ 2) {
+                p <- a + b + sqrt(k)
+                if (is.na(perimeters[p])) {
+                    perimeters[p] <- 1
+                } else {
+                    perimeters[p] <- perimeters[p] + 1
+                }
+            }
+        }
+    }
+    return(which.max(perimeters))
+}
+```
+```{r}
+compute(1000)
+```
+```{r}
+microbenchmark(compute(1000))
+```
