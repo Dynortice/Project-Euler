@@ -1,0 +1,36 @@
+---
+title: "Problem 41"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Pandigital prime
+
+We shall say that an $n$-digit number is pandigital if it makes use of all the digits $1$ to $n$ exactly once. For example, $2143$ is a $4$-digit pandigital and is also prime.
+
+What is the largest $n$-digit pandigital prime that exists?
+
+## Solution
+```{r}
+library(microbenchmark)
+source("../../euler/R/primes.R")
+```
+```{r}
+compute <- function() {
+    primes <- rev(get_primes(7654321))
+    for (prime in primes) {
+        digits_prime <- sort(unique(as.integer(strsplit(as.character(prime), NULL)[[1]])))
+        if (all(digits_prime == seq_along(digits_prime))) {
+            return(prime)
+        }
+    }
+}
+```
+```{r}
+compute()
+```
+```{r}
+microbenchmark(compute())
+```
