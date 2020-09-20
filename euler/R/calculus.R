@@ -74,3 +74,39 @@ gcd <- function(a, b) {
         return(a)
     }
 }
+
+get_triangle <- function(n) {
+    return(n * (n + 1) / 2)
+}
+
+get_pentagonal <- function(n) {
+    return(n * (3 * n - 1) / 2)
+}
+
+get_hexagonal <- function(n) {
+    return(n * (2 * n - 1))
+}
+
+is.triangle <- function(n) {
+    return(sqrt(8 * n + 1) %% 2 == 1)
+}
+
+is.pentagonal <- function(n) {
+    return(sqrt(24 * n + 1) %% 6 == 5)
+}
+
+is.hexagonal <- function(n) {
+    return(sqrt(8 * n + 1) %% 4 == 3)
+}
+
+triangle_index <- function(n) {
+    return((sqrt(8 * n + 1) + 1) / 2)
+}
+
+pentagonal_index <- function(n) {
+    return((sqrt(24 * n + 1) + 1) / 6)
+}
+
+hexagonal_index <- function(n) {
+    return((sqrt(8 * n + 1) + 1) / 4)
+}

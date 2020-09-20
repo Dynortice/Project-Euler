@@ -1,4 +1,4 @@
-import math
+from math import sqrt, log
 
 
 def sum_arithmetic_series(a: float, d: float, n: int) -> float:
@@ -29,7 +29,7 @@ def fibonacci_number(n: int) -> int:
     :param n: index of Fibonacci number
     :return: Fibonacci number with index n
     """
-    return int((((1 + math.sqrt(5)) / 2) ** n - ((1 - math.sqrt(5)) / 2) ** n) / math.sqrt(5))
+    return int((((1 + sqrt(5)) / 2) ** n - ((1 - sqrt(5)) / 2) ** n) / sqrt(5))
 
 
 def fibonacci_index(n: int) -> int:
@@ -38,7 +38,7 @@ def fibonacci_index(n: int) -> int:
     :param n: integer number
     :return: index of closest Fibonacci number below n
     """
-    return int(math.log(n * math.sqrt(5) + 0.5, (math.sqrt(5) + 1) / 2))
+    return int(log(n * sqrt(5) + 0.5, (sqrt(5) + 1) / 2))
 
 
 def len_collatz_chain(n: int, hashmap: dict) -> int:
@@ -51,3 +51,39 @@ def len_collatz_chain(n: int, hashmap: dict) -> int:
     if n not in hashmap:
         hashmap[n] = 1 + len_collatz_chain(n // 2, hashmap) if n % 2 == 0 else 2 + len_collatz_chain((3 * n + 1) // 2, hashmap)
     return hashmap[n]
+
+
+def get_triangle(n: int) -> int:
+    return n * (n + 1) // 2
+
+
+def get_pentagonal(n: int) -> int:
+    return n * (3 * n - 1) // 2
+
+
+def get_hexagonal(n: int) -> int:
+    return n * (2 * n - 1)
+
+
+def is_triangle(n: int) -> bool:
+    return sqrt(8 * n + 1) % 2 == 1
+
+
+def is_pentagonal(n: int) -> bool:
+    return sqrt(24 * n + 1) % 6 == 5
+
+
+def is_hexagonal(n: int) -> bool:
+    return sqrt(8 * n + 1) % 4 == 3
+
+
+def triangle_index(n: int) -> int:
+    return int(sqrt(8 * n + 1) + 1) // 2
+
+
+def pentagonal_index(n: int) -> int:
+    return int(sqrt(24 * n + 1) + 1) // 6
+
+
+def hexagonal_index(n: int) -> int:
+    return int(sqrt(8 * n + 1) + 1) // 4
