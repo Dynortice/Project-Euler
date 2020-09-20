@@ -1,6 +1,6 @@
 # Project Euler by Dynortice
 
-This repo contains solutions of problems of [Project Euler](https://projecteuler.net/).
+This repo contains solutions for problems of [Project Euler](https://projecteuler.net/).
 Solutions written on R, Python and Julia languages.
 
 Each directory of problem contains compute.R, compute.py and compute.jl files. It's just function for solution of that problem. Also there're solution.ipynb, solution.rmd, solution.jl which provides some math theory and examples with benchmarking.
@@ -53,3 +53,4 @@ Problem | R | Python | Julia
 42 | [4.58 ms](https://github.com/Dynortice/Project-Euler/blob/master/problems/0042/solution.rmd) | [2.62 ms](https://github.com/Dynortice/Project-Euler/blob/master/problems/0042/solution.ipynb) | [0.166 ms](https://github.com/Dynortice/Project-Euler/blob/master/problems/0042/solution.jl)
 43 | [5.734 ms](https://github.com/Dynortice/Project-Euler/blob/master/problems/0043/solution.rmd) | [0.798 ms](https://github.com/Dynortice/Project-Euler/blob/master/problems/0043/solution.ipynb) | [1.168 ms](https://github.com/Dynortice/Project-Euler/blob/master/problems/0043/solution.jl)
 44 | [4.382 s](https://github.com/Dynortice/Project-Euler/blob/master/problems/0044/solution.rmd) | [1.455 s](https://github.com/Dynortice/Project-Euler/blob/master/problems/0044/solution.ipynb) | [0.256 s](https://github.com/Dynortice/Project-Euler/blob/master/problems/0044/solution.jl)
+45 | [16.45 ms](https://github.com/Dynortice/Project-Euler/blob/master/problems/0045/solution.rmd) | [16.067 ms](https://github.com/Dynortice/Project-Euler/blob/master/problems/0045/solution.ipynb) | [1.428 ms](https://github.com/Dynortice/Project-Euler/blob/master/problems/0045/solution.jl)
