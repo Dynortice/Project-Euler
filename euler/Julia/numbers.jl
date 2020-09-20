@@ -1,9 +1,11 @@
 module numbers
     include("calculus.jl")
 
-    export is_palindrome, count_divisors, sum_proper_factors
+    export is_palindrome, is_perfect_squre, count_divisors, sum_proper_factors, multiplicative_order
 
     is_palindrome(n::AbstractString)::Bool = n ≡ reverse(n)
+
+    is_perfect_square(n::Int64)::Bool = trunc(Int64, √n) ^ 2 ≡ n
 
     function count_divisors(n::Int64)::Int64
         factors = 1

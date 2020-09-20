@@ -1,3 +1,4 @@
+from math import sqrt
 from euler.calculus import sum_geometric_series
 
 
@@ -62,3 +63,7 @@ def multiplicative_order(a: int, n: int) -> int:
         k = k * a % n
         i += 1
     return i
+
+
+def is_perfect_square(n: int) -> bool:
+    return int(sqrt(n)) ** 2 == n

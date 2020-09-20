@@ -1,6 +1,6 @@
 module primes
 
-    export get_primes, smallest_prime_factor
+    export get_primality, get_primes, smallest_prime_factor
 
     function get_primality(n::Integer)::Array{Bool, 1}
         sieve = repeat([true], n)

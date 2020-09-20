@@ -86,3 +86,7 @@ multiplicative_order <- function(a, n) {
     }
     return(i)
 }
+
+is.perfect_square <- function(n) {
+    return(as.integer(sqrt(n)) ^ 2 == n)
+}
