@@ -1,0 +1,40 @@
+---
+title: "Problem 48"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Self powers
+
+The series, $1^1 + 2^2 + 3^3 + ... + 10^{10} = 10405071317$
+
+Find the last ten digits of the series, $1^1 + 2^2 + 3^3 + ... + 10^{1000}$.
+
+## Solution
+```{r}
+library(microbenchmark)
+```
+```{r}
+compute <- function(n) {
+    result <- 0
+    for (i in 1:n) {
+        n <- i
+        for (j in 2:i) {
+            n <- (n * i) %% 10 ^ 10
+        }
+        result <- result + n
+    }
+    return(result %% 10 ^ 10)
+}
+```
+```{r}
+compute(10)
+```
+```{r}
+compute(1000)
+```
+```{r}
+microbenchmark(compute(1000))
+```
