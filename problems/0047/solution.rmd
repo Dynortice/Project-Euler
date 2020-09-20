@@ -1,0 +1,75 @@
+---
+title: "Problem 47"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Distinct primes factors
+The first two consecutive numbers to have two distinct prime factors are:
+
+$$14 = 2 \times 7$$
+
+$$15 = 3 \times 5$$
+
+The first three consecutive numbers to have three distinct prime factors are:
+
+$$644 = 2^2 \times 7 \times 23$$
+
+$$645 = 3 \times 5 \times 7$$
+
+$$646 = 2 \times 17 \times 19$$
+
+Find the first four consecutive integers to have four distinct prime factors each. What is the first of these numbers?
+
+## Solution
+```{r}
+library(microbenchmark)
+source("../../euler/R/primes.R")
+```
+```{r}
+compute <- function(n) {
+    primes <- get_primes(10 ^ n %/% n)
+    consecutive <- 0
+    i <- 10 ^ (n - 1)
+    while (TRUE) {
+        if (!i %in% primes) {
+            prime_factors <- 0
+            t <- i
+            for (prime in primes) {
+                if (t %% prime == 0) {
+                    prime_factors <- prime_factors + 1
+                    t <- t / prime
+                }
+                if (any(prime > t, t == 1, prime_factors == n)) {
+                    break
+                }
+            }
+            if (prime_factors == n) {
+                consecutive <- consecutive + 1
+            } else {
+                consecutive <- 0
+            }
+        } else {
+            consecutive <- 0
+        }
+        if (consecutive == n) {
+            return(i - n + 1)
+        }
+        i <- i + 1
+    }
+}
+```
+```{r}
+compute(2)
+```
+```{r}
+compute(3)
+```
+```{r}
+compute(4)
+```
+```{r}
+microbenchmark(compute(4))
+```
