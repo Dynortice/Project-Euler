@@ -1,4 +1,4 @@
-source("../../euler/R/big_int.R")
+source("euler/R/big_int.R")
 
 compute <- function(n) {
     is.palindrome <- function(x) {

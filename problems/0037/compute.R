@@ -1,4 +1,4 @@
-source("../../euler/R/primes.R")
+source("euler/R/primes.R")
 
 compute <- function() {
     check_truncatable_prime <- function(n) {

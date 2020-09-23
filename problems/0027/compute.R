@@ -1,4 +1,4 @@
-source("../../euler/R/primes.R")
+source("euler/R/primes.R")
 
 compute <- function(max_a, max_b) {
     prime <- get_primality(max_a * max_b)

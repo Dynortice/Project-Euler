@@ -1,4 +1,4 @@
-source("../../euler/R/primes.R")
+source("euler/R/primes.R")
 
 compute <- function(n) {
     primes <- get_primes(10 ^ n %/% n)

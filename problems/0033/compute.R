@@ -1,4 +1,4 @@
-source("../../euler/R/calculus.R")
+source("euler/R/calculus.R")
 
 compute <- function() {
     numerators_product <- 1

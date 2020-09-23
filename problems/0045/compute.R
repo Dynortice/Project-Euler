@@ -1,4 +1,4 @@
-source("../../euler/R/calculus.R")
+source("euler/R/calculus.R")
 
 compute <- function(n) {
     n <- get_hexagonal(144)

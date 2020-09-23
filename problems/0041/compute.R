@@ -1,4 +1,4 @@
-source("../../euler/R/primes.R")
+source("euler/R/primes.R")
 
 compute <- function() {
     primes <- rev(get_primes(7654321))

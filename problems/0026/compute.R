@@ -1,5 +1,5 @@
-source("../../euler/R/primes.R")
-source("../../euler/R/numbers.R")
+source("euler/R/primes.R")
+source("euler/R/numbers.R")
 
 compute <- function(n) {
     primes <- get_primes(n)[-(1:2)]

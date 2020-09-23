@@ -1,5 +1,5 @@
-source("../../euler/R/primes.R")
-source("../../euler/R/numbers.R")
+source("euler/R/primes.R")
+source("euler/R/numbers.R")
 
 compute <- function() {
     n <- 28123
