@@ -1,0 +1,59 @@
+---
+title: "Problem 79"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Passcode derivation
+
+A common security method used for online banking is to ask the user for three random characters from a passcode. For example, if the passcode was $531278$, they may ask for the $2$nd, $3$rd, and $5$th characters; the expected reply would be: $317$.
+
+The text file, [keylog.txt](https://projecteuler.net/project/resources/p079_keylog.txt), contains fifty successful login attempts.
+
+Given that the three characters are always asked for in order, analyse the file so as to determine the shortest possible secret passcode of unknown length.
+
+## Solution
+```{r}
+library(microbenchmark)
+```
+```{r}
+compute <- function(keylog) {
+    password <- ""
+    while (TRUE) {
+        if (length(keylog) == 1) {
+            return(paste0(password, keylog))
+        }
+        candidates <- unique(sapply(keylog, function (x) substr(x, 1, 1)))
+        for (candidate in candidates) {
+            for (key in keylog) {
+                if (grepl(candidate, substr(key, 2, nchar(key)))) {
+                    candidates <- candidates[candidates != candidate]
+                    break
+                }
+            }
+        }
+        password <- paste0(password, candidates)
+        new_keylog <- NULL
+        for (key in keylog) {
+            if (candidates == substr(key, 1, 1)) {
+                if (nchar(key) == 3) {
+                    new_keylog <- c(new_keylog, substr(key, 2, 3))
+                }
+                keylog <- keylog[keylog != key]
+            }
+        }
+        keylog <- unique(c(keylog, new_keylog))
+    }
+}
+```
+```{r}
+keylog_file <- readLines("p079_keylog.txt", warn = FALSE)
+```
+```{r}
+compute(keylog_file)
+```
+```{r}
+microbenchmark(compute(keylog_file))
+```
