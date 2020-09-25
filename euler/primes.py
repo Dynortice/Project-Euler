@@ -1,4 +1,4 @@
-import math
+from math import sqrt
 
 
 def get_primality(n: int) -> list:
@@ -11,7 +11,7 @@ def get_primality(n: int) -> list:
     sieve[0] = sieve[1] = False
     for i in range(4, n + 1, 2):
         sieve[i] = False
-    for i in range(3, int(math.sqrt(n)) + 1, 2):
+    for i in range(3, int(sqrt(n)) + 1, 2):
         if sieve[i]:
             for j in range(i * i, n + 1, 2 * i):
                 sieve[j] = False
