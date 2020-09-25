@@ -4,7 +4,7 @@ BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
 function compute(n::Int64)::Int64
     max_sum = 0
-    for a ∈ 1:n - 1
+    for a ∈ n - 5:n - 1
         number = Big_Int(string(a))
         for b ∈ 1:n - 1
             number *= Big_Int(string(a))

@@ -1,4 +1,3 @@
-library(microbenchmark)
 source("euler/R/numbers.R")
 
 compute <- function(n) {
