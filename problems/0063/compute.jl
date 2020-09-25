@@ -1,0 +1,26 @@
+include("euler/Julia/big_int.jl")
+
+function compute()::Int64
+    result = 0
+    i = 1
+    while true
+        j = 1
+        number, n = Big_Int(string(i)), Big_Int(string(i))
+        if length(number) ≠ j
+            break
+        else
+            result += 1
+        end
+        while true
+            j += 1
+            number *= n
+            if length(number) ≡ j
+                result += 1
+            else
+                break
+            end
+        end
+        i += 1
+    end
+    return result
+end

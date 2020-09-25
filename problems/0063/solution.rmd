@@ -1,0 +1,52 @@
+---
+title: "Problem 63"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Powerful digit counts
+
+The $5$-digit number, $16807 = 7^5$, is also a fifth power. Similarly, the $9$-digit number, $134217728 = 8^9$, is a ninth power.
+
+How many $n$-digit positive integers exist which are also an nth power?
+
+## Solution
+```{r}
+library(microbenchmark)
+source("../../euler/R/big_int.R")
+```
+```{r}
+compute <- function() {
+    result <- 0
+    i <- 1
+    while (TRUE) {
+        j <- 1
+        number <- BigInt$new(as.character(i))
+        n <- BigInt$new(as.character(i))
+        if (nchar(number$str) != j) {
+            break
+        } else {
+            result <- result + 1
+        }
+        while (TRUE) {
+            j <- j + 1
+            number$imul(n)
+            if (nchar(number$str) == j) {
+                result <- result + 1
+            } else {
+                break
+            }
+        }
+        i <- i + 1
+    }
+    return(result)
+}
+```
+```{r}
+compute()
+```
+```{r}
+microbenchmark(compute())
+```
