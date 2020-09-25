@@ -1,0 +1,73 @@
+---
+title: "Problem 59"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## XOR decryption
+
+Each character on a computer is assigned a unique code and the preferred standard is ASCII (American Standard Code for Information Interchange). For example, uppercase $A = 65$, asterisk $(*) = 42$, and lowercase $k = 107$.
+
+A modern encryption method is to take a text file, convert the bytes to ASCII, then XOR each byte with a given value, taken from a secret key. The advantage with the XOR function is that using the same encryption key on the cipher text, restores the plain text; for example, $65 XOR 42 = 107$, then $107 XOR 42 = 65$.
+
+For unbreakable encryption, the key is the same length as the plain text message, and the key is made up of random bytes. The user would keep the encrypted message and the encryption key in different locations, and without both "halves", it is impossible to decrypt the message.
+
+Unfortunately, this method is impractical for most users, so the modified method is to use a password as a key. If the password is shorter than the message, which is likely, the key is repeated cyclically throughout the message. The balance for this method is using a sufficiently long password key for security, but short enough to be memorable.
+
+Your task has been made easy, as the encryption key consists of three lower case characters. Using [p059_cipher.txt](https://projecteuler.net/project/resources/p059_cipher.txt) (right click and 'Save Link/Target As...'), a file containing the encrypted ASCII codes, and the knowledge that the plain text must contain common English words, decrypt the message and find the sum of the ASCII values in the original text.
+
+## Solution
+```{r}
+library(microbenchmark)
+```
+```{r}
+compute <- function(text, key_len) {
+    is.letter <- function(a, b) {
+        xor_ <- bitwXor(a, b)
+        if ((xor_ >= 32) & (xor_ <= 122)) {
+            return(TRUE)
+        } else {
+            return(FALSE)
+        }
+    }
+
+    keys <- rep(list(NULL), key_len)
+    letters_ <- utf8ToInt(paste0(letters, collapse = ""))
+    for (i in seq_len(key_len)) {
+        for (j in letters_) {
+            for (k in seq(i, length(text), key_len)) {
+                keys[[i]] <- unique(c(keys[[i]], j))
+                if (!is.letter(j, text[k])) {
+                    keys[[i]] <- keys[[i]][keys[[i]] != j]
+                    break
+                }
+            }
+        }
+    }
+
+    keys_prod <- as.matrix(expand.grid(keys))
+    for (i in seq_len(nrow(keys_prod))) {
+        decrypted_text <- ""
+        result <- 0
+        for (j in seq_along(text)) {
+            xor_ <- bitwXor(text[j], keys_prod[i, (j - 1) %% key_len + 1])
+            decrypted_text <- paste0(decrypted_text, intToUtf8(xor_))
+            result <- result + xor_
+        }
+        if (grepl(" the ", decrypted_text)) {
+            return(result)
+        }
+    }
+}
+```
+```{r}
+cipher <- as.integer(strsplit(gsub("\"", "", readLines("p059_cipher.txt", warn = FALSE)), ",")[[1]])
+```
+```{r}
+compute(cipher, 3)
+```
+```{r}
+microbenchmark(compute(cipher, 3))
+```
