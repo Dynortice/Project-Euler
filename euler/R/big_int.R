@@ -35,6 +35,10 @@ BigInt <- R6Class(classname = "BigInt",
                               }
                           }
                       },
+                      print = function (...) {
+                          cat(self$str, "\n")
+                          invisible(self)
+                      },
                       copy = function() {
                           return(BigInt$new(paste0(ifelse(self$positive, "", "-"), self$str)))
                       },
@@ -238,15 +242,27 @@ BigInt <- R6Class(classname = "BigInt",
                           res$positive <- self$positive == other$positive
                           return(res)
                       },
-                      pow = function(other) {
+                      pow = function(other, powermod_10) {
                           value <- self$copy()
                           result <- BigInt$new("1")
-                          while (other > 0) {
-                              if (other %% 2 == 1) {
-                                  result$imul(value)
+                          if (missing(powermod_10)) {
+                              while (other > 0) {
+                                  if (other %% 2 == 1) {
+                                      result$imul(value)
+                                  }
+                                  value$imul(value)
+                                  other <- other %/% 2
                               }
-                              value$imul(value)
-                              other <- other %/% 2
+                          } else {
+                              while (other > 0) {
+                                  if (other %% 2 == 1) {
+                                      result$imul(value)
+                                      result <- BigInt$new(substr(result$str, max(nchar(result$str) - powermod_10 + 1, 1), nchar(result$str)))
+                                  }
+                                  value$imul(value)
+                                  value <- BigInt$new(substr(value$str, max(nchar(value$str) - powermod_10 + 1, 1), nchar(value$str)))
+                                  other <- other %/% 2
+                              }
                           }
                           return(result)
                       }
