@@ -1,0 +1,49 @@
+---
+title: "Problem 67"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Maximum path sum II
+By starting at the top of the triangle below and moving to adjacent numbers on the row below, the maximum total from top to bottom is $23$.
+
+```
+   3
+  7 4
+ 2 4 6
+8 5 9 3
+```
+
+That is, $3 + 7 + 4 + 9 = 23$.
+
+Find the maximum total from top to bottom in [triangle.txt](https://projecteuler.net/project/resources/p067_triangle.txt) (right click and 'Save Link/Target As...'), a 15K text file containing a triangle with one-hundred rows.
+
+**NOTE**: This is a much more difficult version of [Problem 18](https://projecteuler.net/problem=18). It is not possible to try every route to solve this problem, as there are $2^{99}$ altogether! If you could check one trillion ($10^{12}$) routes every second it would take over twenty billion years to check them all. There is an efficient algorithm to solve it. ;o)
+
+## Solution
+```{r}
+library(microbenchmark)
+```
+```{r}
+compute <- function(triangle) {
+    while (length(triangle) > 1) {
+        len <- length(triangle)
+        for (i in seq_len(len - 1)) {
+            triangle[[len - 1]][i] <- triangle[[len - 1]][i] + max(triangle[[len]][i:(i + 1)])
+        }
+        triangle <- triangle[-len]
+    }
+    return(triangle[[1]])
+}
+```
+```{r}
+triangle_file <- lapply(strsplit(gsub("\"", "", readLines("p067_triangle.txt", warn = FALSE)), " "), as.integer)
+```
+```{r}
+compute(triangle_file)
+```
+```{r}
+microbenchmark(compute(triangle_file))
+```
