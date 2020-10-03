@@ -1,0 +1,49 @@
+---
+title: "Problem 206"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Concealed Square
+
+Find the unique positive integer whose square has the form 1_2_3_4_5_6_7_8_9_0,
+where each “_” is a single digit.
+
+## Solution
+```{r}
+source("../../euler/R/big_int.R")
+library(microbenchmark)
+```
+```{r}
+compute <- function() {
+    is.match <- function(n) {
+        for (i in 0:8) {
+            if (substr(n$str, i * 2 + 1, i * 2 + 1) != as.character(i + 1)) {
+                return(FALSE)
+            }
+        }
+        return(TRUE)
+    }
+
+    number <- BigInt$new("138902663")
+    j <- 3
+    while (!is.match(number$mul(number))) {
+        if (j == 3) {
+            number$isub(6)
+            j <- 7
+        } else {
+            number$isub(4)
+            j <- 3
+        }
+    }
+    return(number$mul(10))
+}
+```
+```{r}
+compute()
+```
+```{r}
+microbenchmark(compute())
+```

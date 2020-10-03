@@ -88,98 +88,108 @@ class BigInt:
     def __le__(self, other: 'BigInt') -> bool:
         return self == other or self < other
 
-    def __sub__(self, other: 'BigInt') -> 'BigInt':
-        if self.positive != other.positive:
-            if self.positive:
-                return self + -other
-            else:
-                return -(-self + other)
-        else:
-            if self == other:
-                return BigInt('0')
-            if self.positive:
-                if self > other:
-                    positive = True
-                    x, y = self.str, other.str
+    def __sub__(self, other) -> 'BigInt':
+        if isinstance(other, BigInt):
+            if self.positive != other.positive:
+                if self.positive:
+                    return self + -other
                 else:
-                    positive = False
-                    x, y = other.str, self.str
+                    return -(-self + other)
             else:
-                if self > other:
-                    positive = True
-                    x, y = other.str, self.str
+                if self == other:
+                    return BigInt('0')
+                if self.positive:
+                    if self > other:
+                        positive = True
+                        x, y = self.str, other.str
+                    else:
+                        positive = False
+                        x, y = other.str, self.str
                 else:
-                    positive = False
-                    x, y = self.str, other.str
-            x, y = zero_pad(x, y, right=False)
-            result = ''
-            carry = 0
-            for i in range(math.ceil(len(x) / 18)):
-                carry += int(x[-(i + 1) * 18:(-i * 18 if i > 0 else None)]) - int(y[-(i + 1) * 18:(-i * 18 if i > 0 else None)])
-                if carry < 0:
-                    result = '0' * (18 - len(str(10 ** 18 + carry))) + str(10 ** 18 + carry) + result
-                    carry = -1
-                else:
-                    result = '0' * (18 - len(str(carry))) + str(carry) + result
-                    carry = 0
-            result = result.lstrip('0')
-            if positive:
-                return BigInt(result)
-            else:
-                return BigInt('-' + result)
-
-    def __add__(self, other: 'BigInt') -> 'BigInt':
-        if self.positive == other.positive:
-            x, y = zero_pad(self.str, other.str, right=False)
-            result = ''
-            carry = 0
-            for i in range(math.ceil(len(x) / 18)):
-                carry += int(x[-(i + 1) * 18:(-i * 18 if i > 0 else None)]) + int(y[-(i + 1) * 18:(-i * 18 if i > 0 else None)])
-                result = '0' * (18 - len(str(carry))) + str(carry)[-18:] + result
-                carry //= 10 ** 18
-            if carry != 0:
-                result = str(carry) + result
-            else:
-                result = result.lstrip('0')
-            if self.positive:
-                return BigInt(result)
-            else:
-                return BigInt('-' + result)
-        else:
-            if self.positive:
-                return self - -other
-            else:
-                return other - -self
-
-    def __mul__(self, other: 'BigInt') -> 'BigInt':
-        def mul(e: 'BigInt', f: 'BigInt') -> 'BigInt':
-            if max(len(e), len(f)) < 10:
-                return BigInt(str(int(e.str) * int(f.str)) if e.positive == f.positive else '-' + str(int(e.str) * int(f.str)))
-            g, h = e.str[::-1], f.str[::-1]
-            result = BigInt('0')
-            for i in range(len(g)):
+                    if self > other:
+                        positive = True
+                        x, y = other.str, self.str
+                    else:
+                        positive = False
+                        x, y = self.str, other.str
+                x, y = zero_pad(x, y, right=False)
+                result = ''
                 carry = 0
-                sub_result = '0' * i
-                for j in range(len(h)):
-                    carry += int(g[i]) * int(h[j])
-                    sub_result += str(carry % 10)
-                    carry //= 10
-                sub_result = sub_result[::-1]
-                result += BigInt((str(carry) + sub_result).lstrip('0'))
-            result.positive = e.positive == f.positive
-            return result
+                for i in range(math.ceil(len(x) / 18)):
+                    carry += int(x[-(i + 1) * 18:(-i * 18 if i > 0 else None)]) - int(y[-(i + 1) * 18:(-i * 18 if i > 0 else None)])
+                    if carry < 0:
+                        result = '0' * (18 - len(str(10 ** 18 + carry))) + str(10 ** 18 + carry) + result
+                        carry = -1
+                    else:
+                        result = '0' * (18 - len(str(carry))) + str(carry) + result
+                        carry = 0
+                result = result.lstrip('0')
+                if positive:
+                    return BigInt(result)
+                else:
+                    return BigInt('-' + result)
+        elif isinstance(other, int):
+            return self - BigInt(str(other))
 
-        if max(len(self), len(other)) < 10 or min(len(self), len(other)) == 1:
-            return mul(self, other)
-        n = max(len(self), len(other))
-        m = n // 2
-        a, b, c, d = BigInt(self[:-m]), BigInt(self[-m:]), BigInt(other[:-m]), BigInt(other[-m:])
-        ac, bd, ab_cd = a * c, b * d, (a + b) * (c + d)
-        r = BigInt(pad(ac.str, 2 * m))
-        s = BigInt(pad((ab_cd - ac - bd).str, m))
-        res = r + s + bd
-        res.positive = self.positive == other.positive
-        return res
+    def __add__(self, other) -> 'BigInt':
+        if isinstance(other, BigInt):
+            if self.positive == other.positive:
+                x, y = zero_pad(self.str, other.str, right=False)
+                result = ''
+                carry = 0
+                for i in range(math.ceil(len(x) / 18)):
+                    carry += int(x[-(i + 1) * 18:(-i * 18 if i > 0 else None)]) + int(y[-(i + 1) * 18:(-i * 18 if i > 0 else None)])
+                    result = '0' * (18 - len(str(carry))) + str(carry)[-18:] + result
+                    carry //= 10 ** 18
+                if carry != 0:
+                    result = str(carry) + result
+                else:
+                    result = result.lstrip('0')
+                if self.positive:
+                    return BigInt(result)
+                else:
+                    return BigInt('-' + result)
+            else:
+                if self.positive:
+                    return self - -other
+                else:
+                    return other - -self
+        elif isinstance(other, int):
+            return self + BigInt(str(other))
+
+    def __mul__(self, other) -> 'BigInt':
+        if isinstance(other, BigInt):
+            def mul(e: 'BigInt', f: 'BigInt') -> 'BigInt':
+                if max(len(e), len(f)) < 10:
+                    return BigInt(str(int(e.str) * int(f.str)) if e.positive == f.positive else '-' + str(
+                        int(e.str) * int(f.str)))
+                g, h = e.str[::-1], f.str[::-1]
+                result = BigInt('0')
+                for i in range(len(g)):
+                    carry = 0
+                    sub_result = '0' * i
+                    for j in range(len(h)):
+                        carry += int(g[i]) * int(h[j])
+                        sub_result += str(carry % 10)
+                        carry //= 10
+                    sub_result = sub_result[::-1]
+                    result += BigInt((str(carry) + sub_result).lstrip('0'))
+                result.positive = e.positive == f.positive
+                return result
+
+            if max(len(self), len(other)) < 10 or min(len(self), len(other)) == 1:
+                return mul(self, other)
+            n = max(len(self), len(other))
+            m = n // 2
+            a, b, c, d = BigInt(self[:-m]), BigInt(self[-m:]), BigInt(other[:-m]), BigInt(other[-m:])
+            ac, bd, ab_cd = a * c, b * d, (a + b) * (c + d)
+            r = BigInt(pad(ac.str, 2 * m))
+            s = BigInt(pad((ab_cd - ac - bd).str, m))
+            res = r + s + bd
+            res.positive = self.positive == other.positive
+            return res
+        elif isinstance(other, int):
+            return self * BigInt(str(other))
 
     def __pow__(self, power: int, modulo=None) -> 'BigInt':
         value = self.copy()

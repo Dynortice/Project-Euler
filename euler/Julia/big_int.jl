@@ -24,9 +24,9 @@ end
 
 Base.show(io::IO, x::Big_Int) = show(io, x.str)
 
-Base.copy(x::Big_Int) = Big_Int(string(x.positive ? "" : "-", x.str))
+Base.copy(x::Big_Int)::Big_Int = Big_Int(string(x.positive ? "" : "-", x.str))
 
-Base.length(x::Big_Int) = length(x.str)
+Base.length(x::Big_Int)::Int64 = length(x.str)
 
 Base.getindex(x::Big_Int, i::Int64) = getindex(x.str, i)
 
@@ -34,9 +34,9 @@ Base.getindex(x::Big_Int, r::UnitRange{Int64}) = getindex(x.str, r)
 
 Base.lastindex(x::Big_Int) = lastindex(x.str)
 
-Base.:-(x::Big_Int) = Big_Int(string("-", x.str))
+Base.:-(x::Big_Int)::Big_Int = Big_Int(string("-", x.str))
 
-function Base.isless(x::Big_Int, y::Big_Int)
+function Base.isless(x::Big_Int, y::Big_Int)::Bool
     if x.positive ≡ y.positive
         if length(x) ≡ length(y)
             if x.str ≡ y.str
@@ -58,11 +58,11 @@ function Base.isless(x::Big_Int, y::Big_Int)
     end
 end
 
-function Base.:(==)(x::Big_Int, y::Big_Int)
-    return (x.str ≡ y.str) & (x.positive ≡ y.positive)
+function Base.:(==)(x::Big_Int, y::Big_Int)::Bool
+    return (x.str == y.str) & (x.positive == y.positive)
 end
 
-function Base.:+(x::Big_Int, y::Big_Int)
+function Base.:+(x::Big_Int, y::Big_Int)::Big_Int
     if x.positive ≡ y.positive
         a, b = zero_pad(x.str, y.str, false)
         result = ""
@@ -189,3 +189,7 @@ function Base.:^(x::Big_Int, y::Int64)
     end
     return result
 end
+
+Base.:+(x::Big_Int, y::Int64)::Big_Int = x + Big_Int(string(y))
+Base.:-(x::Big_Int, y::Int64)::Big_Int = x - Big_Int(string(y))
+Base.:*(x::Big_Int, y::Int64)::Big_Int = x * Big_Int(string(y))
