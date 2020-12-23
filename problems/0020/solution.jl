@@ -1,14 +1,9 @@
 include("euler/Julia/big_int.jl")
+using .BigIntegers: BigInteger
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(n::Int64)::Int64
-    result = Big_Int("1")
-    for i in 1:n
-        result *= Big_Int(string(i))
-    end
-    return sum([parse(Int, i) for i in result.str])
-end
+compute(n::Int64)::Int64 = sum([parse(Int, i) for i ∈ prod(map(BigInteger, 1:n)).str])
 
 compute(10)
 

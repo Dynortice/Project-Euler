@@ -1,9 +1,10 @@
 include("euler/Julia/calculus.jl")
+using .Calculus: len_collatz_chain
 
-function compute(n::Integer)::Integer
+function compute(n::Int64)::Int64
     result, max_chain, hashmap = 0, 0, Dict(1 => 1)
-    for i in 2:n-1
-        chain = calculus.len_collatz_chain(i, hashmap)
+    for i ∈ 2:n-1
+        chain = len_collatz_chain(i, hashmap)
         if chain > max_chain
             result, max_chain = i, chain
         end

@@ -1,4 +1,4 @@
-import math
+from math import prod
 
 
 def compute(n: int, digits: str) -> int:
@@ -7,7 +7,7 @@ def compute(n: int, digits: str) -> int:
     for i in range(len(digits) - n + 2):
         if 0 in digits[i:i+n]:
             continue
-        cur_product = math.prod(digits[i:i+n])
+        cur_product = prod(digits[i:i+n])
         if cur_product > max_product:
             max_product = cur_product
     return max_product

@@ -1,15 +1,9 @@
 include("euler/Julia/big_int.jl")
+using .BigIntegers: BigInteger
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(n::Integer, list_numbers::String)::String
-    list_numbers = split(list_numbers, "\n")
-    result = Big_Int("0")
-    for number in list_numbers
-        result += Big_Int(number)
-    end
-    return result[1:n]
-end
+compute(n::Int64, list_numbers::String)::SubString = sum(map(BigInteger, split(list_numbers, "\n")))[1:n]
 
 str_numbers = """37107287533902102798797998220837590246510135740250
 46376937677490009712648124896970078050417018260538

@@ -25,7 +25,8 @@ Which starting number, under one million, produces the longest chain?
 For decreasing number of iterations we could use memoization. Also we can skip one step when $n$ is odd 'coz if $n$ is odd then $3n+1$ always even.
 ```{r}
 library(microbenchmark)
-source("../../euler/R/calculus.R")
+setwd("../../")
+source("euler/R/calculus.R")
 ```
 ```{r}
 compute <- function(n) {

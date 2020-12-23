@@ -36,8 +36,9 @@ Find the value of $d < 1000$ for which $^1/_d$ contains the longest recurring cy
 For this problem we could use [multiplicative order](https://en.wikipedia.org/wiki/Multiplicative_order) of 10 modulo prime number.
 ```{r}
 library(microbenchmark)
-source("../../euler/R/primes.R")
-source("../../euler/R/numbers.R")
+setwd("../../")
+source("euler/R/primes.R")
+source("euler/R/numbers.R")
 ```
 ```{r}
 compute <- function(n) {

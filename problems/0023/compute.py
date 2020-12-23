@@ -1,11 +1,11 @@
-import math
+from math import sqrt
 from euler.primes import get_primes
 from euler.numbers import sum_proper_factors
 
 
 def compute() -> int:
     n = 28123
-    primes = get_primes(int(math.sqrt(n)))
+    primes = get_primes(int(sqrt(n)))
     abundant_sieve, not_expressible = [False] * (n + 1), [True] * (n + 1)
     result = 0
     for i in range(1, n + 1):

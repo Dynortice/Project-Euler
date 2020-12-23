@@ -1,3 +1,4 @@
 include("../euler/Julia/primes.jl")
+using .Primes: get_primes
 
-compute(n::Integer)::Integer = prod([prime ^ trunc(Int, log(prime, n)) for prime in primes.get_primes(n)])
+compute(n::Int64)::Int64 = prod([prime ^ trunc(Int, log(prime, n)) for prime ∈ get_primes(n)])

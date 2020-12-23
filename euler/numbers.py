@@ -1,14 +1,18 @@
 from math import sqrt
+from euler.big_int import BigInt
 from euler.calculus import sum_geometric_series
 
 
-def is_palindrome(n: str) -> bool:
+def is_palindrome(n) -> bool:
     """
     Checking is the number a palindrome
     :param n: integer number converted to string
     :return: boolean value: true if n is palindrome else false
     """
-    return n == n[::-1]
+    if isinstance(n, str):
+        return n == n[::-1]
+    elif isinstance(n, BigInt):
+        return n.str == n.str[::-1]
 
 
 def count_divisors(n: int) -> int:

@@ -8,7 +8,7 @@ compute <- function(n) {
             candidate <- i * j
             if (candidate <= result) {
                 break
-            } else if (is.palindrome(as.character(candidate))) {
+            } else if (is.palindrome(candidate)) {
                 result <- candidate
                 numbers <- c(i, j)
             }

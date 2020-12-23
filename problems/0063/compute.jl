@@ -1,11 +1,12 @@
 include("euler/Julia/big_int.jl")
+using .BigIntegers: BigInteger
 
 function compute()::Int64
     result = 0
     i = 1
     while true
         j = 1
-        number, n = Big_Int(string(i)), Big_Int(string(i))
+        number, n = BigInteger(i), BigInteger(i)
         if length(number) ≠ j
             break
         else

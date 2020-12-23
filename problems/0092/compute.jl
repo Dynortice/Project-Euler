@@ -1,5 +1,5 @@
-using Combinatorics
-using StatsBase
+using Combinatorics: with_replacement_combinations
+using StatsBase: countmap
 
 function compute(n::Int64)::Int64
     sum_squares_digits(x::AbstractString)::Int64 = sum(parse.(Int64, collect(x)) .^ 2)
@@ -9,7 +9,7 @@ function compute(n::Int64)::Int64
         combination = join(i)
         while true
             combination = sum_squares_digits(combination)
-            if combination ≡ 89
+            if combination == 89
                 result += factorial(n) ÷ prod(factorial.(values(countmap(i))))
                 break
             elseif combination ≤ 1

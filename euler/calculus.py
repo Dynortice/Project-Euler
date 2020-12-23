@@ -1,4 +1,5 @@
 from math import sqrt, log
+from euler.big_int import BigInt
 
 
 def sum_arithmetic_series(a: float, d: float, n: int) -> float:
@@ -39,6 +40,15 @@ def fibonacci_index(n: int) -> int:
     :return: index of closest Fibonacci number below n
     """
     return int(log(n * sqrt(5) + 0.5, (sqrt(5) + 1) / 2))
+
+
+def fibonacci_generator(n: int):
+    f_prev, f_curr = BigInt(), BigInt(1)
+    yield f_prev
+    yield f_curr
+    for i in range(2, n + 1):
+        f_prev, f_curr = f_curr, f_prev + f_curr
+        yield f_curr
 
 
 def len_collatz_chain(n: int, hashmap: dict) -> int:

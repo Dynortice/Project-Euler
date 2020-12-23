@@ -25,7 +25,8 @@ So we've two arithmetic sequence but they produce common numbers. Have a look at
 
 ```{r}
 library(microbenchmark)
-source("../../euler/R/calculus.R")
+setwd("../../")
+source("euler/R/calculus.R")
 ```
 ```{r}
 compute <- function(a, b, n) {

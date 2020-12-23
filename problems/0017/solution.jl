@@ -1,7 +1,7 @@
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(number)
+function compute(number::Int64)::Int64
     numbers_below_10 = [
         length("one"),
         length("two"),

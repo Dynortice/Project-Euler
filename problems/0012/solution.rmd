@@ -33,7 +33,8 @@ We can see that $28$ is the first triangle number to have over five divisors. Wh
 We need only prime factorization to get number of divisors.
 ```{r}
 library(microbenchmark)
-source("../../euler/R/numbers.R")
+setwd("../../")
+source("euler/R/numbers.R")
 ```
 ```{r}
 compute <- function (n) {

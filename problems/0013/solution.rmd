@@ -115,16 +115,12 @@ Work out the first ten digits of the sum of the following one-hundred 50-digit n
 ## Solution
 ```{r}
 library(microbenchmark)
-source("../../euler/R/big_int.R")
+setwd("../../")
+source("euler/R/big_int.R")
 ```
 ```{r}
 compute <- function(n, numbers) {
-    numbers <- strsplit(numbers, "\n")[[1]]
-    result <- BigInt$new("0")
-    for (number in numbers) {
-        result$iadd(BigInt$new(number))
-    }
-    return(substr(result$str, 1, n))
+    return(substr(sum.bigint(lapply(strsplit(numbers, "\n")[[1]], as.bigint))$str, 1, n))
 }
 ```
 ```{r}

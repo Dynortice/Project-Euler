@@ -1,17 +1,18 @@
 include("euler/Julia/primes.jl")
+using .Primes: get_primes
 
 function compute(n::Int64)::Int64
-    prime_numbers = primes.get_primes(10 ^ n ÷ n)
+    prime_numbers = get_primes(10 ^ n ÷ n)
     consecutive = 0
     i = 10 ^ (n - 1)
     while true
-        if i in prime_numbers
+        if i ∈ prime_numbers
             consecutive = 0
         else
             prime_factors = 0
             t = i
             for prime ∈ prime_numbers
-                if t % prime ≡ 0
+                if t % prime == 0
                     prime_factors += 1
                     t ÷= prime
                 end

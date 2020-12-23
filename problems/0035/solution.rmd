@@ -17,7 +17,8 @@ How many circular primes are there below one million?
 ## Solution
 ```{r}
 library(microbenchmark)
-source("../../euler/R/primes.R")
+setwd("../../")
+source("euler/R/primes.R")
 ```
 ```{r}
 compute <- function(n) {

@@ -1,5 +1,5 @@
-import math
+from math import ceil, log, sqrt
 
 
 def compute(n: int) -> int:
-    return int(math.ceil((math.log(10) * (n - 1) + math.log(5) / 2) / math.log((1 + math.sqrt(5)) / 2)))
+    return int(ceil((log(10) * (n - 1) + log(5) / 2) / log((1 + sqrt(5)) / 2)))

@@ -29,8 +29,9 @@ What is the smallest odd composite that cannot be written as the sum of a prime 
 ## Solution
 ```{r}
 library(microbenchmark)
-source("../../euler/R/primes.R")
-source("../../euler/R/numbers.R")
+setwd("../../")
+source("euler/R/primes.R")
+source("euler/R/numbers.R")
 ```
 ```{r}
 compute <- function(n) {

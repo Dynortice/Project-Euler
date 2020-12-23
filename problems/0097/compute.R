@@ -1,6 +1,5 @@
-source("../../euler/R/big_int.R")
+source("/euler/R/big_int.R")
 
 compute <- function() {
-    result <- BigInt$new("2")$pow(7830457, 10)$mul(BigInt$new("28433"))$add(BigInt$new("1"))$str
-    return(substr(result, nchar(result) - 9, nchar(result)))
+    return(pow(as.bigint(2), 7830457, "10000000000") * 28433 %% "10000000000" + 1)
 }

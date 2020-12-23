@@ -22,8 +22,9 @@ Find the next triangle number that is also pentagonal and hexagonal.
 
 ## Solution
 ```{r}
-source("../../euler/R/calculus.R")
 library(microbenchmark)
+setwd("../../")
+source("euler/R/calculus.R")
 ```
 ```{r}
 compute <- function(n) {

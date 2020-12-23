@@ -1,4 +1,5 @@
 include("euler/Julia/big_int.jl")
+using .BigIntegers: BigInteger
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
@@ -7,7 +8,7 @@ function compute()::Int64
     i = 1
     while true
         j = 1
-        number, n = Big_Int(string(i)), Big_Int(string(i))
+        number, n = BigInteger(i), BigInteger(i)
         if length(number) ≠ j
             break
         else

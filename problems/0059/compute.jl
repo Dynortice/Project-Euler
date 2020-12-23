@@ -1,3 +1,5 @@
+using IterTools: product
+
 function compute(text::Array{Int64,1}, key_len::Int64)::Int64
     is_letter(a::Int64, b::Int64)::Bool = 32 ≤ a ⊻ b ≤ 122
 
@@ -14,7 +16,7 @@ function compute(text::Array{Int64,1}, key_len::Int64)::Int64
             end
         end
     end
-    for key ∈ IterTools.product(map(x -> x[2], sort(collect(keys)))...)
+    for key ∈ product(map(x -> x[2], sort(collect(keys)))...)
         decrypted_text = ""
         result = 0
         for (i, n) ∈ enumerate(text)

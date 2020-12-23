@@ -1,5 +1,5 @@
-import math
+from math import comb
 
 
 def compute(n: int) -> int:
-    return math.comb(2 * n, n)
+    return comb(2 * n, n)

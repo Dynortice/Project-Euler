@@ -1,12 +1,12 @@
-function compute(n::Real)::Int64
+function compute(n::Float64)::Int64
     function is_prime(x::Int64)::Bool
-        if x ≡ 3
+        if x == 3
             return true
-        elseif !((x % 6 ≡ 1)|(x % 6 ≡ 5))
+        elseif !((x % 6 == 1)|(x % 6 == 5))
             return false
         end
         for i in 6:12:trunc(Int64, √x)
-            if ((x % (i - 1) ≡ 0)|(x % (i + 1) ≡ 0)|(x % (i + 7) ≡ 0))
+            if ((x % (i - 1) == 0)|(x % (i + 1) == 0)|(x % (i + 7) == 0))
                 return false
             end
         end

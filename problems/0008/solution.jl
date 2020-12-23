@@ -1,11 +1,11 @@
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(n::Integer, digits::String)::Integer
-    digits = [parse(Int, digit) for digit in replace(digits, "\n" => "")]
+function compute(n::Int64, digits::AbstractString)::Int64
+    digits = [parse(Int, digit) for digit ∈ replace(digits, "\n" => "")]
     max_product = 0
-    for i in 1:length(digits) - n + 1
-        if 0 in digits[i:i+n-1]
+    for i ∈ 1:length(digits) - n + 1
+        if 0 ∈ digits[i:i+n-1]
             continue
         end
         cur_product = prod(digits[i:i+n-1])

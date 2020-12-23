@@ -19,8 +19,9 @@ Evaluate the sum of all the amicable numbers under $10000$.
 ## Solution
 ```{r}
 library(microbenchmark)
-source("../../euler/R/primes.R")
-source("../../euler/R/numbers.R")
+setwd("../../")
+source("euler/R/primes.R")
+source("euler/R/numbers.R")
 ```
 ```{r}
 compute <- function(n) {

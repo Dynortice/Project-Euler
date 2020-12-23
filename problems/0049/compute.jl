@@ -1,7 +1,8 @@
 include("euler/Julia/primes.jl")
+using .Primes: get_primality
 
 function compute()::AbstractString
-    sieve = primes.get_primality(10000)
+    sieve = get_primality(10000)
     prime_numbers = findall(sieve)
     for prime ∈ prime_numbers[prime_numbers .> 4817]
         first, third = prime - 3330, prime + 3330

@@ -1,4 +1,4 @@
-function compute(words::Array)::Int64
+function compute(words::Array{SubString{String},1})::Int64
     triangles = [1]
 
     function add_triangle()
@@ -6,15 +6,15 @@ function compute(words::Array)::Int64
         append!(triangles, n * (n + 1) ÷ 2)
     end
 
-    chars = Dict(Char(Int('A') + i) => i + 1 for i in 0:25)
+    chars = Dict(Char(Int('A') + i) => i + 1 for i ∈ 0:25)
     triangle_words = 0
 
-    for word in words
-        value = sum(chars[letter] for letter in word)
+    for word ∈ words
+        value = sum(chars[letter] for letter ∈ word)
         while value > maximum(triangles)
             add_triangle()
         end
-        if value in triangles
+        if value ∈ triangles
             triangle_words += 1
         end
     end

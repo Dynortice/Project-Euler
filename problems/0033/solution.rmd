@@ -19,7 +19,8 @@ If the product of these four fractions is given in its lowest common terms, find
 ## Solution
 ```{r}
 library(microbenchmark)
-source("../../euler/R/calculus.R")
+setwd("../../")
+source("euler/R/calculus.R")
 ```
 ```{r}
 compute <- function() {

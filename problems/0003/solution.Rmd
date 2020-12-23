@@ -15,7 +15,8 @@ Firstly we need just to find prime numbers. For this task we'll use sieve of Era
 
 ```{r}
 library(microbenchmark)
-source("../../euler/R/primes.R")
+setwd("../../")
+source("euler/R/primes.R")
 ```
 
 ```{r}

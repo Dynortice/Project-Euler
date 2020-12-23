@@ -1,4 +1,4 @@
-using IterTools
+using IterTools: product
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
@@ -18,7 +18,7 @@ function compute(text::Array{Int64,1}, key_len::Int64)::Int64
             end
         end
     end
-    for key ∈ IterTools.product(map(x -> x[2], sort(collect(keys)))...)
+    for key ∈ product(map(x -> x[2], sort(collect(keys)))...)
         decrypted_text = ""
         result = 0
         for (i, n) ∈ enumerate(text)

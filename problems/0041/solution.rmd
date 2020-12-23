@@ -15,7 +15,8 @@ What is the largest $n$-digit pandigital prime that exists?
 ## Solution
 ```{r}
 library(microbenchmark)
-source("../../euler/R/primes.R")
+setwd("../../")
+source("euler/R/primes.R")
 ```
 ```{r}
 compute <- function() {

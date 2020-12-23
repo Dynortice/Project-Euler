@@ -1,5 +1,5 @@
-using Combinatorics
-using StatsBase
+using Combinatorics: with_replacement_combinations
+using StatsBase: countmap
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
@@ -11,7 +11,7 @@ function compute(n::Int64)::Int64
         combination = join(i)
         while true
             combination = sum_squares_digits(combination)
-            if combination ≡ 89
+            if combination == 89
                 result += factorial(n) ÷ prod(factorial.(values(countmap(i))))
                 break
             elseif combination ≤ 1

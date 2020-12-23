@@ -1,0 +1,69 @@
+---
+title: "Problem 684"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+
+## Inverse Digit Sum
+
+Define $s(n)$ to be the smallest number that has digit sum of $n$. For example $s(10) = 19$
+
+Let $S(k) = \displaystyle\sum_{n=1}^k s(n)$. You are given $S(20) = 1074$.
+
+Further, let $f_i$ be the Fibonacci sequence defined by $f_0 = 0$, $f_1 = 1$ and $f_i = f_{i - 2} + f_{i - 1}$ for all $i \ge 2$.
+
+Find $\displaystyle\sum_{i = 2}^{90} S(f_i)$. Give your answer modulo $1000000007$.
+
+## Solution
+
+The smallest numbers whose sum of digits is $n$, are numbers of the form $10 ^ j a - 1$ with $a \in (1, 9)$ and $j \ge 0$.
+
+This solution uses the following formula:
+
+$$\sum_{j=0}^b 10 ^ j a - 1 = \frac{10 ^ {b + 1}a - a - 9b - 9}{9}$$
+
+By letting $a = (1, 9)$, we get:
+
+$$R(k) = \sum _ {a = 1} ^ 9 \sum _ {j = 0} ^ b 10 ^ j a - 1 = 2 (2 ^ b 5 ^ {b + 2} - 7) - 9b$$
+
+From $R(k)$, we get $S(k)$ as:
+
+$$S(k) = R(k) - \sum _ {j = 2 + (k \mod 9)} ^ 9 10 ^ b j - 1 = R(k) - \frac{(10 - a) (10 ^ b (a + 9) - 2)}{2}$$
+
+Simplifying the formula, we get:
+
+$$S(k) = \frac{10 ^ b(a (a - 1) + 10) - 2 (a + 9b + 4)}{2}$$
+
+where:
+
+$$a = k \mod 9 + 2$$
+
+$$b = \lfloor \frac{k}{9} \rfloor$$
+```{r}
+library(microbenchmark)
+setwd("../../")
+source("euler/R/big_int.R")
+source("euler/R/calculus.R")
+```
+
+```{r}
+compute <- function(n, modulo) {
+    s_mod <- function(k) {
+        a <- k %% 9 + 2
+        b <- k %/% 9
+        return((((a * (a - 1) + 10) * pow(as.bigint(10), b, modulo) - (a + b * 9 + 4) * 2) * inverted_modulo) %% modulo)
+    }
+    inverted_modulo <- 500000004
+    return((sum.bigint(lapply(get_fibonacci(n), s_mod)) - 1) %% modulo)
+}
+```
+
+```{r}
+compute(90, "1000000007")
+```
+```{r}
+microbenchmark(compute(90, "1000000007"), times=1)
+```

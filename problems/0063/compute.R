@@ -5,17 +5,17 @@ compute <- function() {
     i <- 1
     while (TRUE) {
         j <- 1
-        number <- BigInt$new(as.character(i))
-        n <- BigInt$new(as.character(i))
-        if (nchar(number$str) != j) {
+        number <- as.bigint(i)
+        n <- as.bigint(i)
+        if (length(number) != j) {
             break
         } else {
             result <- result + 1
         }
         while (TRUE) {
             j <- j + 1
-            number$imul(n)
-            if (nchar(number$str) == j) {
+            number %*=% n
+            if (length(number) == j) {
                 result <- result + 1
             } else {
                 break

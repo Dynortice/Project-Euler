@@ -1,4 +1,5 @@
 include("euler/Julia/primes.jl")
+using .Primes: get_primality
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
@@ -14,7 +15,7 @@ function compute()::Int64
         end
         return true
     end
-    sieve = primes.get_primality(1000000)
+    sieve = get_primality(1000000)
     prime_numbers = findall(sieve)[5:end]
     truncatable_primes = 0
     i = 1

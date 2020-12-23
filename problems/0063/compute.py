@@ -6,7 +6,7 @@ def compute() -> int:
     i = 1
     while True:
         j = 1
-        number, n = BigInt(str(i)), BigInt(str(i))
+        number, n = BigInt(i), BigInt(i)
         if len(number) != j:
             break
         else:

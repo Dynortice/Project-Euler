@@ -1,13 +1,13 @@
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(keylog::Array{SubString{String},1})#::String
+function compute(keylog::Array{SubString{String},1})::String
     password = ""
     while true
-        if length(keylog) ≡ 1
+        if length(keylog) == 1
             return string(password, keylog[1])
         end
-        candidates = ∪(i[1] for i in keylog)
+        candidates = ∪(i[1] for i ∈ keylog)
         for candidate ∈ collect(candidates)
             for key ∈ keylog
                 if candidate ∈ key[2:end]
@@ -18,8 +18,8 @@ function compute(keylog::Array{SubString{String},1})#::String
         end
         password = string(password, candidates[1])
         for key ∈ collect(keylog)
-            if candidates[1] ≡ key[1]
-                if length(key) ≡ 3
+            if candidates[1] == key[1]
+                if length(key) == 3
                     union!(keylog, [key[2:end]])
                 end
                 setdiff!(keylog, [key])

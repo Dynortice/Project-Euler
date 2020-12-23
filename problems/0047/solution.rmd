@@ -26,7 +26,8 @@ Find the first four consecutive integers to have four distinct prime factors eac
 ## Solution
 ```{r}
 library(microbenchmark)
-source("../../euler/R/primes.R")
+setwd("../../")
+source("euler/R/primes.R")
 ```
 ```{r}
 compute <- function(n) {

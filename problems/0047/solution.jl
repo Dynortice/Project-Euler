@@ -1,13 +1,14 @@
 include("euler/Julia/primes.jl")
+using .Primes: get_primes
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
 function compute(n::Int64)::Int64
-    prime_numbers = primes.get_primes(10 ^ n ÷ n)
+    prime_numbers = get_primes(10 ^ n ÷ n)
     consecutive = 0
     i = 10 ^ (n - 1)
     while true
-        if i in prime_numbers
+        if i ∈ prime_numbers
             consecutive = 0
         else
             prime_factors = 0

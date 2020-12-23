@@ -27,8 +27,9 @@ $$\iff n_{1, 2} = \frac{1 \pm \sqrt{1 + 4 \times 3 \times 2x}}{2 \times 3} = \fr
 
 Thus $1 + 24x$ is a perfect square and $\sqrt{1 + 24x} \equiv 5 \mod(6)$
 ```{r}
-source("../../euler/R/calculus.R")
 library(microbenchmark)
+setwd("../../")
+source("euler/R/calculus.R")
 ```
 ```{r}
 compute <- function() {

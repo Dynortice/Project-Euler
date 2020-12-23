@@ -38,7 +38,8 @@ $$n^2_1+an_1+b=1+a+b$$.
 Since $b$ is prime and all primes but $2$ are odd, it follows that $a$ must be odd for all $b\ne2$ and even for $b=2$.
 ```{r}
 library(microbenchmark)
-source("../../euler/R/primes.R")
+setwd("../../")
+source("euler/R/primes.R")
 ```
 ```{r}
 compute <- function(max_a, max_b) {

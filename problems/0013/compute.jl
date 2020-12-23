@@ -1,10 +1,4 @@
 include("euler/Julia/big_int.jl")
+using .BigIntegers: BigInteger
 
-function compute(n::Integer, list_numbers::String)::String
-    list_numbers = split(list_numbers, "\n")
-    result = Big_Int("0")
-    for number in list_numbers
-        result += Big_Int(number)
-    end
-    return result[1:n]
-end
+compute(n::Int64, list_numbers::String)::SubString = sum(map(BigInteger, split(list_numbers, "\n")))[1:n]

@@ -19,7 +19,8 @@ $8$ divisible by $2, 4, 8$; $9$ divisible by $3, 9$. And if number divisible by 
 
 ```{r}
 library(microbenchmark)
-source("../../euler/R/primes.R")
+setwd("../../")
+source("euler/R/primes.R")
 ```
 
 ```{r}

@@ -1,11 +1,12 @@
 include("euler/Julia/big_int.jl")
+using .BigIntegers: BigInteger
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute()::Big_Int
-    match(n::Big_Int)::Bool = all(parse(Int64, n.str[i * 2 + 1]) == i + 1 for i ∈ 0:8)
+function compute()::BigInteger
+    match(n::BigInteger)::Bool = all(parse(Int64, n.str[i * 2 + 1]) == i + 1 for i ∈ 0:8)
 
-    number = Big_Int("138902663")
+    number = BigInteger(138902663)
     j = 3
     while(!match(number * number))
         if j ≡ 3

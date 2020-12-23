@@ -1,4 +1,7 @@
-module calculus
+module Calculus
+
+    include("big_int.jl")
+    using .BigIntegers: BigInteger
 
     export sum_arithmetic_series, sum_geometric_series, fibonacci_number, fibonacci_index, len_collatz_chain
 
@@ -9,6 +12,16 @@ module calculus
     fibonacci_number(n::Int64)::Int64 = trunc(Int, (((1 + √5) / 2) ^ n - ((1 - √5) / 2) ^ n) / √5)
 
     fibonacci_index(n::Int64)::Int64 = trunc(Int, log((1 + √5) / 2, n * √5 + 0.5))
+
+    function get_fibonacci(n::Int64)::Array{BigInteger, 1}
+        f_prev, f_curr = BigInteger(0), BigInteger(1)
+        result = [f_prev, f_curr]
+        for i ∈ 2:n
+            f_prev, f_curr = f_curr, f_prev + f_curr
+            push!(result, f_curr)
+        end
+        return result
+    end
 
     function len_collatz_chain(n::Int64, hashmap::Dict)::Int64
         if !haskey(hashmap, n)

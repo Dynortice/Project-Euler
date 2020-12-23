@@ -1,2 +1,5 @@
+from euler.big_int import BigInt
+
+
 def compute() -> int:
-    return pow(2, 7830457, 10 ** 10) * 28433 % 10 ** 10 + 1
+    return pow(BigInt(2), 7830457, 10000000000) * 28433 % 10000000000 + 1

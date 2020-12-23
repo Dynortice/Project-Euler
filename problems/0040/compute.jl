@@ -8,11 +8,11 @@ function compute(d::Int64)::Int64
         k += 1
         rem = n - digits_number(k - 1)
         num = 10 ^ (k - 1) + rem ÷ k - 1
-        if rem % k ≡ 0
+        if rem % k == 0
             return parse(Int64, string(num)[end])
         else
             return parse(Int64, string(num + 1)[rem % k])
         end
     end
-    return prod([get_digit(10 ^ i) for i in 0:d])
+    return prod([get_digit(10 ^ i) for i ∈ 0:d])
 end

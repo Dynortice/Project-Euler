@@ -1,10 +1,11 @@
 include("euler/Julia/primes.jl")
+using .Primes: smallest_prime_factor
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(n::Integer)::Integer
+function compute(n::Int64)::Int64
     while true
-        prime = primes.smallest_prime_factor(n)
+        prime = smallest_prime_factor(n)
         if prime < n
             n ÷= prime
         else

@@ -18,7 +18,8 @@ NOTE: $2, 3, 5$, and $7$ are not considered to be truncatable primes.
 
 ```{r}
 library(microbenchmark)
-source("../../euler/R/primes.R")
+setwd("../../")
+source("euler/R/primes.R")
 ```
 ```{r}
 compute <- function() {

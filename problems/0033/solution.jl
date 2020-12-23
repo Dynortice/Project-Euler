@@ -4,10 +4,10 @@ BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 function compute()::Int64
     numerators_product = 1
     denominators_product = 1
-    for i in 1:9
-        for j in 1:i - 1
-            for k in 1:j - 1
-                if (k * 10 + i) * j ≡ (i * 10 + j) * k
+    for i ∈ 1:9
+        for j ∈ 1:i - 1
+            for k ∈ 1:j - 1
+                if (k * 10 + i) * j == (i * 10 + j) * k
                     numerators_product *= k
                     denominators_product *= j
                 end

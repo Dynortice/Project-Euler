@@ -21,7 +21,8 @@ Which prime, below one-million, can be written as the sum of the most consecutiv
 ## Solution
 ```{r}
 library(microbenchmark)
-source("../../euler/R/primes.R")
+setwd("../../")
+source("euler/R/primes.R")
 ```
 ```{r}
 compute <- function(n) {
