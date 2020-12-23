@@ -1,0 +1,60 @@
+---
+title: "Problem 686"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Powers of Two
+
+$2 ^ 7 = 128$ is the first power of two whose leading digits are $12$. The next power of two whose leading digits are $12$ is $2 ^ {80}$.
+
+Define $p(L, n)$ to be the $n$th-smallest value of $j$ such that the base $10$ representation of $2 ^ j$ begins with the digits of $L$. So $p(12, 1) = 7$ and $p(12, 2) = 80$.
+
+You are also given that $p(123, 45) = 12710$
+
+Find $p(123, 678910)$
+
+## Solution
+
+```{r}
+library(microbenchmark)
+```
+```{r}
+compute <- function(digits, n) {
+    digits_len <- ceiling(log10(digits))
+    number <- 2
+    repetitions <- 0
+    result <- 1
+    while (TRUE) {
+        result <- result + 1
+        number <- number * 2
+        if (log10(number) > digits_len) {
+            number <- number / 10
+        }
+        if (as.integer(number) == digits) {
+            repetitions <- repetitions + 1
+            if (repetitions == n) {
+                break
+            }
+        }
+    }
+    return(result)
+}
+```
+```{r}
+compute(12, 1)
+```
+```{r}
+compute(12, 2)
+```
+```{r}
+compute(123, 45)
+```
+```{r}
+compute(123, 678910)
+```
+```{r}
+microbenchmark(compute(123, 678910), times = 10)
+```
