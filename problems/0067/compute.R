@@ -1,4 +1,5 @@
-compute <- function(triangle) {
+compute <- function(path) {
+    triangle <- lapply(strsplit(gsub("\"", "", readLines(path, warn = FALSE)), " "), as.integer)
     while (length(triangle) > 1) {
         len <- length(triangle)
         for (i in seq_len(len - 1)) {

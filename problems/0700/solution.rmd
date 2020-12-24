@@ -3,8 +3,8 @@ title: "Problem 700"
 author: "Dynortice"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-html_document:
-theme: readable
+  html_document:
+    theme: readable
 ---
 ## Eulercoin
 

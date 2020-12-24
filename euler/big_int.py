@@ -14,7 +14,7 @@ def pad(a: str, n: int, right: bool = True) -> str:
 
 def zero_pad(a: str, b: str, right: bool = True) -> [str, str]:
     """
-    Takes two string-like numbers and if these lengths not equal - return less number with 0 before or after
+    Takes two string-like numbers and if these lengths not equal returns less number with 0 before or after
     :param a: string-like integer
     :param b: string-like integer
     :param right: after (true) or before (false)

@@ -27,7 +27,8 @@ Find the maximum total from top to bottom in [triangle.txt](https://projecteuler
 library(microbenchmark)
 ```
 ```{r}
-compute <- function(triangle) {
+compute <- function(path) {
+    triangle <- lapply(strsplit(gsub("\"", "", readLines(path, warn = FALSE)), " "), as.integer)
     while (length(triangle) > 1) {
         len <- length(triangle)
         for (i in seq_len(len - 1)) {
@@ -39,11 +40,8 @@ compute <- function(triangle) {
 }
 ```
 ```{r}
-triangle_file <- lapply(strsplit(gsub("\"", "", readLines("p067_triangle.txt", warn = FALSE)), " "), as.integer)
+compute("p067_triangle.txt")
 ```
 ```{r}
-compute(triangle_file)
-```
-```{r}
-microbenchmark(compute(triangle_file))
+microbenchmark(compute("p067_triangle.txt"))
 ```

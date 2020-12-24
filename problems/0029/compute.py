@@ -1,7 +1,7 @@
 from math import log, log2, sqrt
 
 
-def compute(n):
+def compute(n: int) -> int:
     limit_powers = int(log2(n))
     limit_numbers = int(sqrt(n))
     power_counts = [0] * (limit_powers + 1)
@@ -23,4 +23,4 @@ def compute(n):
             else:
                 sieve[i * j] = True
         duplicate_counts[i] = count
-    return (n - 1) ** 2 - sum(list(map(lambda x, y: x * y, power_counts, duplicate_counts)))
+    return (n - 1) ** 2 - sum(x * y for x, y in zip(power_counts, duplicate_counts))

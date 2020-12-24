@@ -5,6 +5,7 @@ from euler.big_int import BigInt
 def sum_arithmetic_series(a: float, d: float, n: int) -> float:
     """
     Find the sum of arithmetic sequence
+
     :param a: first number in sequence
     :param d: common difference of sequence
     :param n: number of terms in sequence
@@ -16,6 +17,7 @@ def sum_arithmetic_series(a: float, d: float, n: int) -> float:
 def sum_geometric_series(a: float, r: float, n: int) -> float:
     """
     Find the sum of geometric sequence
+
     :param a: first term in sequence
     :param r: common ratio of sequence
     :param n: number of terms in sequence
@@ -27,6 +29,7 @@ def sum_geometric_series(a: float, r: float, n: int) -> float:
 def fibonacci_number(n: int) -> int:
     """
     Get nth Fibonacci number
+
     :param n: index of Fibonacci number
     :return: Fibonacci number with index n
     """
@@ -36,6 +39,7 @@ def fibonacci_number(n: int) -> int:
 def fibonacci_index(n: int) -> int:
     """
     Get index of closest Fibonacci number
+
     :param n: integer number
     :return: index of closest Fibonacci number below n
     """

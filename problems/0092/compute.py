@@ -5,7 +5,7 @@ from itertools import combinations_with_replacement
 
 def compute(n: int) -> int:
     def sum_squares_digits(x: str):
-        return sum(map(lambda y: y ** 2, map(int, x)))
+        return sum(j ** 2 for j in map(int, x))
 
     result = 0
     for i in combinations_with_replacement(map(str, range(10)), n):

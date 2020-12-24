@@ -1,4 +1,5 @@
-function compute(triangle::Array{Array{Int64,1},1})::Int64
+function compute(path::String)::Int64
+    triangle = map(x -> parse.(Int64, split(x, " ")), split(read(path, String), "\n"))
     while length(triangle) > 1
         for i ∈ 1:length(triangle) - 1
             triangle[end - 1][i] += maximum(triangle[end][i:i + 1])
