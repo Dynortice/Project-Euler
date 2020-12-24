@@ -6,8 +6,11 @@
 get_primality <- function(n) {
     sieve <- rep(TRUE, n)
     sieve[1] <- FALSE
+    if (n < 4) {
+        return(sieve)
+    }
     for (i in seq(4, n, 2)) {
-        sieve[i] = FALSE
+        sieve[i] <- FALSE
     }
     if (n >= 9) {
         for (i in seq(3, as.integer(sqrt(n)), 2)) {
