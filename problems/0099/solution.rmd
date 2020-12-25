@@ -1,0 +1,58 @@
+---
+title: "Problem 99"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Largest exponential
+
+Comparing two numbers written in index form like $2 ^ {11}$ and $3 ^ 7$ is not difficult, as any calculator would confirm that $2 ^ {11} = 2048 < 3 ^ 7 = 2187$.
+
+However, confirming that $632382 ^ {518061} > 519432 ^ {525806}$ would be much more difficult, as both numbers contain over three million digits.
+
+Using [base_exp.txt](https://projecteuler.net/project/resources/p099_base_exp.txt) (right click and 'Save Link/Target As...'), a 22K text file containing one thousand lines with a base/exponent pair on each line, determine which line number has the greatest numerical value.
+
+**NOTE**: The first two lines in the file represent the numbers in the example given above.
+
+## Solution
+
+It can be confirmed that $a ^ b > c ^ d$ when $bn \log_n a > dn \log_n c$. For example:
+
+$$632282 ^ {518061} < 519432 ^ {525806}$$
+
+$$\iff 10 \times 518061 \log 632282 < 10 \times 525806 \log 519432$$
+
+$$\iff 518061 \log 632282 < 525806 \log 519432$$
+
+$$\iff 518061 \times 5.800911 < 525806 \times 5.715529$$
+
+$$\iff 3005226 < 3005259$$
+```{r}
+library(microbenchmark)
+```
+
+```{r}
+compute <- function(path) {
+    base_exp <- lapply(strsplit(readLines(path, warn = FALSE), ","), as.integer)
+    max_exponent <- 0
+    result <- 0
+    for (i in seq_along(base_exp)) {
+        exponent <- log10(base_exp[[i]][1]) * base_exp[[i]][2]
+        if (exponent > max_exponent) {
+            max_exponent <- exponent
+            result <- i
+        }
+    }
+    return(result)
+}
+```
+
+```{r}
+compute("p099_base_exp.txt")
+```
+
+```{r}
+microbenchmark(compute("p099_base_exp.txt"))
+```
