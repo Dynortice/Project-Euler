@@ -1,5 +1,3 @@
-library(bit64)
-
 compute <- function(n) {
     is.s_number <- function(a, b) {
         if (a > b) {
@@ -20,9 +18,9 @@ compute <- function(n) {
     }
     result <- 0
     for (i in 2:n) {
-        number <- as.integer64(i)
-        if (is.s_number(number, number * number)) {
-            result <- result + number * number
+        i <- as.numeric(i)
+        if (is.s_number(i, i * i)) {
+            result <- result + i * i
         }
     }
     return(result)

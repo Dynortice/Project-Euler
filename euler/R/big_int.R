@@ -1,4 +1,5 @@
 library(R6)
+options("scipen" = 20)
 
 pad <- function (a, n, right = TRUE) {
     if (right) {
@@ -283,10 +284,10 @@ BigInt <- R6Class(classname = "BigInt",
                               result <- ""
                               carry <- 0
                               len <- nchar(x)
-                              for (i in seq_len(ceiling(len / 4))) {
-                                  carry <- carry + as.integer(substr(x, len - 4 * i + 1, len - 4 * (i - 1))) + as.integer(substr(y, len - 4 * i + 1, len - 4 * (i - 1)))
-                                  result <- paste0(strrep("0", max(4 - nchar(carry), 0)), substr(carry, nchar(carry) - 3, nchar(carry)), result)
-                                  carry <- carry %/% 10 ^ 4
+                              for (i in seq_len(ceiling(len / 15))) {
+                                  carry <- carry + as.numeric(substr(x, len - 15 * i + 1, len - 15 * (i - 1))) + as.numeric(substr(y, len - 15 * i + 1, len - 15 * (i - 1)))
+                                  result <- paste0(strrep("0", max(15 - nchar(carry), 0)), substr(carry, nchar(carry) - 14, nchar(carry)), result)
+                                  carry <- carry %/% 10 ^ 15
                               }
                               if (carry == 0) {
                                   result <- trimws(result, "left", "0")
@@ -339,13 +340,13 @@ BigInt <- R6Class(classname = "BigInt",
                               result <- ""
                               carry <- 0
                               len <- nchar(x)
-                              for (i in seq_len(ceiling(len / 4))) {
-                                  carry <- carry + as.integer(substr(x, len - 4 * i + 1, len - 4 * (i - 1))) - as.integer(substr(y, len - 4 * i + 1, len - 4 * (i - 1)))
+                              for (i in seq_len(ceiling(len / 15))) {
+                                  carry <- carry + as.numeric(substr(x, len - 15 * i + 1, len - 15 * (i - 1))) - as.numeric(substr(y, len - 15 * i + 1, len - 15 * (i - 1)))
                                   if (carry < 0) {
-                                      result <- paste0(strrep("0", max(4 - nchar(carry + 10 ^ 4), 0)), carry + 10 ^ 4, result)
+                                      result <- paste0(strrep("0", max(15 - nchar(carry + 10 ^ 15), 0)), carry + 10 ^ 15, result)
                                       carry <- -1
                                   } else {
-                                      result <- paste0(strrep("0", max(4 - nchar(carry), 0)), carry, result)
+                                      result <- paste0(strrep("0", max(15 - nchar(carry), 0)), carry, result)
                                       carry <- 0
                                   }
                               }

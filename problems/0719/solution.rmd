@@ -23,9 +23,9 @@ Further we define $T(N)$ to be the sum of all $S$ numbers $n \le N$. You are giv
 Find $T(10 ^ {12})$.
 
 ## Solution
-```{r, message = FALSE}
+```{r}
 library(microbenchmark)
-library(bit64)
+options("scipen" = 10)
 ```
 
 ```{r}
@@ -49,9 +49,9 @@ compute <- function(n) {
     }
     result <- 0
     for (i in 2:n) {
-        number <- as.integer64(i)
-        if (is.s_number(number, number * number)) {
-            result <- result + number * number
+        i <- as.numeric(i)
+        if (is.s_number(i, i * i)) {
+            result <- result + i * i
         }
     }
     return(result)
@@ -66,5 +66,5 @@ compute(10 ^ 6)
 ```
 
 ```{r}
-microbenchmark(compute(10 ^ 6), times = 1)
+microbenchmark(compute(10 ^ 6), times = 10)
 ```
