@@ -71,3 +71,7 @@ def multiplicative_order(a: int, n: int) -> int:
 
 def is_perfect_square(n: int) -> bool:
     return int(sqrt(n)) ** 2 == n
+
+
+def digits_sum(n: int) -> int:
+    return sum(map(int, str(n)))

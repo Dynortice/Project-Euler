@@ -47,3 +47,21 @@ smallest_prime_factor <- function(n) {
     }
     return(n)
 }
+
+is.prime <- function(n) {
+    if (n < 2) {
+        return(FALSE)
+    } else if (n < 4) {
+        return(TRUE)
+    } else if (n %% 2 == 0 | n %% 3 == 0) {
+        return(FALSE)
+    } else if (n < 25) {
+        return(TRUE)
+    }
+    for (i in seq(6, as.integer(sqrt(n)) + 1, by = 6)) {
+        if (n %% (i - 1) == 0 | n %% (i + 1) == 0) {
+            return(FALSE)
+        }
+    }
+    return(TRUE)
+}

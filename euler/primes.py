@@ -24,7 +24,7 @@ def get_primes(n: int) -> list:
     :param n: integer number
     :return: list with primes below n
     """
-    return [i for (i, is_prime) in enumerate(get_primality(n)) if is_prime]
+    return [i for i, is_prime in enumerate(get_primality(n)) if is_prime]
 
 
 def smallest_prime_factor(n: int) -> int:
@@ -33,8 +33,21 @@ def smallest_prime_factor(n: int) -> int:
     :param n: integer number
     :return: smallest prime factor of n
     """
-    primes = get_primes(int(math.sqrt(n)))
+    primes = get_primes(int(sqrt(n)))
     for prime in primes:
         if n % prime == 0:
             return prime
     return n
+
+
+def is_prime(n: int) -> bool:
+    if n < 2:
+        return False
+    elif n < 4:
+        return True
+    elif n % 2 == 0 or n % 3 == 0:
+        return False
+    for i in range(6, int(sqrt(n)) + 2, 6):
+        if n % (i - 1) == 0 or n % (i + 1) == 0:
+            return False
+    return True

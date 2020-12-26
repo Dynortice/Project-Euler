@@ -1,6 +1,6 @@
 module Primes
 
-    export get_primality, get_primes, smallest_prime_factor
+    export get_primality, get_primes, smallest_prime_factor, is_prime
 
     function get_primality(n::Int64)::Array{Bool, 1}
         sieve = repeat([true], n)
@@ -28,5 +28,21 @@ module Primes
             end
         end
         return n
+    end
+
+    function is_prime(n::Int64)::Bool
+        if n < 2
+            return false
+        elseif n < 4
+            return true
+        elseif (n % 2 == 0) | (n % 3 == 0)
+            return false
+        end
+        for i ∈ 6:6:trunc(Int64, √n + 1)
+            if (n % (i - 1) == 0) | (n % (i + 1) == 0)
+                return false
+            end
+        end
+        return true
     end
 end

@@ -4,7 +4,7 @@ module Numbers
     using .BigIntegers: BigInteger
     using .Calculus: sum_geometric_series
 
-    export is_palindrome, is_perfect_squre, count_divisors, sum_proper_factors, multiplicative_order
+    export is_palindrome, is_perfect_squre, count_divisors, sum_proper_factors, multiplicative_order, digits_sum
 
     is_palindrome(n::Int64)::Bool = string(n) == reverse(string(n))
     is_palindrome(n::BigInteger)::Bool = n.str == reverse(n.str)
@@ -54,4 +54,6 @@ module Numbers
         end
         return i
     end
+
+    digits_sum(n::Int64)::Int64 = sum(parse.(Int64, collect(string(n))))
 end

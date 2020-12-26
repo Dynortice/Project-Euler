@@ -77,3 +77,7 @@ multiplicative_order <- function(a, n) {
 is.perfect_square <- function(n) {
     return(as.integer(sqrt(n)) ^ 2 == n)
 }
+
+digits_sum <- function(n) {
+    return(sum(as.integer(strsplit(as.character(n), NULL)[[1]])))
+}
