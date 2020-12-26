@@ -1,5 +1,5 @@
 library(R6)
-options("scipen" = 20)
+options(scipen = 20)
 
 pad <- function (a, n, right = TRUE) {
     if (right) {

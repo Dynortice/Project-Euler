@@ -1,0 +1,48 @@
+---
+title: "Problem 493"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+
+## Under The Rainbow
+
+$70$ coloured balls are placed in an urn, $10$ for each of the seven rainbow colours.
+
+What is the expected number of distinct colours in $20$ randomly picked balls?
+
+Give your answer with nine digits after the decimal point (a.bcdefghij).
+
+## Solution
+
+Define total number of balls $n$ and number of balls of each color $m$. We can count probability that certain color will not among the $k$ picked balls:
+
+$$\frac{\binom{n - m}{k}}{\binom{n}{k}} = \frac{\frac{(n - m)!}{k! (n - m - k)!}}{\frac{n!}{k! (n - k)!}} = \frac{k! (n - k)! (n - m)!}{k! n! (n - m - k)!} = \frac{(n - k)! (n - m)!}{n! (n - m - k)!}$$
+
+As $n!$ so large, this expression could be rewritten as:
+
+$$\frac{(n - k)! (n - m)!}{n! (n - m - k)!} = \frac{\displaystyle\prod_{i = n - m - k + 1}^{n - k} i}{\displaystyle\prod_{i = n - m + 1}^{n} i} = \displaystyle\prod_{i = n - m + 1}^{n} \frac{i - k}{i}$$
+
+Now we need opposite of this probability as certain color should be among picked balls and as we have 7 colors it should be multiplied by $7$:
+
+$$7 \left(1 - \displaystyle\prod_{i = n - m + 1}^{n} \frac{i - k}{i}\right)$$
+```{r}
+library(microbenchmark)
+options(digits = 10)
+```
+
+```{r}
+compute <- function(n, k) {
+    return(round(7 * (1 - prod(1 - k / (n / 7 * 6 + 1):n)), 9))
+}
+```
+
+```{r}
+compute(70, 20)
+```
+
+```{r}
+microbenchmark(compute(70, 20))
+```

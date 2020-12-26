@@ -19,7 +19,7 @@ OEIS Sequence: [A080715](https://oeis.org/A080715)
 library(microbenchmark)
 setwd("../../")
 source("euler/R/primes.R")
-options("scipen" = 20)
+options(scipen = 20)
 ```
 
 ```{r}

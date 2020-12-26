@@ -27,7 +27,7 @@ OEIS Sequence: [A104113](https://oeis.org/A104113)
 ## Solution
 ```{r}
 library(microbenchmark)
-options("scipen" = 10)
+options(scipen = 20)
 ```
 
 ```{r}
