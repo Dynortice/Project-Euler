@@ -22,6 +22,8 @@ The sum of these numbers is $1634 + 8208 + 9474 = 19316$.
 
 Find the sum of all the numbers that can be written as the sum of fifth powers of their digits.
 
+OEIS Sequence: [A005188](https://oeis.org/A005188)
+
 ## Solution
 
 Firstly we need to find the max number that can be represented as fifth powers of number. As max digit is $9$, then we need to check if number of digits of that number $9^5n$ less or equal to $n$. So for fifth power $n = 6$, eg $\sum^n_{i=1}9^5$ is $6$-digit number but for $n = 7$ number would be still $6$-digit.

@@ -14,6 +14,8 @@ Find the sum of all numbers, less than one million, which are palindromic in bas
 
 (Please note that the palindromic number, in either base, may not include leading zeros.)
 
+OEIS Sequence: [A007632](https://oeis.org/A007632)
+
 ## Solution
 ```{r}
 library(microbenchmark)

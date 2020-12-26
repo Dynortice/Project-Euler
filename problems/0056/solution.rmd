@@ -12,6 +12,8 @@ A googol ($10^{100}$) is a massive number: one followed by one-hundred zeros; $1
 
 Considering natural numbers of the form, $a^b$, where $a, b < 100$, what is the maximum digital sum?
 
+OEIS Sequence: [A001597](https://oeis.org/A306481)
+
 ## Solution
 ```{r}
 library(microbenchmark)

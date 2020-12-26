@@ -21,6 +21,8 @@ It can be verified that the sum of the numbers on the diagonals is $101$.
 
 What is the sum of the numbers on the diagonals in a $1001$ by $1001$ spiral formed in the same way?
 
+OEIS Sequence: [A200975](https://oeis.org/A200975)
+
 ## Solution
 
 Considering on $4$ diagonals we'll get $4$ sequences:

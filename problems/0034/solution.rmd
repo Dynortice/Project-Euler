@@ -14,6 +14,8 @@ Find the sum of all numbers which are equal to the sum of the factorial of their
 
 Note: As $1! = 1$ and $2! = 2$ are not sums they are not included.
 
+OEIS Sequence: [A014080](https://oeis.org/A014080)
+
 ## Solution
 As $7 \times 9!$ have less than $8$ digit, then all numbers must be less then $10$ millions.
 ```{r}

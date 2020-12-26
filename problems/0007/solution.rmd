@@ -12,6 +12,8 @@ By listing the first six prime numbers: $2, 3, 5, 7, 11$ and $13$, we can see th
 
 What is the $10 001$st prime number?
 
+OEIS Sequence: [A000040](https://oeis.org/A000040)
+
 ## Solution
 Using sieve of Eratosthenes we could find $10001$st prime number by index. Under $100$ millions there more than $5%$ prime numbers. Therefore we can use sieve with size of $20n$.
 

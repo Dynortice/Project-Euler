@@ -17,6 +17,8 @@ Further, let $f_i$ be the Fibonacci sequence defined by $f_0 = 0$, $f_1 = 1$ and
 
 Find $\displaystyle\sum_{i = 2}^{90} S(f_i)$. Give your answer modulo $1000000007$.
 
+OEIS Sequence: [A051885](https://oeis.org/A051885)
+
 ## Solution
 
 The smallest numbers whose sum of digits is $n$, are numbers of the form $10 ^ j a - 1$ with $a \in (1, 9)$ and $j \ge 0$.

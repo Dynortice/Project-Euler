@@ -12,6 +12,8 @@ It can be seen that the number, $125874$, and its double, $251748$, contain exac
 
 Find the smallest positive integer, $x$, such that $2x, 3x, 4x, 5x$, and $6x$, contain the same digits.
 
+OEIS Sequence: [A133220](https://oeis.org/A133220)
+
 ## Solution
 ```{r}
 library(microbenchmark)

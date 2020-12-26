@@ -20,6 +20,8 @@ It can be verified that $T_{285} = P_{165} = H_{143} = 40755$
 
 Find the next triangle number that is also pentagonal and hexagonal.
 
+OEIS Sequence: [A046180](https://oeis.org/A046180)
+
 ## Solution
 ```{r}
 library(microbenchmark)

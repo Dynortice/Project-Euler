@@ -12,6 +12,8 @@ The $5$-digit number, $16807 = 7^5$, is also a fifth power. Similarly, the $9$-d
 
 How many $n$-digit positive integers exist which are also an nth power?
 
+OEIS Sequence: [A132722](https://oeis.org/A132722)
+
 ## Solution
 ```{r}
 library(microbenchmark)

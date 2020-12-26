@@ -26,6 +26,8 @@ The next three expansions are $\frac{99}{70}, \frac{239}{169}$ and $\frac{577}{4
 
 In the first one-thousand expansions, how many fractions contain a numerator with more digits than the denominator?
 
+OEIS Sequence: [A002965](https://oeis.org/A002965)
+
 ## Solution
 
 ```{r}

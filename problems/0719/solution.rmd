@@ -22,6 +22,8 @@ Further we define $T(N)$ to be the sum of all $S$ numbers $n \le N$. You are giv
 
 Find $T(10 ^ {12})$.
 
+OEIS Sequence: [A104113](https://oeis.org/A104113)
+
 ## Solution
 ```{r}
 library(microbenchmark)

@@ -16,6 +16,8 @@ For example, the proper divisors of $220$ are $1, 2, 4, 5, 10, 11, 20, 22, 44, 5
 
 Evaluate the sum of all the amicable numbers under $10000$.
 
+OEIS Sequence: [A063990](https://oeis.org/A063990)
+
 ## Solution
 ```{r}
 library(microbenchmark)

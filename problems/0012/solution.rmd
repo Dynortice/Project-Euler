@@ -29,6 +29,8 @@ $$28 : 1, 2, 4, 7, 14, 28$$
 
 We can see that $28$ is the first triangle number to have over five divisors. What is the value of the first triangle number to have over five hundred divisors?
 
+OEIS Sequence: [A000217](https://oeis.org/A000217)
+
 ## Solution
 We need only prime factorization to get number of divisors.
 ```{r}
