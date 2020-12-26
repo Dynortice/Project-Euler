@@ -26,7 +26,7 @@ options("scipen" = 20)
 compute <- function(n) {
     sieve <- get_primality(n)
     candidates <- which(sieve)
-    candidates <- candidates[(candidates - 1) %% 4 != 0]
+    candidates <- candidates[(candidates - 1) %% 4 != 0] - 1
     result <- 0
     for (candidate in candidates) {
         if (!sieve[candidate %/% 2 + 2]) {

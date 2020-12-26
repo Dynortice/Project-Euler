@@ -69,7 +69,8 @@ Problem | R | Python | Julia | Problem | R | Python | Julia
 ## Problems 301-400
 Problem | R | Python | Julia | Problem | R | Python | Julia
 -: | -: | -: | -: | -: | -: | -: | -:
-307 | [](https://github.com/Dynortice/Project-Euler/blob/master/problems/0307/solution.rmd) | [](https://github.com/Dynortice/Project-Euler/blob/master/problems/0307/solution.ipynb) | [](https://github.com/Dynortice/Project-Euler/blob/master/problems/0307/solution.jl) | 357 | [13.623 min](https://github.com/Dynortice/Project-Euler/blob/master/problems/0357/solution.rmd) | [0.763 min](https://github.com/Dynortice/Project-Euler/blob/master/problems/0357/solution.ipynb) | [0.045 min](https://github.com/Dynortice/Project-Euler/blob/master/problems/0357/solution.jl)
+307 | [](https://github.com/Dynortice/Project-Euler/blob/master/problems/0307/solution.rmd) | [](https://github.com/Dynortice/Project-Euler/blob/master/problems/0307/solution.ipynb) | [](https://github.com/Dynortice/Project-Euler/blob/master/problems/0307/solution.jl) | 357 | [1.511 min](https://github.com/Dynortice/Project-Euler/blob/master/problems/0357/solution.rmd) | [0.763 min](https://github.com/Dynortice/Project-Euler/blob/master/problems/0357/solution.ipynb) | [0.045 min](https://github.com/Dynortice/Project-Euler/blob/master/problems/0357/solution.jl)
+337 | [](https://github.com/Dynortice/Project-Euler/blob/master/problems/0337/solution.rmd) | [](https://github.com/Dynortice/Project-Euler/blob/master/problems/0337/solution.ipynb) | [](https://github.com/Dynortice/Project-Euler/blob/master/problems/0337/solution.jl) | 387 | [15.191 s](https://github.com/Dynortice/Project-Euler/blob/master/problems/0387/solution.rmd) | [7.297 s](https://github.com/Dynortice/Project-Euler/blob/master/problems/0387/solution.ipynb) | [0.466 s](https://github.com/Dynortice/Project-Euler/blob/master/problems/0387/solution.jl)
 
 ## Problems 601-700
 Problem | R | Python | Julia | Problem | R | Python | Julia
