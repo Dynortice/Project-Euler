@@ -1,0 +1,67 @@
+---
+title: "Problem 692"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Siegbert and Jo
+
+Siegbert and Jo take turns playing a game with a heap of pebbles:
+1. Siegbert is the first to take some pebbles. He can take as many pebbles as he wants. (Between $1$ and inclusive.)
+2. In each of the following turns the current player must take at least one pebble and at most twice the amount of pebbles taken by the previous player.
+3. The player who takes the last pebble wins.
+
+Although Siegbert can always win by taking all the pebbles on his first turn, to make the game more interesting he chooses to take the smallest number of pebbles that guarantees he will still win (assuming both Siegbert and Jo play optimally for the rest of the game).
+
+Let $H(N)$ be the minimal amount for a heap of $N$ pebbles.
+
+$H(1) = 1$, $H(4) = 1$, $H(8) = 8$, $H(17) = 17$ and $H(18) = 5$.
+
+Let $G(n)$ be $\displaystyle \sum_{k = 1}^n H(k)$.
+
+$G(13) = 43$.
+
+Find $G(23416728348467685)$.
+
+OEIS Sequence [A139764](https://oeis.org/A139764)
+
+## Solution
+
+$$G(F_n) = G(F_{n - 2}) + G(F_{n - 1}) + F_{n - 1}$$
+
+```{r, message = FALSE}
+library(microbenchmark)
+library(bit64)
+setwd("../../")
+source("euler/R/calculus.R")
+```
+
+```{r}
+compute <- function(n) {
+    index <- fibonacci_index(n)
+    fibonacci <- get_fibonacci(index, as.integer64)
+    last_sum <- 0
+    new_sum <- 0
+    result <- sum(fibonacci[1:5]) - 1
+    for (i in 6:(index + 1)) {
+        temp <- new_sum + last_sum + fibonacci[i - 3]
+        last_sum <- new_sum
+        new_sum <- temp
+        result <- result + new_sum + fibonacci[i]
+    }
+    return(result)
+}
+```
+
+```{r}
+compute(13)
+```
+```{r}
+compute(as.integer64(23416728348467685))
+```
+
+```{r}
+microbenchmark(compute(as.integer64(23416728348467685)))
+```

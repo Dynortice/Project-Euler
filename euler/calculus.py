@@ -46,8 +46,8 @@ def fibonacci_index(n: int) -> int:
     return int(log(n * sqrt(5) + 0.5, (sqrt(5) + 1) / 2))
 
 
-def fibonacci_generator(n: int):
-    f_prev, f_curr = BigInt(), BigInt(1)
+def fibonacci_generator(n: int, t: type = BigInt):
+    f_prev, f_curr = t(0), t(1)
     yield f_prev
     yield f_curr
     for i in range(2, n + 1):

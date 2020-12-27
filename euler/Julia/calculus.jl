@@ -13,8 +13,8 @@ module Calculus
 
     fibonacci_index(n::Int64)::Int64 = trunc(Int, log((1 + √5) / 2, n * √5 + 0.5))
 
-    function get_fibonacci(n::Int64)::Array{BigInteger, 1}
-        f_prev, f_curr = BigInteger(0), BigInteger(1)
+    function get_fibonacci(n::Int64, T::Type)::Array
+        f_prev, f_curr = T(0), T(1)
         result = [f_prev, f_curr]
         for i ∈ 2:n
             f_prev, f_curr = f_curr, f_prev + f_curr

@@ -40,9 +40,9 @@ fibonacci_index <- function(n) {
     return(as.integer(log(n * sqrt(5) + 0.5, (sqrt(5) + 1) / 2)))
 }
 
-get_fibonacci <- function(n) {
-    f_prev <- as.bigint(0)
-    f_curr <- as.bigint(1)
+get_fibonacci <- function(n, t = as.bigint) {
+    f_prev <- t(0)
+    f_curr <- t(1)
     result <- c(f_prev, f_curr)
     for (i in 2:n) {
         f_temp <- f_prev + f_curr
