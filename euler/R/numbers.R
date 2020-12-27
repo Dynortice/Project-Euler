@@ -1,3 +1,4 @@
+library(bit64)
 source("euler/R/calculus.R")
 
 #' Checking is the number a palindrome
@@ -80,4 +81,36 @@ is.perfect_square <- function(n) {
 
 digits_sum <- function(n) {
     return(sum(as.integer(strsplit(as.character(n), NULL)[[1]])))
+}
+
+powmod <- function(n, k, modulo) {
+    n <- as.integer64(n)
+    result <- 1
+    while (k > 0) {
+        if (k %% 2 == 1) {
+            result <- (result * n) %% modulo
+        }
+        n <- (n * n) %% modulo
+        k <- k %/% 2
+    }
+    return(result)
+}
+
+gcd <- function(x, modulo) {
+    a <- 0
+    last <- 1
+    while (modulo > 0) {
+        quotient <- x %/% modulo
+        temp <- x %% modulo
+        x <- modulo
+        modulo <- temp
+        temp <- last - quotient * a
+        last <- a
+        a <- temp
+    }
+    return(last)
+}
+
+invmod <- function(x, modulo) {
+    return(gcd(x, modulo) %% modulo)
 }
