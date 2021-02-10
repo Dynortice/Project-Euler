@@ -48,6 +48,10 @@ module BigIntegers
 
     Base.abs(x::BigInteger)::BigInteger = BigInteger(x.str, true)
 
+    Base.isless(x::BigInteger, y::BigInteger)::Bool = x < y
+
+    Base.hash(x::BigInteger)::UInt64 = hash(x.str)
+
     function Base.:<(x::BigInteger, y::BigInteger)::Bool
         if x.positive == y.positive
             if length(x) == length(y)
@@ -201,14 +205,14 @@ module BigIntegers
             result = BigInteger(0)
         else
             value = copy(y)
-            multipliers = Dict(1 => copy(value))
-            i = 1
+            multipliers = Dict(BigInteger(1) => copy(value))
+            i = BigInteger(1)
             while abs(x) > abs(value)
                 value *= 2
                 i *= 2
                 multipliers[i] = copy(value)
             end
-            value = copy(multipliers[1])
+            value = copy(multipliers[BigInteger(1)])
             result = BigInteger(1)
             for i ∈ reverse(sort(collect(keys(multipliers))))
                 if value + multipliers[i] ≤ abs(x)
