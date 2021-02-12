@@ -1,0 +1,65 @@
+---
+title: "Problem #51"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+
+## Prime digit replacements
+
+By replacing the $1$<sup>st</sup> digit of the $2$-digit number $*3$, it turns out that six of the nine possible values: $13$, $23$, $43$, $53$, $73$, and $83$, are all prime.
+
+By replacing the $3$<sup>rd</sup> and $4$<sup>th</sup> digits of $56**3$ with the same digit, this $5$-digit number is the first example having seven primes among the ten generated numbers, yielding the family: $56003$, $56113$, $56333$, $56443$, $56663$, $56773$, and $56993$. Consequently $56003$, being the first member for this family, is the smallest prime with this property.
+
+Find the smallest prime which, by replacing part of the number (not necessarily adjacent digits) with the same digit, is part of an eight prime value family.
+
+## Solution
+
+```{r}
+library(microbenchmark)
+setwd("../../")
+source("euler/R/primes.R")
+```
+
+```{r}
+compute <- function(n) {
+    get_family <- function(candidate, digit) {
+        result <- NULL
+        for (i in as.integer(digit):9) {
+            j <- candidate
+            j[j == digit] <- i
+            result <- c(result, paste0(j, collapse = ""))
+        }
+        return(as.integer(result))
+    }
+    sieve <- get_primality(10 ^ (n - 1))
+    for (prime in which(sieve)) {
+        if (prime < 10) {
+            next
+        }
+        str_number <- as.character(prime)
+        digits <- strsplit(str_number, "")[[1]]
+        most_common <- table(digits[1:(nchar(str_number) - 1)])
+        if ((max(most_common) == 1) | (as.integer(names(which.max(most_common))) > 9 - n)) {
+            next
+        }
+        if (sum(sieve[get_family(digits, as.integer(names(which.max(most_common))))]) == n) {
+            return(prime)
+        }
+    }
+}
+```
+
+```{r}
+compute(7)
+```
+
+```{r}
+compute(8)
+```
+
+```{r}
+microbenchmark(compute(8))
+```
