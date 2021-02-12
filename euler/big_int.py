@@ -51,7 +51,7 @@ class BigInt:
         return self.str[item]
 
     def __repr__(self) -> str:
-        return repr(self.str if self.positive else '-' + self.str)
+        return self.str if self.positive else '-' + self.str
 
     def __neg__(self) -> 'BigInt':
         if self.positive:
