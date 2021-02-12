@@ -1,0 +1,50 @@
+---
+title: "Problem #62"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+## Cubic permutations
+
+The cube, $41063625$ $(345^3)$, can be permuted to produce two other cubes: $56623104$ $(384^3)$ and $66430125$ $(405^3)$. In fact, $41063625$ is the smallest cube which has exactly three permutations of its digits which are also cube.
+
+Find the smallest cube for which exactly five permutations of its digits are cube.
+
+## Solution
+
+```{r}
+library(microbenchmark)
+options(scipen = 20)
+```
+
+```{r}
+compute <- function(n) {
+    cubes <- list()
+    permutations <- list()
+    for (i in 1:(10 ^ n)) {
+        permutation <- paste0(sort(strsplit(as.character(i ^ 3), "")[[1]]), collapse = "")
+        if (is.null(cubes[[permutation]])) {
+            cubes[[permutation]] <- i ^ 3
+            permutations[[permutation]] <- 1
+        } else {
+            permutations[[permutation]] <- permutations[[permutation]] + 1
+            if (permutations[[permutation]] == n) {
+                return(cubes[[permutation]])
+            }
+        }
+    }
+}
+```
+
+```{r}
+compute(3)
+```
+```{r}
+compute(5)
+```
+
+```{r}
+microbenchmark(compute(5))
+```
