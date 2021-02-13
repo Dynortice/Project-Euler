@@ -75,3 +75,10 @@ def is_perfect_square(n: int) -> bool:
 
 def digits_sum(n: int) -> int:
     return sum(map(int, str(n)))
+
+
+def gcd(a: int, b: int) -> int:
+    if b == 0:
+        return a
+    else:
+        return gcd(b, a % b)

@@ -96,7 +96,7 @@ powmod <- function(n, k, modulo) {
     return(result)
 }
 
-gcd <- function(x, modulo) {
+egcd <- function(x, modulo) {
     a <- 0
     last <- 1
     while (modulo > 0) {
@@ -112,5 +112,5 @@ gcd <- function(x, modulo) {
 }
 
 invmod <- function(x, modulo) {
-    return(gcd(x, modulo) %% modulo)
+    return(egcd(x, modulo) %% modulo)
 }
