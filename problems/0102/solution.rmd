@@ -1,0 +1,64 @@
+---
+title: "Problem #102"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+
+## Triangle containment
+
+Three distinct points are plotted at random on a Cartesian plane, for which $-1000 \le x, y \le 1000$, such that a triangle formed.
+
+Consider the following two triangles:
+
+$$A(-340, 495), B(-153, -910), C(835, -947)$$
+
+$$X(-175, 41), Y(-421, -714), Z(574, -645)$$
+
+It can be verified that triangle $ABC$ contains the origin, whereas triangle $XYZ$ does not.
+
+Using [triangles.txt](https://projecteuler.net/project/resources/p102_triangles.txt) (right click and 'Save Link/Target As...'), a $27$K text file containing the co-ordinates of one thousand "random" triangles, find the number of triangles for which the interior contains the origin.
+
+<small>NOTE: The first two examples in the file represent the triangles in the example given above.</small>
+
+## Solution
+
+$X \in ABC$ if and only if $A(ABC) = A(ABX) + A(AXC) + A(XBC)$
+
+$$A(ABC) = \left|\frac{(A_x - C_x)(B_y - A_y) - (A_x - B_x)(C_y - A_y)}{2}\right|$$
+
+```{r}
+library(microbenchmark)
+```
+
+```{r}
+compute <- function(path) {
+    get_area <- function(ax, ay, bx, by, cx, cy) {
+        return(abs((ax - cx) * (by - ay) - (ax - bx) * (cy - ay)) / 2)
+    }
+    triangles <- lapply(strsplit(readLines(path, warn = FALSE), ","), as.integer)
+    x <- c(0, 0)
+    result <- 0
+    for (triangle in triangles) {
+        a_ <- triangle[1:2]
+        b_ <- triangle[3:4]
+        c_ <- triangle[5:6]
+        if (do.call(get_area, as.list(triangle)) == sum(do.call(get_area, as.list(c(a_, b_, x))),
+                                                        do.call(get_area, as.list(c(a_, x, c_))),
+                                                        do.call(get_area, as.list(c(x, b_, c_))))) {
+            result <- result + 1
+        }
+    }
+    return(result)
+}
+```
+
+```{r}
+compute("p102_triangles.txt")
+```
+
+```{r}
+microbenchmark(compute("p102_triangles.txt"))
+```
