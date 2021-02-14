@@ -1,0 +1,100 @@
+---
+title: "Problem #74"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+
+## Digit factorial chains
+
+The number $145$ is well known for the property that the sum of the factorial of its digits is equal to $145$:
+
+$$1! + 4! + 5! = 1 + 24 + 120 = 145$$
+
+Perhaps less well known is $169$, in that it produces the longest chains of numbers that link back to $169$; it turns out that there are only three such loops that exist:
+
+$$169 \to 363601 \to 1454 \to 169$$
+
+$$871 \to 45361 \to 871$$
+
+$$872 \to 45362 \to 872$$
+
+It is not difficult to prove that EVERY starting number will eventually get stuck in a loop. For example,
+
+$$69 \to 363600 \to 1454 \to 169 \to 363601 (\to 1454)$$
+
+$$78 \to 45360 \to 871 \to 45361 (\to 871)$$
+
+$$540 \to 145 (\to 145)$$
+
+Starting with $69$ produces a chain of five non-repeating terms, but the longest non-repeating chain with a starting number below one million is sixty terms.
+
+How many chains, with a starting number below one million, contain exactly sixty non-repeating terms?
+
+## Solution
+```{r}
+library(microbenchmark)
+library(arrangements)
+```
+
+```{r}
+compute <- function(n, m) {
+    get_next_term <- function(k) {
+        return(sum(factorials[as.integer(strsplit(as.character(k), "")[[1]]) + 1]))
+    }
+    get_chain_len <- function(k) {
+        if (!(is.na(chains[k]))) {
+            return(chains[k])
+        }
+        term <- k
+        chain <- term
+        term <- get_next_term(term)
+        while (!any(chain == term)) {
+            chain <- c(chain, term)
+            if (!is.na(chains[term])) {
+                break
+            }
+            term <- get_next_term(term)
+        }
+        index_term <- which(chain == term)
+        loop_len <- ifelse(!is.na(chains[term]), chains[term], length(chain) - index_term + 1)
+        for (i in seq_along(chain)) {
+            if (i >= index_term) {
+                chains[chain[i]] <<- loop_len
+            } else {
+                chains[chain[i]] <<- index_term - i + loop_len
+            }
+        }
+        return(chains[k])
+    }
+    factorials <- factorial(0:9)
+    chains <- 1
+    result <- 0
+    combs <- combinations(9:0, n, replace = TRUE)
+    for (i in seq_len(nrow(combs) - 1)) {
+        combination <- combs[i, ]
+        for (j in seq_len(sum(combination == 0) + 1)) {
+            if (get_chain_len(as.integer(paste0(combination, collapse = ""))) == m) {
+                n_digits <- length(combination)
+                n_zeros <- sum(combination == 0)
+                counter <- table(combination)
+                result <- result + (n_digits - n_zeros) * factorials[n_digits] / prod(factorials[counter + 1])
+            }
+            if (any(combination == 0)) {
+                combination <- combination[-match(0, combination)]
+            }
+        }
+    }
+    return(result)
+}
+```
+
+```{r}
+compute(6, 60)
+```
+
+```{r}
+microbenchmark(compute(6, 60))
+```
