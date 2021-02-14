@@ -1,0 +1,66 @@
+---
+title: "Problem #85"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+
+## Counting rectangles
+
+By counting carefully it can be seen that a rectangular grid measuring $3$ by $2$ contains eighteen rectangles:
+
+<center><img src = 'https://projecteuler.net/project/images/p085.png' title = 'Counting rectangles'></center><br/>
+
+Although there exists no rectangular grid that contains exactly two million rectangles, find the area of the grid with the nearest solution.
+
+OEIS Sequences [A000217](https://oeis.org/A000217), [A096948](https://oeis.org/A096948)
+
+## Solution
+
+Let $f(n)$ number of rectangles in $1 \times n$ rectangle and $F(n, m)$ number of rectangles in $n \times m$ rectangle.
+
+$$f(n) = \frac{n(n + 1)}{2}$$
+
+$$F(n, m) = f(n) \times f(m)$$
+```{r}
+library(microbenchmark)
+```
+
+```{r}
+compute <- function(n) {
+    limit <- as.integer(sqrt(n))
+    triangles <- 1
+    for (i in 2:limit) {
+        triangles[i] <- triangles[i - 1] + i
+    }
+    min_difference <- n
+    nearest <- 0
+    for (i in seq_len(limit)) {
+        for (j in seq_len(i)) {
+            rectangles <- triangles[i] * triangles[j]
+            difference <- abs(n - rectangles)
+            if (difference < min_difference) {
+                min_difference <- difference
+                nearest <- i * j
+            }
+            if (rectangles > n) {
+                break
+            }
+        }
+    }
+    return(nearest)
+}
+```
+
+```{r}
+compute(18)
+```
+```{r}
+compute(2000000)
+```
+
+```{r}
+microbenchmark(compute(2000000))
+```
