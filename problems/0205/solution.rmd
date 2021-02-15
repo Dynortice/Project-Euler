@@ -1,0 +1,58 @@
+---
+title: "Problem #205"
+author: "Dynortice"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+---
+
+## Dice Game
+
+Peter has nine four-sided (pyramidal) dice, each with faces numbered $1, 2, 3, 4$.
+
+Colin has six six-sided (cubic) dice, each with faces numbered $1, 2, 3, 4, 5, 6$.
+
+Peter and Colin roll their dice and compare totals: the highest total wins. The result is a draw if the totals are equal.
+
+What is the probability that Pyramidal Pete beats Cubic Colin? Give your answer rounded to seven decimal places in the form $0.abcdefg$.
+
+## Solution
+
+To get combinations of totals $p$ for $n$ $s$-sided dice we'll use next formula:
+
+$$F(p, n, s) = \displaystyle\sum_{k = 0}^{\displaystyle\lfloor\frac{p - n}{s}\displaystyle\rfloor} (-1)^k \binom{n}{k} \binom{p - sk - 1}{n - 1}$$
+
+```{r}
+library(microbenchmark)
+```
+
+```{r}
+compute <- function(a, b) {
+    get_combinations <- function(p, n, s) {
+        result <- 0
+        for (k in 0:((p - n) %/% s)) {
+            result <- result + (-1) ^ k * choose(n, k) * choose(p - 1 - s * k, n - 1)
+        }
+        return(result)
+    }
+    limit <- max(prod(a), prod(b))
+    looses <- rep(0, limit)
+    result <- 0
+    for (i in b[1]:prod(b)) {
+        looses[i] <- do.call(get_combinations, as.list(c(i, b))) + looses[i - 1]
+    }
+    for (i in a[1]:prod(a)) {
+        result <- result + do.call(get_combinations, as.list(c(i, a))) * looses[i - 1]
+    }
+    return(round(result / a[2] ^ a[1] / b[2] ^ b[1], 7))
+}
+```
+
+```{r}
+compute(c(9, 4), c(6, 6))
+```
+
+```{r}
+microbenchmark(compute(c(9, 4), c(6, 6)))
+```
