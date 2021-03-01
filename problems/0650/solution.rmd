@@ -61,7 +61,7 @@ compute <- function(n, m=1000000007) {
             number <- i; j <- 0
             while (number %% prime == 0) {
                 j <- j + 1
-                number <- number %/% prime
+                number <- number / prime
             }
             new_super <- last_super + j; new_hyper <- last_hyper + i * j
             last_super <- last_super + past_super; past_super <- last_super
@@ -90,5 +90,5 @@ compute(20000)
 ```
 
 ```{r}
-microbenchmark(compute(2000), times = 1)
+microbenchmark(compute(20000), times = 1)
 ```
