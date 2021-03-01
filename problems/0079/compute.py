@@ -1,8 +1,7 @@
-def compute(keylog: set) -> str:
+def compute(path: str) -> str:
+    keylog = set(open(path).read().split('\n')[:-1])
     password = ''
-    while True:
-        if len(keylog) == 1:
-            return password + list(keylog)[0]
+    while len(keylog) != 1:
         candidates = set(i[0] for i in keylog)
         for candidate in list(candidates):
             for key in keylog:
@@ -16,3 +15,4 @@ def compute(keylog: set) -> str:
                 if len(key) == 3:
                     keylog.add(key[1:])
                 keylog.remove(key)
+    return password + list(keylog)[0]

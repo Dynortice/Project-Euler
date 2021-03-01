@@ -1,9 +1,9 @@
-from euler.primes import get_primality
+from euler.primes import prime_sieve
 
 
 def compute(max_a: int, max_b: int):
-    prime = get_primality(max_a * max_b)
-    primes = [i for (i, is_prime) in enumerate(prime[:max_b + 1]) if is_prime]  # all primes except 2
+    prime = prime_sieve(max_a * max_b)
+    primes = [i for (i, is_prime) in enumerate(prime[:max_b + 1]) if is_prime]
     primes += [-prime for prime in primes]
     max_sequence, result = 0, 0
     for b in primes:

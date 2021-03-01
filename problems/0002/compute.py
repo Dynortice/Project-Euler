@@ -1,5 +1,5 @@
-from euler.calculus import fibonacci_number, fibonacci_index
+from euler.calculus import fibonacci_index, get_fibonacci
 
 
 def compute(n: int) -> int:
-    return int(fibonacci_number(fibonacci_index(n) + 2) / 2)
+    return int(get_fibonacci(fibonacci_index(n) + 2) / 2)

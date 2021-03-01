@@ -32,11 +32,10 @@ source("euler/R/calculus.R")
 compute <- function(n) {
     result <- 0
     max_chain <- 0
-    hashmap <- 1
+    len_collatz_chain <- len_collatz_chain()
     for (i in 1:(n - 1)) {
-        hashmap[i] <- len_collatz_chain(i, hashmap)
-        if (hashmap[i] > max_chain) {
-            max_chain <- hashmap[i]
+        if (len_collatz_chain(i) > max_chain) {
+            max_chain <- len_collatz_chain(i)
             result <- i
         }
     }

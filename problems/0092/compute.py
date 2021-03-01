@@ -4,14 +4,12 @@ from itertools import combinations_with_replacement
 
 
 def compute(n: int) -> int:
-    def sum_squares_digits(x: str):
-        return sum(j ** 2 for j in map(int, x))
-
+    squares = [i * i for i in range(10)]
     result = 0
-    for i in combinations_with_replacement(map(str, range(10)), n):
-        combination = ''.join(i)
+    for i in combinations_with_replacement(range(10), n):
+        combination = ''.join(map(str, i))
         while True:
-            combination = sum_squares_digits(combination)
+            combination = sum(squares[j] for j in map(int, combination))
             if combination == 89:
                 result += factorial(n) // prod(map(factorial, Counter(i).values()))
                 break

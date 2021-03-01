@@ -1,12 +1,14 @@
 source("euler/R/big_int.R")
+source("euler/R/math.R")
+source("euler/R/numbers.R")
 
 compute <- function(n) {
-    max_sum <- 0
+    result <- 0
     for (a in (n - 5):(n - 1)) {
         number <- as.bigint(a)
-        for (b in 1:(n - 1)) {
+        for (b in seq_len(n - 1)) {
             number %*=% a
-            max_sum <- max(max_sum, sum(as.integer(strsplit(number$str, NULL)[[1]])))
+            result <- fast_max(result, digits_sum(number))
         }
     }
     return(max_sum)

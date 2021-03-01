@@ -1,8 +1,8 @@
-include("euler/Julia/primes.jl")
-using .Primes: get_primality
+include("euler/euler.jl")
+using .Primes: prime_sieve
 
-function compute(n::Int64)::Int64
-    sieve = get_primality(n)
+function compute(n::Int)::Int
+    sieve = prime_sieve(n)
     prime_numbers = findall(sieve)
     max_sequence, max_sequence_sum = 0, 0
     for prime ∈ prime_numbers

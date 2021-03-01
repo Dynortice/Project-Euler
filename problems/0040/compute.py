@@ -1,19 +1,17 @@
-from math import prod
+from euler.calculus import champernowne_digits
 
 
-def compute(d: int) -> int:
-    def digits_number(k: int) -> int:
-        return (10 ** k * (9 * k - 1) + 1) // 9
-
-    def get_digit(n: int) -> int:
-        k = 0
-        while digits_number(k + 1) < n:
+def compute(n: int) -> int:
+    result = 1
+    for i in range(n):
+        j, k = 10 ** i, 0
+        while champernowne_digits(k + 1) < j:
             k += 1
         k += 1
-        rem = n - digits_number(k - 1)
-        num = 10 ** (k - 1) + rem // k - 1
-        if rem % k == 0:
-            return int(str(num)[-1])
+        remainder = j - champernowne_digits(k - 1)
+        number = 10 ** (k - 1) + remainder // k - 1
+        if remainder % k == 0:
+            result *= int(str(number)[-1])
         else:
-            return int(str(num + 1)[rem % k - 1])
-    return prod(get_digit(10 ** i) for i in range(d))
+            result *= int(str(number + 1)[remainder % k - 1])
+    return result

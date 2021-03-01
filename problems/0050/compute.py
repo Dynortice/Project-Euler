@@ -1,8 +1,8 @@
-from euler.primes import get_primality
+from euler.primes import prime_sieve
 
 
 def compute(n: int) -> int:
-    sieve = get_primality(n)
+    sieve = prime_sieve(n)
     primes = [i for (i, is_prime) in enumerate(sieve) if is_prime]
     max_sequence, max_sequence_sum = 0, 0
     for i in primes:

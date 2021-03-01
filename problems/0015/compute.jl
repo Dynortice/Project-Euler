@@ -1,1 +1,1 @@
-compute(n::Int64)::Int64 = binomial(2 * n, n)
+compute(n::Int)::Int = binomial(2n, n)

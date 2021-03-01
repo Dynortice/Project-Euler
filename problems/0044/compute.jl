@@ -1,13 +1,13 @@
-include("euler/Julia/calculus.jl")
+include("euler/euler.jl")
 using .Calculus: is_pentagonal
 
-function compute()::Int64
+function compute()::Int
     pentagonals = [1]
     j = 1
     for i ∈ pentagonals
         for k ∈ pentagonals
-            if is_pentagonal(i - k) & is_pentagonal(abs(i - 2 * k))
-                return abs(i - 2 * k)
+            if is_pentagonal(i - k) && is_pentagonal(abs(i - 2k))
+                return abs(i - 2k)
             end
         end
         j += 3

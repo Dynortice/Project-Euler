@@ -30,15 +30,14 @@ compute <- function(k) {
         multiplicands <- as.matrix(expand.grid(rep(list(digits), i[1]), stringsAsFactors = FALSE))
         for (n in seq_len(nrow(multiplicands))) {
             if (length(unique(multiplicands[n, ])) == i[1]) {
-                multipliers <- as.matrix(expand.grid(rep(list(digits[!digits %in% multiplicands[n, ]]), i[2]), stringsAsFactors = FALSE))
+                multipliers <- as.matrix(expand.grid(rep(list(digits[!digits %in% multiplicands[n, ]]), i[2]),
+                                                     stringsAsFactors = FALSE))
                 for (m in seq_len(nrow(multipliers))) {
                     if (length(unique(multipliers[m, ])) == i[2]) {
                         product <- as.integer(paste0(multiplicands[n, ], collapse = "")) * as.integer(paste0(multipliers[m, ], collapse = ""))
-                        check_digits <- sort(c(multiplicands[n, ], multipliers[m, ], strsplit(as.character(product), NULL)[[1]]))
-                        if (length(check_digits) == k) {
-                            if (sum(check_digits == digits) == k)
-                            products <- c(products, product)
-                        }
+                        check_digits <- sort(c(multiplicands[n, ], multipliers[m, ],
+                                               strsplit(as.character(product), NULL)[[1]]))
+                        if (length(check_digits) == k && all(check_digits == digits)) products <- c(products, product)
                     }
                 }
             }
@@ -46,6 +45,7 @@ compute <- function(k) {
     }
     return(sum(unique(products)))
 }
+
 ```
 ```{r}
 compute(9)

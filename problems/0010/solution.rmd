@@ -22,9 +22,7 @@ source("euler/R/primes.R")
 ```
 
 ```{r}
-compute <- function(n) {
-    return(sum(get_primes(n)))
-}
+compute <- function(n) sum(prime_numbers(n))
 ```
 
 ```{r}

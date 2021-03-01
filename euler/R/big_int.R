@@ -1,15 +1,34 @@
 library(R6)
 options(scipen = 20)
+source("euler/R/math.R")
 
-pad <- function (a, n, right = TRUE) {
+#' Add n zeros before or after string
+#'
+#' @param s: String
+#' @param n: Number of zeros to add
+#' @param right: Whether add 0 to right or left side
+#' @returns Origin string with n leading or trailing zeros
+#' @examples
+#' pad("123", 2)
+#' pad("123", 2, FALSE)
+pad <- function (s, n, right = TRUE) {
     if (right) {
-        return(paste0(a, strrep("0", n)))
+        return(paste0(s, strrep("0", n)))
     } else {
-        return(paste0(strrep("0", n), a))
+        return(paste0(strrep("0", n), s))
     }
 }
 
-zero_pad <- function (a, b, right = TRUE) {
+#' Takes two strings and if these lengths not equal returns shorten string with leading or trailing zeros
+#'
+#' @param a: First string
+#' @param b: Second string
+#' @param right: Whether add 0 to right or left side
+#' @returns Vector of 2 strings with equal lengths
+#' @examples
+#' align_strings("123", "123456")
+#' align_strings("123456", "123", FALSE)
+align_strings <- function (a, b, right = TRUE) {
     if (nchar(a) > nchar(b)) {
         b <- pad(b, nchar(a) - nchar(b), right)
     } else if (nchar(b) > nchar(a)) {
@@ -18,9 +37,31 @@ zero_pad <- function (a, b, right = TRUE) {
     return(c(a, b))
 }
 
-is.bigint <- function(n) {
-    return(inherits(n, 'BigInt'))
-}
+  mul_s <- function(a, b) {
+      if (length(a) + length(b) < 16) {
+          if (a$positive == b$positive) {
+              return(as.bigint(as.numeric(a$str) * as.numeric(b$str)))
+          } else {
+              return(as.bigint(paste0("-", as.numeric(a$str) * as.numeric(b$str))))
+          }
+      }
+      g <- intToUtf8(rev(utf8ToInt(a$str))); h <- intToUtf8(rev(utf8ToInt(b$str)))
+      result <- as.bigint(0)
+      for (i in seq_len(nchar(g))) {
+          carry <- 0
+          sub_result <- strrep("0", i - 1)
+          for (j in seq_len(nchar(h))) {
+              carry <- carry + as.numeric(substr(g, i, i)) * as.numeric(substr(h, j, j))
+              sub_result <- paste0(carry %% 10, sub_result)
+              carry <- carry %/% 10
+          }
+          result %+=% trimws(paste0(carry, sub_result), "left", "0")
+      }
+      result$positive <- a$positive == b$positive
+      return(result)
+  }
+
+is.bigint <- function(n) inherits(n, 'BigInt')
 
 as.bigint <- function(n) {
     if (is.character(n)) {
@@ -42,139 +83,89 @@ as.bigint <- function(n) {
 
 sum.bigint <- function(n) {
     result <- as.bigint(0)
-    for (i in n) {
-        result %+=% i
-    }
+    for (i in n) result %+=% i
     return(result)
 }
 
 prod.bigint <- function(n) {
     result <- as.bigint(1)
-    for (i in n) {
-        result %*=% i
-    }
+    for (i in n) result %*=% i
     return(result)
 }
 
-"length.BigInt" <- function(x) {
-    return(x$length())
-}
+"as.character.BigInt" <- function(x) if (x$positive) x$str else paste0("0", x$str)
 
-"[.BigInt" <- function(x, ...) {
-    return(x$getitem(...))
-}
+#' Get number of digits
+#'
+#' @param x: BigInt
+#' @returns Number of digits in number
+#' @examples
+#' lenght(as.bigint(123))
+"length.BigInt" <- function(x) x$length()
 
-"abs.BigInt" <- function(x) {
-    return(x$abs())
-}
+#' Get n-th digit of number
+#'
+#' @param x: BigInt
+#' @param ...: Integer vector
+#' @returns n-th digit of number
+#' @examples
+#' as.bigint(123)[2]
+#' as.bigint(123456)[3:5]
+"[.BigInt" <- function(x, ...) x$getitem(...)
 
-"==.BigInt" <- function(x, y) {
-    return(x$eq(y))
-}
+"abs.BigInt" <- function(x) x$abs()
 
-"!=.BigInt" <- function(x, y) {
-    return(x$ne(y))
-}
+"==.BigInt" <- function(x, y) x$eq(y)
 
-"<.BigInt" <- function(x, y) {
-    return(x$lt(y))
-}
+"!=.BigInt" <- function(x, y) x$ne(y)
 
-">.BigInt" <- function(x, y) {
-    return(x$gt(y))
-}
+"<.BigInt" <- function(x, y) x$lt(y)
 
-"<=.BigInt" <- function(x, y) {
-    return(x$le(y))
-}
+">.BigInt" <- function(x, y) x$gt(y)
 
-">=.BigInt" <- function(x, y) {
-    return(x$ge(y))
-}
+"<=.BigInt" <- function(x, y) x$le(y)
 
-"+.BigInt" <- function(x, y) {
-    return(x$add(y))
-}
+">=.BigInt" <- function(x, y) x$ge(y)
 
-"-.BigInt" <- function(x, y) {
-    if (missing(y)) {
-        return(x$neg())
-    } else {
-        return(x$sub(y))
-    }
-}
+"+.BigInt" <- function(x, y) x$add(y)
 
-"*.BigInt" <- function(x, y) {
-    return(x$mul(y))
-}
+"-.BigInt" <- function(x, y) if (missing(y)) x$neg() else x$sub(y)
 
-"%/%.BigInt" <- function(x, y) {
-    return(x$floordiv(y))
-}
+"*.BigInt" <- function(x, y) x$mul(y)
 
-"%%.BigInt" <- function(x, y) {
-    return(x$mod(y))
-}
+"%/%.BigInt" <- function(x, y) x$floordiv(y)
 
-"^.BigInt" <- function(x, y) {
-    return(x$pow(y))
-}
+"%%.BigInt" <- function(x, y) x$mod(y)
 
-"%+=%" <- function(x, y) {
-    UseMethod("%+=%")
-}
+"^.BigInt" <- function(x, y) x$pow(y)
 
-"%+=%.BigInt" <- function(x, y) {
-    x$iadd(y)
-}
+"%+=%" <- function(x, y) UseMethod("%+=%")
 
-"%-=%" <- function(x, y) {
-    UseMethod("%-=%")
-}
+"%+=%.BigInt" <- function(x, y) x$iadd(y)
 
-"%-=%.BigInt" <- function(x, y) {
-    x$isub(y)
-}
+"%-=%" <- function(x, y) UseMethod("%-=%")
 
-"%*=%" <- function(x, y) {
-    UseMethod("%*=%")
-}
+"%-=%.BigInt" <- function(x, y) x$isub(y)
 
-"%*=%.BigInt" <- function(x, y) {
-    x$imul(y)
-}
+"%*=%" <- function(x, y) UseMethod("%*=%")
 
-"%//=%" <- function(x, y) {
-    UseMethod("%//=%")
-}
+"%*=%.BigInt" <- function(x, y) x$imul(y)
 
-"%//=%.BigInt" <- function(x, y) {
-    x$ifloordiv(y)
-}
+"%//=%" <- function(x, y) UseMethod("%//=%")
 
-"%=%" <- function(x, y) {
-    UseMethod("%=%")
-}
+"%//=%.BigInt" <- function(x, y) x$ifloordiv(y)
 
-"%=%.BigInt" <- function(x, y) {
-    x$imod(y)
-}
+"%=%" <- function(x, y) UseMethod("%=%")
 
-"%^=%" <- function(x, y) {
-    UseMethod("%^=%")
-}
+"%=%.BigInt" <- function(x, y) x$imod(y)
 
-"%^=%.BigInt" <- function(x, y) {
-    x$ipow(y)
-}
+"%^=%" <- function(x, y) UseMethod("%^=%")
 
-pow <- function(x, y, modulo = NULL) {
-    UseMethod("pow")
-}
+"%^=%.BigInt" <- function(x, y) x$ipow(y)
 
-pow.BigInt <- function(x, y, modulo=NULL) {
-    return(x$pow(y, modulo))
-}
+pow <- function(x, y, modulo = NULL) UseMethod("pow")
+
+pow.BigInt <- function(x, y, modulo=NULL) x$pow(y, modulo)
 
 BigInt <- R6Class(classname = "BigInt",
                   public = list(
@@ -188,25 +179,11 @@ BigInt <- R6Class(classname = "BigInt",
                           cat(paste0(ifelse(self$positive, "", "-"), self$str), "\n")
                           invisible(self)
                       },
-                      copy = function() {
-                          return(as.bigint(paste0(ifelse(self$positive, "", "-"), self$str)))
-                      },
-                      length = function() {
-                          return(nchar(self$str))
-                      },
-                      getitem = function(n) {
-                          return(substr(self$str, n[1], n[length(n)]))
-                      },
-                      neg = function() {
-                          if (self$positive) {
-                              return(as.bigint(paste0("-", self$str)))
-                          } else {
-                              return(as.bigint(self$str))
-                          }
-                      },
-                      abs = function() {
-                          return(as.bigint(self$str))
-                      },
+                      copy = function() as.bigint(paste0(ifelse(self$positive, "", "-"), self$str)),
+                      length = function() nchar(self$str),
+                      getitem = function(n) substr(self$str, n[1], n[length(n)]),
+                      neg = function() if (self$positive) as.bigint(paste0("-", self$str)) else as.bigint(self$str),
+                      abs = function() as.bigint(self$str),
                       isub = function(other) {
                           result <- self - other
                           self$str <- result$str
@@ -239,20 +216,12 @@ BigInt <- R6Class(classname = "BigInt",
                       },
                       eq = function(other) {
                           other <- as.bigint(other)
-                          return(self$str == other$str & self$positive == other$positive)
+                          return(self$str == other$str && self$positive == other$positive)
                       },
-                      ne = function(other) {
-                          return(!(self == other))
-                      },
-                      le = function(other) {
-                          return(self == other | self < other)
-                      },
-                      ge = function(other) {
-                          return(self == other | self > other)
-                      },
-                      gt = function(other) {
-                          return(!self$le(other))
-                      },
+                      ne = function(other) !(self == other),
+                      le = function(other) self == other || self < other,
+                      ge = function(other) self == other || self > other,
+                      gt = function(other) !self$le(other),
                       lt = function(other) {
                           other <- as.bigint(other)
                           if (self$positive == other$positive) {
@@ -278,134 +247,74 @@ BigInt <- R6Class(classname = "BigInt",
                       add = function(other) {
                           other <- as.bigint(other)
                           if (self$positive == other$positive) {
-                              xy <- zero_pad(self$str, other$str, FALSE)
-                              x <- xy[1]
-                              y <- xy[2]
+                              xy <- align_strings(self$str, other$str, FALSE)
+                              x <- xy[1]; y <- xy[2]
                               result <- ""
                               carry <- 0
                               len <- nchar(x)
                               for (i in seq_len(ceiling(len / 15))) {
                                   carry <- carry + as.numeric(substr(x, len - 15 * i + 1, len - 15 * (i - 1))) + as.numeric(substr(y, len - 15 * i + 1, len - 15 * (i - 1)))
-                                  result <- paste0(strrep("0", max(15 - nchar(carry), 0)), substr(carry, nchar(carry) - 14, nchar(carry)), result)
+                                  result <- paste0(strrep("0", fast_max(15 - nchar(carry), 0)), substr(carry, nchar(carry) - 14, nchar(carry)), result)
                                   carry <- carry %/% 10 ^ 15
                               }
-                              if (carry == 0) {
-                                  result <- trimws(result, "left", "0")
-                              } else {
-                                  result <- paste0(carry, result)
-                              }
-                              if (self$positive) {
-                                  return(as.bigint(result))
-                              } else {
-                                  return(as.bigint(paste0("-", result)))
-                              }
+                              if (carry == 0) result <- trimws(result, "left", "0") else result <- paste0(carry, result)
+                              if (self$positive) return(as.bigint(result)) else return(as.bigint(paste0("-", result)))
                           } else {
-                              if (self$positive) {
-                                  return(self - -other)
-                              } else {
-                                  return(other - -self)
-                              }
+                              if (self$positive) return(self - -other) else return(other - -self)
                           }
                       },
                       sub = function(other) {
                           other <- as.bigint(other)
                           if (self$positive == other$positive) {
-                              if (self$str == other$str) {
-                                  return(as.bigint(0))
-                              }
+                              if (self$str == other$str) return(as.bigint(0))
                               if (self$positive) {
                                   if (self > other) {
                                       positive <- TRUE
-                                      x <- self$str
-                                      y <- other$str
+                                      x <- self$str; y <- other$str
                                   } else {
                                       positive <- FALSE
-                                      x <- other$str
-                                      y <- self$str
+                                      x <- other$str; y <- self$str
                                   }
                               } else {
                                   if (self > other) {
                                       positive <- TRUE
-                                      x <- other$str
-                                      y <- self$str
+                                      x <- other$str; y <- self$str
                                   } else {
                                       positive <- FALSE
-                                      x <- self$str
-                                      y <- other$str
+                                      x <- self$str; y <- other$str
                                   }
                               }
-                              xy <- zero_pad(x, y, FALSE)
-                              x <- xy[1]
-                              y <- xy[2]
+                              xy <- align_strings(x, y, FALSE)
+                              x <- xy[1]; y <- xy[2]
                               result <- ""
                               carry <- 0
                               len <- nchar(x)
                               for (i in seq_len(ceiling(len / 15))) {
                                   carry <- carry + as.numeric(substr(x, len - 15 * i + 1, len - 15 * (i - 1))) - as.numeric(substr(y, len - 15 * i + 1, len - 15 * (i - 1)))
                                   if (carry < 0) {
-                                      result <- paste0(strrep("0", max(15 - nchar(carry + 10 ^ 15), 0)), carry + 10 ^ 15, result)
+                                      result <- paste0(strrep("0", fast_max(15 - nchar(carry + 10 ^ 15), 0)), carry + 10 ^ 15, result)
                                       carry <- -1
                                   } else {
-                                      result <- paste0(strrep("0", max(15 - nchar(carry), 0)), carry, result)
+                                      result <- paste0(strrep("0", fast_max(15 - nchar(carry), 0)), carry, result)
                                       carry <- 0
                                   }
                               }
                               result <- trimws(result, "left", "0")
-                              if (positive) {
-                                  return(as.bigint(result))
-                              } else {
-                                  return(as.bigint(paste0("-", result)))
-                              }
+                              if (positive) return(as.bigint(result)) else return(as.bigint(paste0("-", result)))
                           } else {
-                              if (self$positive) {
-                                  return(self + -other)
-                              } else {
-                                  return(-(-self + other))
-                              }
+                              if (self$positive) return(self + -other) else return(-(-self + other))
                           }
                       },
                       mul = function(other) {
                           other <- as.bigint(other)
-                          mul <- function(e, f) {
-                              if (max(length(e), length(f)) < 5) {
-                                  if (e$positive == f$positive) {
-                                      return(as.bigint(as.integer(e$str) * as.integer(f$str)))
-                                  } else {
-                                      return(as.bigint(paste0("-", as.integer(e$str) * as.integer(f$str))))
-                                  }
-                              }
-                              g <- intToUtf8(rev(utf8ToInt(e$str)))
-                              h <- intToUtf8(rev(utf8ToInt(f$str)))
-                              result <- as.bigint(0)
-                              for (i in seq_len(nchar(g))) {
-                                  carry <- 0
-                                  sub_result <- strrep("0", i - 1)
-                                  for (j in seq_len(nchar(h))) {
-                                      carry <- carry + as.numeric(substr(g, i, i)) * as.numeric(substr(h, j, j))
-                                      sub_result <- paste0(carry %% 10, sub_result)
-                                      carry <- carry %/% 10
-                                  }
-                                  result %+=% trimws(paste0(carry, sub_result), "left", "0")
-                              }
-                              result$positive <- e$positive == f$positive
-                              return(result)
-                          }
-                          x_len <- length(self)
-                          y_len <- length(other)
-                          if ((max(x_len, y_len) < 5) | (min(x_len, y_len) == 1)) {
-                              return(mul(self, other))
-                          }
-                          n <- max(x_len, y_len)
+                          x_len <- length(self); y_len <- length(other)
+                          if (x_len + y_len < 16 || x_len == 1 || y_len == 1) return(mul_s(self, other))
+                          n <- fast_max(x_len, y_len)
                           m <- n %/% 2
-                          a_ <- as.bigint(self[1:(x_len - m)])
-                          b_ <- as.bigint(self[(x_len - m + 1):x_len])
-                          c_ <- as.bigint(other[1:(y_len - m)])
-                          d_ <- as.bigint(other[(y_len - m + 1):y_len])
-                          ac <- a_ * c_
-                          bd <- b_ * d_
-                          ab_cd <- (a_ + b_) * (c_ + d_)
-                          r <- as.bigint(pad(ac$str, 2 * m))
-                          s <- as.bigint(pad((ab_cd - ac - bd)$str, m))
+                          a <- as.bigint(self[1:(x_len - m)]); b <- as.bigint(self[(x_len - m + 1):x_len])
+                          c <- as.bigint(other[1:(y_len - m)]); d <- as.bigint(other[(y_len - m + 1):y_len])
+                          ac <- a * c; bd <- b * d; ab_cd <- (a + b) * (c + d)
+                          r <- as.bigint(pad(ac$str, 2 * m)); s <- as.bigint(pad((ab_cd - ac - bd)$str, m))
                           res <- r + s + bd
                           res$positive <- self$positive == other$positive
                           return(res)
@@ -432,11 +341,7 @@ BigInt <- R6Class(classname = "BigInt",
                                   }
                               }
                           }
-                          if (self$positive == other$positive) {
-                              return(result)
-                          } else {
-                              return(-(result + 1))
-                          }
+                          if (self$positive == other$positive) return(result) else return(-(result + 1))
                       },
                       mod = function(other) {
                           other <- as.bigint(other)
@@ -456,9 +361,7 @@ BigInt <- R6Class(classname = "BigInt",
                           result <- as.bigint(1)
                           if (is.null(modulo)) {
                               while (other > 0) {
-                                  if (other %% 2 == 1) {
-                                      result %*=% value
-                                  }
+                                  if (other %% 2 == 1) result %*=% value
                                   value %*=% value
                                   other %//=% 2
                               }

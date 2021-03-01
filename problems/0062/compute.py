@@ -1,6 +1,5 @@
 def compute(n: int) -> int:
-    cubes = dict()
-    permutations = dict()
+    cubes, permutations = dict(), dict()
     for i in range(10 ** n):
         permutation = ''.join(sorted(str(i ** 3)))
         if permutation in cubes:
@@ -8,5 +7,5 @@ def compute(n: int) -> int:
             if permutations[permutation] == n:
                 return cubes[permutation]
         else:
-            cubes[permutation] = i
+            cubes[permutation] = i ** 3
             permutations[permutation] = 1

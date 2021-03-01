@@ -1,18 +1,21 @@
-function compute(d::Int64)::Int64
-    digits_number(k::Int64)::Int64 = (10 ^ k * (9 * k - 1) + 1) ÷ 9
-    function get_digit(n::Int64)::Int64
-        k = 0
-        while digits_number(k + 1) < n
+include("euler/euler.jl")
+using .Calculus: champernowne_digits
+
+function compute(n::Int)::Int
+    result = 1
+    for i ∈ 0:9
+        j, k = 10 ^ i, 0
+        while champernowne_digits(k + 1) < j
             k += 1
         end
         k += 1
-        rem = n - digits_number(k - 1)
-        num = 10 ^ (k - 1) + rem ÷ k - 1
-        if rem % k == 0
-            return parse(Int64, string(num)[end])
+        remainder = j - champernowne_digits(k - 1)
+        number = 10 ^ (k - 1) + remainder ÷ k - 1
+        if remainder % k == 0
+            result *= parse(Int, string(number)[end])
         else
-            return parse(Int64, string(num + 1)[rem % k])
+            result *= parse(Int, string(number + 1)[remainder % k])
         end
     end
-    return prod([get_digit(10 ^ i) for i ∈ 0:d])
+    return result
 end

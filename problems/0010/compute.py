@@ -1,5 +1,5 @@
-from euler.primes import get_primes
+from euler.primes import prime_numbers
 
 
 def compute(n: int) -> int:
-    return sum(get_primes(n))
+    return sum(prime_numbers(n))

@@ -38,7 +38,7 @@ compute <- function() {
     j <- 1
     while (TRUE) {
         for (k in pentagonals) {
-            if (is.pentagonal(pentagonals[i] - k) & is.pentagonal(abs(pentagonals[i] - 2 * k))) {
+            if (is.pentagonal(pentagonals[i] - k) && is.pentagonal(abs(pentagonals[i] - 2 * k))) {
                 return(abs(pentagonals[i] - 2 * k))
             }
         }

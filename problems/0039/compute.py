@@ -6,7 +6,7 @@ def compute(n: int) -> int:
     for a in range(3, n // 3):
         for b in range(a, n // 2):
             k = a * a + b * b
-            if k == int(sqrt(k)) ** 2:
+            if sqrt(k) % 1 == 0:
                 p = a + b + int(sqrt(k))
                 if p in perimeters:
                     perimeters[p] += 1

@@ -1,4 +1,4 @@
-include("../euler/Julia/primes.jl")
-using .Primes: get_primes
+include("euler/euler.jl")
+using .Primes: prime_numbers
 
-compute(n::Int64)::Int64 = primes.get_primes(n * 20)[n]
+compute(n::Int)::Int = prime_numbers(20n)[n]

@@ -43,23 +43,16 @@ source("euler/R/primes.R")
 ```
 ```{r}
 compute <- function(max_a, max_b) {
-    prime <- get_primality(max_a * max_b)
+    prime <- prime_sieve(max_a * max_b)
     primes <- which(prime[1:max_b])
     primes <- c(primes, -primes)
-    max_sequence <- 0
-    result <- 0
+    max_sequence <- 0; result <- 0
     for (a in seq(-max_a + ifelse(max_a %% 2 == 0, 1, 2), max_a - 1, 2)) {
         for (b in primes) {
             n <- 0
             while (TRUE) {
                 candidate <- abs(n * (n + a) + b)
-                if (candidate != 0){
-                    if (!prime[candidate]) {
-                        break
-                    }
-                } else {
-                    break
-                }
+                if (candidate != 0 && !prime[candidate]) break
                 n <- n + 1
             }
             if (n > max_sequence) {

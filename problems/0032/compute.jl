@@ -1,6 +1,6 @@
 using IterTools: product
 
-function compute(k::Int64)::Int64
+function compute(k::Int)::Int
     digits = collect(join(1:k))
     possible_numbers = Dict(4 => [[1, 1]], 5 => [[1, 2]], 6 => [[1, 2]], 7 => [[1, 3], [2, 3]],
                             8 => [[1, 3], [2, 3]], 9 => [[1, 4], [2, 3]])

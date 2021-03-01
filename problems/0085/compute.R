@@ -1,9 +1,8 @@
+source("euler/R/calculus.R")
+
 compute <- function(n) {
     limit <- as.integer(sqrt(n))
-    triangles <- 1
-    for (i in 2:limit) {
-        triangles[i] <- triangles[i - 1] + i
-    }
+    triangles <- triangular_numbers(limit)
     min_difference <- n
     nearest <- 0
     for (i in seq_len(limit)) {
@@ -14,9 +13,7 @@ compute <- function(n) {
                 min_difference <- difference
                 nearest <- i * j
             }
-            if (rectangles > n) {
-                break
-            }
+            if (rectangles > n) break
         }
     }
     return(nearest)

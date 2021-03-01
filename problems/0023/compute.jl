@@ -1,24 +1,21 @@
-include("euler/Julia/primes.jl")
-include("euler/Julia/numbers.jl")
-using .Primes: get_primes
-using .Numbers: sum_proper_factors
+include("euler/euler.jl")
+using .Primes: prime_numbers
+using .Numbers: sum_proper_divisors
 
-function compute()::Int64
+function compute()::Int
     n = 28123
-    primes_numbers = get_primes(trunc(Int, √n))
+    primes = prime_numbers(trunc(Int, √n))
     abundant_sieve, not_expressible = repeat([false], n), repeat([true], n)
     result = 0
     for i ∈ 1:n
-        abundant_sieve[i] = i < sum_proper_factors(i, primes_numbers)
+        abundant_sieve[i] = i < sum_proper_divisors(i, primes)
         for j ∈ 1:i ÷ 2
-            if abundant_sieve[j] & abundant_sieve[i - j]
+            if abundant_sieve[j] && abundant_sieve[i - j]
                 not_expressible[i] = false
                 break
             end
         end
-        if not_expressible[i]
-            result += i
-        end
+        if not_expressible[i] result += i end
     end
     return result
 end

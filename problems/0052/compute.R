@@ -11,9 +11,7 @@ compute <- function(n) {
                     break
                 }
             }
-            if (is_permuted) {
-                return(j)
-            }
+            if (is_permuted) return(j)
         }
         i <- i + 1
     }

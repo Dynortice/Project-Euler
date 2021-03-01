@@ -1,9 +1,9 @@
-function compute(n::Int64, digits::Array{Int64, 1})::String
-    l = length(digits)
+function compute(n::Int, digits::Array{Int, 1})::String
+    k = length(digits)
     result = ""
     remain = n - 1
-    for i ∈ 1:l
-        order = factorial(l - i)
+    for i ∈ 1:k
+        order = factorial(k - i)
         j = remain ÷ order + 1
         result = string(result, digits[j])
         remain %= order

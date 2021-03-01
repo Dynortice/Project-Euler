@@ -25,28 +25,24 @@ source("euler/R/primes.R")
 ```
 ```{r}
 compute <- function() {
-    check_truncatable_prime <- function(n) {
-        p <- 10
-        while (p < n) {
-            if (sieve[n %% p] & sieve[n %/% p]) {
+    sieve <- prime_sieve(1000000)
+    primes <- which(sieve)[-(1:4)]
+    truncatable <- 0; result <- 0
+    for (prime in primes) {
+        p <- 10; is.trunctatable <- TRUE
+        while (p < prime) {
+            if (sieve[prime %% p] && sieve[prime %/% p]) {
                 p <- p * 10
             } else {
-                return(FALSE)
+                is.trunctatable <- FALSE
+                break
             }
         }
-        return(TRUE)
-    }
-    sieve <- get_primality(1000000)
-    primes <- which(sieve)[-(1:4)]
-    truncatable_primes <- 0
-    i <- 1
-    result <- 0
-    while (truncatable_primes < 11) {
-        if (check_truncatable_prime(primes[i])) {
-            truncatable_primes <- truncatable_primes + 1
-            result <- result + primes[i]
+        if (is.trunctatable) {
+            truncatable <- truncatable + 1
+            result <- result + prime
+            if (truncatable == 11) break
         }
-        i <- i + 1
     }
     return(result)
 }

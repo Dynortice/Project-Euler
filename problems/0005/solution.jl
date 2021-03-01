@@ -1,9 +1,9 @@
-include("euler/Julia/primes.jl")
-using .Primes: get_primes
+include("euler/euler.jl")
+using .Primes: prime_numbers
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-compute(n::Int64)::Int64 = prod([prime ^ trunc(Int, log(prime, n)) for prime ∈ get_primes(n)])
+compute(n::Int)::Int = prod([prime ^ trunc(Int, log(prime, n)) for prime ∈ prime_numbers(n)])
 
 compute(10)
 

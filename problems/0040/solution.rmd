@@ -21,29 +21,25 @@ $$d_1 \times d_{10} \times d_{100} \times d_{1000} \times d_{10000} \times d_{10
 ## Solution
 ```{r}
 library(microbenchmark)
+setwd("../../")
+source("euler/R/calculus.R")
 ```
 ```{r}
-compute <- function(d) {
-    digits_number <- function(k) {
-        return((10 ^ k * (9 * k - 1) + 1) %/% 9)
-    }
-    get_digit <- function(n) {
-        k <- 0
-        while (digits_number(k + 1) < n) {
+compute <- function(n) {
+    result <- 1
+    for (i in 0:n) {
+        j <- 10 ^ i; k <- 0
+        while (champernowne_digits(k + 1) < j) {
             k <- k + 1
         }
         k <- k + 1
-        rem <- n - digits_number(k - 1)
-        num <- 10 ^ (k - 1) + rem %/% k - 1
-        if (rem %% k == 0) {
-            return(tail(as.integer(strsplit(as.character(num), NULL)[[1]]), 1))
+        remainder <- j - champernowne_digits(k - 1)
+        number <- 10 ^ (k - 1) + remainder %/% k - 1
+        if (remainder %% k == 0) {
+            result <- result * as.integer(intToUtf8(tail(utf8ToInt(as.character(number)), 1)))
         } else {
-            return(as.integer(strsplit(as.character(num + 1), NULL)[[1]])[rem %% k])
+            result <- result * as.integer(intToUtf8(utf8ToInt(as.character(number + 1))[remainder %% k]))
         }
-    }
-    result <- 1
-    for (i in 0:d) {
-        result <- result * get_digit(10 ^ i)
     }
     return(result)
 }

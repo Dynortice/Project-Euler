@@ -1,4 +1,5 @@
-include("euler/Julia/big_int.jl")
+include("euler/euler.jl")
 using .BigIntegers: BigInteger
+using .Numbers: digits_sum
 
-compute(n::Int64, p::Int64)::Int64 = sum([parse(Int, i) for i ∈ (BigInteger(n) ^ p).str])
+compute(n::Int, p::Int)::Int = digits_sum(BigInteger(n) ^ p)

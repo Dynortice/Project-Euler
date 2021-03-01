@@ -20,9 +20,7 @@ This paths just Pascal's triangle, so we can find answer just using binomial coe
 library(microbenchmark)
 ```
 ```{r}
-compute <- function(n) {
-    return(choose(2 * n, n))
-}
+compute <- function(n) choose(2 * n, n)
 ```
 ```{r}
 compute(2)

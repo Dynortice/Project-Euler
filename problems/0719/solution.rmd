@@ -27,46 +27,26 @@ OEIS Sequence: [A104113](https://oeis.org/A104113)
 ## Solution
 ```{r}
 library(microbenchmark)
+setwd("../../")
+source("euler/R/numbers.R")
 options(scipen = 20)
 ```
 
 ```{r}
 compute <- function(n) {
-    is.s_number <- function(a, b) {
-        if (a > b) {
-            return(FALSE)
-        } else if (a == b) {
-            return(TRUE)
-        }
-        modulo <- 10
-        while (modulo < b) {
-            quotient <- b %/% modulo
-            remainder <- b %% modulo
-            if (remainder < a & is.s_number(a - remainder, quotient)) {
-                return(TRUE)
-            }
-            modulo <- modulo * 10
-        }
-        return(FALSE)
-    }
     result <- 0
-    for (i in 2:n) {
-        i <- as.numeric(i)
-        if (is.s_number(i, i * i)) {
-            result <- result + i * i
-        }
-    }
+    for (i in as.numeric(2:n)) if (is.s_number(i, i * i)) result <- result + i * i
     return(result)
 }
 ```
 
 ```{r}
-compute(10 ^ 2)
+compute(100)
 ```
 ```{r}
-compute(10 ^ 6)
+compute(1000000)
 ```
 
 ```{r}
-microbenchmark(compute(10 ^ 6), times = 10)
+microbenchmark(compute(1000000), times = 10)
 ```

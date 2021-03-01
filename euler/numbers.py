@@ -1,27 +1,53 @@
+from collections.abc import Iterable, Iterator
+from typing import Union
 from math import sqrt
 from euler.big_int import BigInt
 from euler.calculus import sum_geometric_series
+from euler.primes import prime_numbers
 
 
-def is_palindrome(n) -> bool:
+def is_palindrome(n: Union[int, BigInt]) -> bool:
+    """Check if number is palindrome
+
+    Args:
+        n: Number
+
+    Returns:
+        True if number is palindrome, False otherwise
+
+    Examples:
+        >>> print(is_palindrome(123321))
+        True
+        >>> print(is_palindrome(123456))
+        False
+        >>> print(is_palindrome(BigInt(123321)))
+        True
+        >>> print(is_palindrome(BigInt(123456)))
+        False
     """
-    Checking is the number a palindrome
-    :param n: integer number converted to string
-    :return: boolean value: true if n is palindrome else false
-    """
-    if isinstance(n, str):
+    if isinstance(n, int):
+        n = str(n)
         return n == n[::-1]
     elif isinstance(n, BigInt):
         return n.str == n.str[::-1]
 
 
 def count_divisors(n: int) -> int:
+    """Get number of divisors of `n`
+
+    Args:
+        n: Number
+
+    Returns:
+        Number of divisors of n
+
+    Examples:
+        >>> print(count_divisors(23))
+        2
+        >>> print(count_divisors(284))
+        6
     """
-    Counting number of divisors of n
-    :param n: integer number
-    :return: number of divisors of n
-    """
-    factors = 1
+    divisors = 1
     i = 2
     while i * i <= n:
         f = 1
@@ -29,19 +55,32 @@ def count_divisors(n: int) -> int:
             n /= i
             f += 1
         i += 1
-        factors *= f
+        divisors *= f
     if n > 1:
-        factors *= 2
-    return factors
+        divisors *= 2
+    return divisors
 
 
-def sum_proper_factors(n: int, primes: list) -> int:
+def sum_proper_divisors(n: int, primes: Iterable = None) -> int:
+    """Get sum of proper divisors of `n`
+
+    Args:
+        n: Number
+        primes: Generator of prime numbers below at least sqrt(n)
+
+    Returns:
+        Sum of proper divisors of n (except n)
+
+    Examples:
+        >>> print(sum_proper_divisors(23))
+        1
+        >>> n = 284
+        >>> primes = prime_numbers(int(sqrt(n)))
+        >>> print(sum_proper_divisors(n, primes))
+        6
     """
-    Get sum of proper divisors of number
-    :param n: integer number
-    :param primes: list of primes numbers (until sqrt(n) as minimum)
-    :return: sum of proper divisors
-    """
+    if primes is None:
+        primes = prime_numbers(int(sqrt(n)))
     result = 1
     number = n
     for prime in primes:
@@ -49,36 +88,109 @@ def sum_proper_factors(n: int, primes: list) -> int:
         while number % prime == 0:
             number //= prime
             j += 1
-        result *= sum_geometric_series(1, prime, j)
+        result *= int(sum_geometric_series(1, prime, j))
     if number > 1:
         result *= number + 1
     return result - n
 
 
-def multiplicative_order(a: int, n: int) -> int:
+def get_digits(n: Union[int, BigInt]) -> Iterator:
+    """Get digits of number
+
+    Args:
+        n: Number
+
+    Yields:
+        Next digit of number n
+
+    Examples:
+        >>> print(list(get_digits(123)))
+        [1, 2, 3]
+        >>> print(list(BigInt(123456)))
+        [1, 2, 3, 4, 5, 6]
     """
-    Get multiplicative order of a modulo n
-    :param a: integer number
-    :param n: integer n
-    :return: order of a in the multiplicative group of the units in the ring of the integers modulo n
+    return map(int, str(n))
+
+
+def digits_sum(n: Union[int, BigInt]) -> int:
+    """Get sum of digits in number
+
+    Args:
+        n: Number
+
+    Returns:
+        Sum of digits in number
+
+    Examples:
+        >>> digits_sum(123)
+        6
+        >>> digits_sum(BigInt(123456))
+        21
+
     """
-    i, k = 1, a
-    while k != 1 and i < n:
-        k = k * a % n
+    return sum(get_digits(n))
+
+
+def multiplicative_order(n: int, m: int) -> int:
+    """Get multiplicative order of `n` modulo `m`
+
+    Args:
+        n, m: Numbers
+
+    Returns:
+        Order of n in the multiplicative group of the units in the ring of the integers modulo m
+
+    Examples:
+        >>> print(multiplicative_order(16, 7))
+        3
+
+    """
+    i, k = 1, n
+    while k != 1 and i < m:
+        k = k * n % m
         i += 1
     return i
 
 
-def is_perfect_square(n: int) -> bool:
-    return int(sqrt(n)) ** 2 == n
-
-
-def digits_sum(n: int) -> int:
-    return sum(map(int, str(n)))
-
-
 def gcd(a: int, b: int) -> int:
-    if b == 0:
-        return a
+    """Get greater common divisor (GCD) of two numbers
+
+    Args:
+        a, b: Numbers
+
+    Returns:
+        GCD of a and b
+
+    Examples:
+        >>> gcd(16, 28)
+        4
+    """
+    return gcd(b, a % b) if b else a
+
+
+def is_s_number(a: int, b: int) -> bool:
+    """Check if number is S-number, that is a perfect square and its square root can be obtained by splitting the
+    decimal representation of `n` into 2 or more numbers then adding the numbers.
+
+    Args:
+        a: Number
+        b: Square of a
+
+    Examples:
+        >>> print(is_s_number(99, 9801))
+        True
+        >>> print(is_s_number(5, 25))
+        False
+    """
+    if a > b:
+        return False
+    elif a == b:
+        return True
+    m = 10
+    while m < b:
+        quotient, remainder = b // m, b % m
+        if remainder < a and is_s_number(a - remainder, quotient):
+            return True
+        m *= 10
     else:
-        return gcd(b, a % b)
+        return False

@@ -1,13 +1,13 @@
 compute <- function(n, digits) {
-    l <- length(digits)
-    result <- ""
+    k <- length(digits)
+    result <- NULL
     remain <- n - 1
-    for (i in seq_len(l)) {
-        order <- factorial(l - i)
+    for (i in seq_len(k)) {
+        order <- factorial(k - i)
         j <- remain %/% order + 1
-        result <- paste0(result, digits[j])
+        result <- c(result, digits[j])
         remain <- remain %% order
         digits <- digits[-j]
     }
-    return(result)
+    return(paste0(result, collapse = ""))
 }

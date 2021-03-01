@@ -1,4 +1,5 @@
 from itertools import combinations_with_replacement
+from euler.numbers import get_digits
 
 
 def compute(n: int) -> int:
@@ -8,7 +9,7 @@ def compute(n: int) -> int:
     while len(str(max_len * 9 ** n)) >= max_len:
         for digits in combinations_with_replacement(powers.keys(), max_len):
             candidate = sum(powers[i] for i in digits)
-            if sorted(map(int, str(candidate))) == sorted(digits):
+            if sorted(get_digits(candidate)) == sorted(digits):
                 result += candidate
         max_len += 1
     return result

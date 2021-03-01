@@ -1,14 +1,13 @@
 source("euler/R/primes.R")
 
-compute <- function(n) {
-    sieve <- get_primes(10000)
+compute <- function() {
+    sieve <- prime_sieve(10000)
     primes <- which(sieve)
     for (prime in primes[primes > 4817]) {
-        first <- prime - 3330
-        third <- prime + 3330
-        if (all(sieve[first], sieve[third],
-                 all(sort(unique(strsplit(as.character(first), NULL)[[1]])) == sort(unique(strsplit(as.character(prime), NULL)[[1]]))),
-                all(sort(unique(strsplit(as.character(prime), NULL)[[1]])) == sort(unique(strsplit(as.character(third), NULL)[[1]]))))) {
+        first <- prime - 3330; third <- prime + 3330
+        if (sieve[first] && sieve[third] &&
+            all(sort(unique(utf8ToInt(as.character(prime)))) == sort(unique(utf8ToInt(as.character(first))))) &&
+            all(sort(unique(utf8ToInt(as.character(prime)))) == sort(unique(utf8ToInt(as.character(third)))))) {
             return(paste0(first, prime, third))
         }
     }

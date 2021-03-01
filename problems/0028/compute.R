@@ -1,3 +1,1 @@
-compute <- function(n) {
-    return((((4 * n + 3) * n + 8) * n - 9) / 6)
-}
+compute <- function(n) (((4 * n + 3) * n + 8) * n - 9) / 6

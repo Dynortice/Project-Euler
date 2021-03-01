@@ -52,23 +52,18 @@ $$f(3n + 2) = f(3n + 1) + f(3n)$$
 library(microbenchmark)
 setwd("../../")
 source("euler/R/big_int.R")
+source("euler/R/numbers.R")
 ```
 
 ```{r}
 compute <- function(n) {
-    get_next_term <- function(previous, k) {
-        if (k %% 3 == 1) {
-            k <- k %/% 3
-            return(previous[[1]] * k * 2 + previous[[2]])
-        } else {
-            return(sum.bigint(previous))
-        }
+    current <- as.bigint(1); previous <- as.bigint(1)
+    for (i in seq(2, n + 1)) {
+        temp <- current
+        if (i %% 3 == 1) current <- current * as.bigint(2 * i %/% 3)
+        current <- current + previous; previous <- temp
     }
-    terms <- c(BigInt$new(1), BigInt$new(1))
-    for (i in 2:(n + 1)) {
-        terms <- c(get_next_term(terms, i), terms[[1]])
-    }
-    return(sum(as.integer(strsplit(terms[[1]]$str, "")[[1]])))
+    return(digits_sum(current))
 }
 ```
 

@@ -1,22 +1,14 @@
+source("euler/R/numbers.R")
 options(scipen = 20)
 
 compute <- function(n) {
-    is.bouncy <- function(x) {
-        digits <- strsplit(as.character(x), "")[[1]]
-        sorted_digits <- sort(digits)
-        if (all(digits == sorted_digits) | all(digits == rev(sorted_digits))) {
-            return(FALSE)
-        } else {
-            return(TRUE)
-        }
-    }
     bouncy <- 0
     i <- 1
-    while (TRUE) {
-        bouncy <- bouncy + is.bouncy(i)
-        if (bouncy / i >= n) {
-            return(i)
-        }
+    while (bouncy / i < n) {
         i <- i + 1
+        digits <- get_digits(i)
+        sorted_digits <- sort(digits)
+        if (!(all(digits == sorted_digits) || all(digits == rev(sorted_digits)))) bouncy <- bouncy + 1
     }
+    return(i)
 }

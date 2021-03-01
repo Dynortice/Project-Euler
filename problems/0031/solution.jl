@@ -1,7 +1,7 @@
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(coins::Array{Int64,1}, n::Int64)::Int64
+function compute(coins::Array{Int,1}, n::Int)::Int
     combinations = vcat([1], repeat([0], n))
     for i ∈ 1:length(coins)
         for j ∈ coins[i] + 1:n + 1

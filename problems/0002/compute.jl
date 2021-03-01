@@ -1,4 +1,4 @@
-include("../euler/Julia/calculus.jl")
-using .Calculus: fibonacci_index, fibonacci_number
+include("euler/euler.jl")
+using .Calculus: fibonacci_index, get_fibonacci
 
-compute(n::Int64)::Int64 = trunc(Int, fibonacci_number(fibonacci_index(n) + 2) / 2)
+compute(n::Int)::Int = trunc(Int, get_fibonacci(fibonacci_index(n) + 2) / 2)

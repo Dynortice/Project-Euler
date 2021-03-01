@@ -1,9 +1,9 @@
-include("euler/Julia/primes.jl")
-using .Primes: get_primes
+include("euler/euler.jl")
+using .Primes: prime_numbers
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-compute(n::Int64)::Int64 = sum(get_primes(n))
+compute(n::Int)::Int = sum(prime_numbers(n))
 
 compute(10)
 

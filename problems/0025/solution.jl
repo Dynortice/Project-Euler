@@ -1,7 +1,7 @@
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-compute(n::Int64)::Int64 = Int(ceil((log(10) * (n - 1) + log(5) / 2) / log((1 + √5) / 2)))
+compute(n::Int)::Int = Int(ceil((log(10) * (n - 1) + 0.5log(5)) / log(0.5(1 + √5))))
 
 compute(3)
 

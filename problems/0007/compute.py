@@ -1,5 +1,5 @@
-from euler.primes import get_primes
+from euler.primes import prime_numbers
 
 
 def compute(n: int) -> int:
-    return get_primes(n * 20)[n - 1]
+    return list(prime_numbers(n * 20))[n - 1]

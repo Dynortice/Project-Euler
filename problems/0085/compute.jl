@@ -1,9 +1,9 @@
-function compute(n::Int64)::Int64
-    limit = trunc(Int64, √n)
-    triangles = ones(Int64, limit)
-    for i ∈ 2:limit
-        triangles[i] = triangles[i - 1] + i
-    end
+include("euler/euler.jl")
+using .Calculus: triangular_numbers
+
+function compute(n::Int)::Int
+    limit = trunc(Int, √n)
+    triangles = triangular_numbers(limit)
     min_difference = n
     nearest = 0
     for i ∈ 1:limit
@@ -14,9 +14,7 @@ function compute(n::Int64)::Int64
                 min_difference = difference
                 nearest = i * j
             end
-            if rectangles > n
-                break
-            end
+            if rectangles > n break end
         end
     end
     return nearest

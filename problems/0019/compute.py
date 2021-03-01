@@ -1,5 +1,5 @@
 def compute() -> int:
-    months = [31, 0, 31, 30, 31, 30, 31, 31, 30 , 31, 30, 31]
+    months = [31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     day = 2
     result = 0
     for year in range(1901, 2001):

@@ -2,8 +2,7 @@ from math import log, log2, sqrt
 
 
 def compute(n: int) -> int:
-    limit_powers = int(log2(n))
-    limit_numbers = int(sqrt(n))
+    limit_powers, limit_numbers = int(log2(n)), int(sqrt(n))
     power_counts = [0] * (limit_powers + 1)
     for i in range(2, limit_numbers + 1):
         power = int(log(n, i))
@@ -12,7 +11,6 @@ def compute(n: int) -> int:
         while j <= limit_numbers:
             power_counts[int(log(n, j))] -= 1
             j *= i
-
     sieve = [False] * (limit_powers * n + 1)
     duplicate_counts = [0] * (limit_powers + 1)
     count = 0

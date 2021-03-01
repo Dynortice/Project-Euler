@@ -1,9 +1,9 @@
 from math import sqrt
-from euler.primes import get_primality
+from euler.primes import prime_sieve
 
 
 def compute(n):
-    sieve = get_primality(n)
+    sieve = prime_sieve(n)
     candidates = [i - 1 for i, is_prime in enumerate(sieve) if is_prime and (i - 1) % 4 != 0]
     result = 0
     for candidate in candidates:

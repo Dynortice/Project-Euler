@@ -1,11 +1,8 @@
 source("euler/R/primes.R")
 
 compute <- function() {
-    primes <- rev(get_primes(7654321))
-    for (prime in primes) {
-        digits_prime <- sort(unique(as.integer(strsplit(as.character(prime))[[1]])))
-        if (all(digits_prime == seq_along(digits_prime))) {
-            return(prime)
-        }
+    for (prime in rev(prime_numbers(7654321))) {
+        digits <- sort(unique(intToUtf8(utf8ToInt(as.character(prime)), multiple = TRUE)))
+        if (all(digits == seq_along(digits))) return(prime)
     }
 }

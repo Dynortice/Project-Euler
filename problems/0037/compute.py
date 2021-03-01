@@ -1,23 +1,21 @@
-from euler.primes import get_primality
+from euler.primes import prime_sieve
 
 
 def compute() -> int:
-    def check_truncatable_prime(n: int) -> bool:
+    sieve = prime_sieve(1000000)
+    primes = [i for (i, is_prime) in enumerate(sieve) if is_prime and i > 10]
+    i, result, truncatable = 0, 0, 0
+    for prime in primes:
         p = 10
-        while p < n:
-            if sieve[n % p] and sieve[n // p]:
+        while p < prime:
+            if sieve[prime % p] and sieve[prime // p]:
                 p *= 10
             else:
-                return False
-        return True
-    sieve = get_primality(1000000)
-    primes = [i for (i, is_prime) in enumerate(sieve) if is_prime and i > 10]
-    truncatable_primes = 0
-    i = 0
-    result = 0
-    while truncatable_primes < 11:
-        if check_truncatable_prime(primes[i]):
-            truncatable_primes += 1
-            result += primes[i]
+                break
+        else:
+            truncatable += 1
+            result += prime
+            if truncatable == 11:
+                break
         i += 1
     return result

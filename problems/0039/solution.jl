@@ -1,13 +1,13 @@
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(n::Int64)::Int64
-    perimeters = Dict{Int64, Int64}()
+function compute(n::Int)::Int
+    perimeters = Dict{Int, Int}()
     for a ∈ 3:n÷3
         for b ∈ a:n÷2
             k = a * a + b * b
-            if k == trunc(Int64, √k) ^ 2
-                p = a + b + trunc(Int64, √k)
+            if √k % 1 == 0
+                p = a + b + trunc(Int, √k)
                 if haskey(perimeters, p)
                     perimeters[p] += 1
                 else

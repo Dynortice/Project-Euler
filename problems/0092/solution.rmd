@@ -25,26 +25,23 @@ How many starting numbers below ten million will arrive at $89$?
 ```{r}
 library(arrangements)
 library(microbenchmark)
+setwd("../../")
+source("euler/R/numbers.R")
 ```
 ```{r}
 compute <- function(n) {
-    sum_squares_digits <- function(x) {
-        return(sum(as.integer(strsplit(x, NULL)[[1]]) ^ 2))
-    }
-
+    squares <- 0:9 * 0:9
     result <- 0
     combs <- combinations(0:9, n, replace = TRUE)
     for (i in seq_len(nrow(combs))) {
-        combination <- paste0(combs[i,], collapse = "")
+        combination <- as.integer(paste0(combs[i,], collapse = ""))
         while (TRUE) {
-            combination <- sum_squares_digits(combination)
+            combination <- sum(squares[get_digits(combination) + 1])
             if (combination == 89) {
                 result <- result + factorial(n) / prod(factorial(table(combs[i, ])))
                 break
             } else if (combination < 2) {
                 break
-            } else {
-                combination <- as.character(combination)
             }
         }
     }

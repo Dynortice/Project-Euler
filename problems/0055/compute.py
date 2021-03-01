@@ -8,7 +8,7 @@ def compute(n: int) -> int:
         number = BigInt(i)
         number += BigInt(number.str[::-1])
         j = 1
-        while (j <= 50) and (not is_palindrome(number)):
+        while j <= 50 and not is_palindrome(number):
             number += BigInt(number.str[::-1])
             j += 1
         if j > 50:

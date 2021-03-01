@@ -1,9 +1,9 @@
-include("euler/Julia/numbers.jl")
+include("euler/euler.jl")
 using .Numbers: count_divisors
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(n::Int64)::Int64
+function compute(n::Int)::Int
     i, triangle = 1, 1
     while count_divisors(triangle) < n
         i += 1

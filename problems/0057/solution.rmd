@@ -37,18 +37,11 @@ source("euler/R/big_int.R")
 ```
 ```{r}
 compute <- function(d, n) {
-    numerator <- as.bigint(1)
-    denominator <- as.bigint(1)
-    a <- d
-    b <- d - 1
+    numerator <- as.bigint(1); denominator <- as.bigint(1); a <- as.bigint(d); b <- a - 1
     result <- 0
     for (i in seq_len(n)) {
-        denominator_next <- numerator + denominator * b
-        numerator %+=% (denominator * a)
-        denominator <- denominator_next
-        if (length(numerator) != length(denominator)) {
-            result <- result + 1
-        }
+        temp <- numerator + b * denominator; numerator %+=% (a * denominator); denominator <- temp
+        if (length(numerator) != length(denominator)) result <- result + 1
     }
     return(result)
 }
@@ -60,5 +53,5 @@ compute(2, 8)
 compute(2, 1000)
 ```
 ```{r}
-microbenchmark(compute(2, 1000), times = 10)
+microbenchmark(compute(2, 1000))
 ```

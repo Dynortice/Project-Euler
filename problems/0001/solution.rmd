@@ -21,7 +21,7 @@ Considering sequence with common difference of $3$ below $10$. For getting numbe
 
 Thus the first term of sequence $a_1=3$, common difference also $3$: $d=3$ and $n=\lfloor\frac{10-1}{3}\rfloor=3$. Thus $S_n=18$.
 
-So we've two arithmetic sequence but they produce common numbers. Have a look at sequences $3, 6, 9, 12, 15, 18, 21, 24, 27, 30$ and $5, 10, 15, 20, 25, 30$. As you might have noticed the $15$ and $30$ are in both sequences. And this is also start of third arithmetic sequence with common difference $3\times5=15$. So for correct answer we need to subtract sum of third arithmetic sequence.
+So we have two arithmetic sequences, but they produce common numbers. Have a look at sequences $3, 6, 9, 12, 15, 18, 21, 24, 27, 30$ and $5, 10, 15, 20, 25, 30$. As you might have noticed the $15$ and $30$ are in both sequences. And this is also start of third arithmetic sequence with common difference $3\times5=15$. So for correct answer we need to subtract sum of third arithmetic sequence.
 
 ```{r}
 library(microbenchmark)
@@ -31,9 +31,8 @@ source("euler/R/calculus.R")
 ```{r}
 compute <- function(a, b, n) {
   n <- n - 1
-  return(sum(sum_arithmetic_series(a, a, n %/% a),
-             sum_arithmetic_series(b, b, n %/% b),
-             - sum_arithmetic_series(a * b, a * b, n %/% (a * b))))
+  ab <- a * b
+  return(sum_arithmetic_series(a, a, n %/% a) + sum_arithmetic_series(b, b, n %/% b) - sum_arithmetic_series(ab, ab, n %/% ab))
 }
 ```
 ```{r}

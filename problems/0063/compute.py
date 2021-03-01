@@ -3,20 +3,10 @@ from euler.big_int import BigInt
 
 def compute() -> int:
     result = 0
-    i = 1
-    while True:
-        j = 1
-        number, n = BigInt(i), BigInt(i)
-        if len(number) != j:
-            break
-        else:
+    for i in range(1, 10):
+        j, n = 1, BigInt(i)
+        while len(n) == j:
             result += 1
-        while True:
             j += 1
-            number *= n
-            if len(number) == j:
-                result += 1
-            else:
-                break
-        i += 1
+            n *= i
     return result

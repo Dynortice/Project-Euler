@@ -30,20 +30,14 @@ source("euler/R/calculus.R")
 ```
 ```{r}
 compute <- function(n) {
-    n <- get_hexagonal(144)
-    i <- n - 40755
-    while (TRUE) {
-        if (is.pentagonal(n)) {
-            return(n)
-        }
-        i <- i + 4
-        n <- n + i
-    }
+    i <- hexagonal_index(n) + 1
+    while (((sqrt(48 * i ^ 2 - 24 * i + 1) + 1) / 6) %% 1 != 0) i <- i + 1
+    return(get_hexagonal(i))
 }
 ```
 ```{r}
-compute()
+compute(40755)
 ```
 ```{r}
-microbenchmark(compute())
+microbenchmark(compute(40755))
 ```

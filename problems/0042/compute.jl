@@ -1,22 +1,13 @@
-function compute(words::Array{SubString{String},1})::Int64
-    triangles = [1]
+include("euler/euler.jl")
+using .Calculus: triangular_numbers
 
-    function add_triangle()
-        n = length(triangles)
-        append!(triangles, n * (n + 1) ÷ 2)
-    end
-
+function compute(path::String)::Int
+    triangles = triangular_numbers(20)
     chars = Dict(Char(Int('A') + i) => i + 1 for i ∈ 0:25)
     triangle_words = 0
-
-    for word ∈ words
+    for word ∈ split(replace(read(path, String), "\"" => ""), ",")
         value = sum(chars[letter] for letter ∈ word)
-        while value > maximum(triangles)
-            add_triangle()
-        end
-        if value ∈ triangles
-            triangle_words += 1
-        end
+        if value ∈ triangles triangle_words += 1 end
     end
     return triangle_words
 end

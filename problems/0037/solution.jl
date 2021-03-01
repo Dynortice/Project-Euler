@@ -1,31 +1,29 @@
-include("euler/Julia/primes.jl")
-using .Primes: get_primality
+include("euler/euler.jl")
+using .Primes: prime_sieve
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute()::Int64
-    function check_truncatable_prime(n::Int64)::Bool
-        p = 10
-        while p < n
-            if sieve[n % p] & sieve[n ÷ p]
+function compute()::Int
+    sieve = prime_sieve(1000000)
+    primes = findall(sieve)[5:end]
+    truncatable, result = 0, 0
+    for prime in primes
+        p, is_truncatable = 10, true
+        while p < prime
+            if sieve[prime % p] && sieve[prime ÷ p]
                 p *= 10
             else
-                return false
+                is_truncatable = false
+                break
             end
         end
-        return true
-    end
-    sieve = get_primality(1000000)
-    prime_numbers = findall(sieve)[5:end]
-    truncatable_primes = 0
-    i = 1
-    result = 0
-    while truncatable_primes < 11
-        if check_truncatable_prime(prime_numbers[i])
-            truncatable_primes += 1
-            result += prime_numbers[i]
+        if is_truncatable
+            truncatable += 1
+            result += prime
+            if truncatable == 11
+                break
+            end
         end
-        i += 1
     end
     return result
 end

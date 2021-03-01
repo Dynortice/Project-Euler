@@ -33,27 +33,15 @@ The second observation:
 $$\binom{n}{\lfloor \frac{n}{2} \rfloor - 1} < \binom{n}{\frac{n}{2}} > \binom{n}{\lceil \frac{n}{2} \rceil + 1}$$
 
 So we need to get only first $r$ which with $n$ would be more than one-million.
-
-For getting binomial coefficient we'd use the [Stirling's approximation](https://en.wikipedia.org/wiki/Stirling%27s_approximation):
-
-$$n! \sim \sqrt{2 \pi n} \left(\frac{n}{e}\right)^n$$
-
-$$\frac{n!}{k! (n-k)!} \approx \frac{\sqrt{2 \pi n} \left(\frac{n}{e}\right)^n}{\sqrt{2 \pi k} \left(\frac{k}{e}\right)^k \sqrt{2 \pi \left(n - k \right)} \left(\frac{n - k}{e}\right)^{n - k}} = $$
-
-$$= \frac{n^{n + \frac{1}{2}}}{\sqrt{2 \pi} k^{k + \frac{1}{2}} \left(n - k \right)^{n - k + \frac{1}{2}}} = \frac{n^k \left(\frac{1}{k} - \frac{1}{n} \right)^{k + \frac{1}{2}}}{\sqrt{2 \pi} \left(1 - \frac{k}{n} \right)^{n + 1}}$$
 ```{r}
 library(microbenchmark)
 ```
 ```{r}
-compute <- function(n_max, limit) {
-    comb_approx <- function(n, k) {
-        return(n ^ (n + 0.5) / sqrt(2 * pi) / k ^ (k + 0.5) / (n - k) ^ (n - k + 0.5))
-    }
-
+compute <- function(n, limit) {
     result <- 0
-    for (i in seq_len(n_max)) {
+    for (i in seq_len(n)) {
         for (j in seq_len(i %/% 2)) {
-            if (comb_approx(i, j) > limit) {
+            if (choose(i, j) > limit) {
                 result <- result + i - 2 * j + 1
                 break
             }

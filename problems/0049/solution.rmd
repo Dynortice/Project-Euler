@@ -21,21 +21,18 @@ setwd("../../")
 source("euler/R/primes.R")
 ```
 ```{r}
-compute <- function(n) {
-    sieve <- get_primality(10000)
+compute <- function() {
+    sieve <- prime_sieve(10000)
     primes <- which(sieve)
     for (prime in primes[primes > 4817]) {
-        first <- prime - 3330
-        third <- prime + 3330
-        if (sieve[first] & sieve[third]) {
-            digits_first <- sort(unique(strsplit(as.character(first), NULL)[[1]]))
-            digits_second <- sort(unique(strsplit(as.character(prime), NULL)[[1]]))
-            digits_third <- sort(unique(strsplit(as.character(third), NULL)[[1]]))
-            if (all(length(digits_first) == length(digits_second), length(digits_second) == length(digits_third))) {
-                if (all(digits_first == digits_second) & all(digits_second == digits_third)) {
-                    return(paste0(first, prime, third))
-                }
-            }
+        first <- prime - 3330; third <- prime + 3330
+        prime_digits <- sort(unique(utf8ToInt(as.character(prime))))
+        first_digits <- sort(unique(utf8ToInt(as.character(prime))))
+        third_digits <- sort(unique(utf8ToInt(as.character(prime))))
+        if (sieve[first] && sieve[third] && length(prime_digits) == length(first_digits) &&
+            all(prime_digits == first_digits) && length(prime_digits) == length(third_digits) &&
+            all(prime_digits == third_digits)) {
+            return(paste0(first, prime, third))
         }
     }
 }

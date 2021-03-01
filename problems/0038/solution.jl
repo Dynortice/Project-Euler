@@ -1,11 +1,11 @@
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute()::Int64
-    digits_ = collect(1:9)
+function compute()::Int
+    digits = collect(1:9)
     for i ∈ 9487:-1:9234
         candidate = i * 100002
-        if map(x -> parse(Int64, x), sort(∪(string(candidate)))) == digits_
+        if parse.(Int, sort(∪(string(candidate)))) == digits
             return candidate
         end
     end

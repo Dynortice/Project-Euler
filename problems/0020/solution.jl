@@ -1,9 +1,10 @@
-include("euler/Julia/big_int.jl")
+include("euler/euler.jl")
 using .BigIntegers: BigInteger
+using .Numbers: digits_sum
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-compute(n::Int64)::Int64 = sum([parse(Int, i) for i ∈ prod(map(BigInteger, 1:n)).str])
+compute(n::Int)::Int = digits_sum(prod(map(BigInteger, 1:n)))
 
 compute(10)
 

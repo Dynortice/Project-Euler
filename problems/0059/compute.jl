@@ -1,15 +1,14 @@
 using IterTools: product
 
-function compute(text::Array{Int64,1}, key_len::Int64)::Int64
-    is_letter(a::Int64, b::Int64)::Bool = 32 ≤ a ⊻ b ≤ 122
-
-    keys = Dict(i => Int64[] for i ∈ 1:key_len)
+function compute(path::String, n::Int)::Int
+    text = parse.(Int, split(replace(read(path, String), "\"" => ""), ","))
+    keys = Dict(i => Int[] for i ∈ 1:n)
     letters = 97:122
-    for i ∈ 1:key_len
+    for i ∈ 1:n
         for j ∈ letters
-            for k ∈ i:key_len:length(text)
+            for k ∈ i:n:length(text)
                 keys[i] = ∪(keys[i], j)
-                if !is_letter(j, text[k])
+                if !(32 ≤ text[k] ⊻ j ≤ 122)
                     keys[i] = setdiff(keys[i], j)
                     break
                 end
@@ -19,10 +18,10 @@ function compute(text::Array{Int64,1}, key_len::Int64)::Int64
     for key ∈ product(map(x -> x[2], sort(collect(keys)))...)
         decrypted_text = ""
         result = 0
-        for (i, n) ∈ enumerate(text)
-            xor_ = n ⊻ key[(i - 1) % key_len + 1]
-            decrypted_text = string(decrypted_text, Char(xor_))
-            result += xor_
+        for (i, j) ∈ enumerate(text)
+            xor = j ⊻ key[(i - 1) % n + 1]
+            decrypted_text = string(decrypted_text, Char(xor))
+            result += xor
         end
         if occursin(" the ", decrypted_text)
             return result

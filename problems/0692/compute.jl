@@ -1,9 +1,9 @@
-include("euler/Julia/calculus.jl")
-using .Calculus: fibonacci_index, get_fibonacci
+include("euler/euler.jl")
+using .Calculus: fibonacci_index, fibonacci_numbers
 
-function compute(n::Int64)::Int64
+function compute(n::Int)::Int
     index = fibonacci_index(n)
-    fibonacci = get_fibonacci(index, Int64)
+    fibonacci = fibonacci_numbers(index, Int)
     last_sum, new_sum = 0, 0
     result = sum(fibonacci[1:5]) - 1
     for i ∈ 6:index + 1

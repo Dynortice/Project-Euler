@@ -1,14 +1,14 @@
-include("euler/Julia/calculus.jl")
-using .Calculus: fibonacci_index, get_fibonacci
+include("euler/euler.jl")
+using .Calculus: fibonacci_index, fibonacci_numbers
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(n::Int64)::Int64
+function compute(n::Int)::Int
     index = fibonacci_index(n)
-    fibonacci = get_fibonacci(index, Int64)
+    fibonacci = fibonacci_numbers(index + 1, Int)
     last_sum, new_sum = 0, 0
-    result = sum(fibonacci[1:5]) - 1
-    for i ∈ 6:index + 1
+    result = sum(fibonacci[1:4]) - 1
+    for i ∈ 5:index
         last_sum, new_sum = new_sum, new_sum + last_sum + fibonacci[i - 3]
         result += new_sum + fibonacci[i]
     end

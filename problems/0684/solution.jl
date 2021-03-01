@@ -1,15 +1,17 @@
-include("euler/Julia/calculus.jl")
-using .Calculus: BigInteger, get_fibonacci
+include("euler/euler.jl")
+using .BigIntegers: BigInteger
+using .Calculus: fibonacci_numbers
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(n::Int64, modulo::Int64)
-    function s_mod(k::BigInteger)::BigInteger
-        a, b = k % 9 + 2, k ÷ 9
-        return ((a * (a - 1) + 10) * powermod(BigInteger(10), b, modulo) - 2(a + 9b + 4)) * inverted_modulo % modulo
+function compute(n::Int, m::Int)
+    inverted_modulo = invmod(2, m)
+    result = BigInteger(-1)
+    for f ∈ fibonacci_numbers(n, BigInteger)
+        a, b = f % 9 + 2, f ÷ 9
+        result += ((a * (a - 1) + 10) * powermod(BigInteger(10), b, m) - 2(a + 9b + 4)) * inverted_modulo % m
     end
-    inverted_modulo = invmod(2, modulo)
-    return (sum(s_mod.(get_fibonacci(n, BigInteger))) - 1) % modulo
+    return result % m
 end
 
 compute(90, 1000000007)

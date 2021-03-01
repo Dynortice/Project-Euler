@@ -1,9 +1,9 @@
-include("euler/Julia/primes.jl")
-using .Primes: get_primes
+include("euler/euler.jl")
+using .Primes: prime_numbers
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-compute(n::Int64)::Int64 = get_primes(n * 20)[n]
+compute(n::Int)::Int = prime_numbers(20n)[n]
 
 compute(6)
 

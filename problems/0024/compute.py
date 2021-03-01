@@ -2,11 +2,11 @@ from math import factorial
 
 
 def compute(n: int, digits: list) -> str:
-    l = len(digits)
+    k = len(digits)
     result = ''
     remain = n - 1
-    for i in range(1, l + 1):
-        order = factorial(l - i)
+    for i in range(1, k + 1):
+        order = factorial(k - i)
         j = remain // order
         result += str(digits[j])
         remain %= order

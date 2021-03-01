@@ -1,5 +1,5 @@
-function compute(path::String)::Int64
-    base_exp = map(x -> parse.(Int64, split(x, ",")), split(read(path, String), "\n"))
+function compute(path::String)::Int
+    base_exp = map(x -> parse.(Int, split(x, ",")), split(read(path, String), "\n"))
     max_exponent = 0
     result = 0
     for i ∈ 1:length(base_exp)

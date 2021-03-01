@@ -1,12 +1,10 @@
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(keylog::Array{SubString{String},1})::String
+function compute(path::String)::String
+    keylog = ∪(split(read(path, String), "\n")[1:end - 1])
     password = ""
-    while true
-        if length(keylog) == 1
-            return string(password, keylog[1])
-        end
+    while length(keylog) ≠ 1
         candidates = ∪(i[1] for i ∈ keylog)
         for candidate ∈ collect(candidates)
             for key ∈ keylog
@@ -19,17 +17,14 @@ function compute(keylog::Array{SubString{String},1})::String
         password = string(password, candidates[1])
         for key ∈ collect(keylog)
             if candidates[1] == key[1]
-                if length(key) == 3
-                    union!(keylog, [key[2:end]])
-                end
+                if length(key) == 3 union!(keylog, [key[2:end]]) end
                 setdiff!(keylog, [key])
             end
         end
     end
+    return string(password, keylog[1])
 end
 
-keylog_text = split(read("problems/0079/p079_keylog.txt", String), "\n")[1:end - 1]
+compute("problems/0079/p079_keylog.txt")
 
-compute(collect(keylog_text))
-
-@benchmark compute(collect(keylog_text))
+@benchmark compute("problems/0079/p079_keylog.txt")

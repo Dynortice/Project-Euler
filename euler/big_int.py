@@ -1,41 +1,90 @@
+from typing import Union
 from math import ceil
 
 
-def pad(a: str, n: int, right: bool = True) -> str:
+def pad(s: str, n: int, right: bool = True) -> str:
+    """Add `n` zeros before or after string
+
+    Args:
+        s: String
+        n: Number of zeros to add
+        right: Whether add 0 to right or left side
+
+    Returns:
+        Origin string with n leading or trailing zeros
+
+    Examples:
+        >>> print(pad('123', 2))
+        12300
+        >>> print(pad('123', 2, False))
+        00123
     """
-    Add 0 before or after string
-    :param a: string
-    :param n: count 0
-    :param right: after (true) or before (false)
-    :return: string eg "000123" when pad("123", 3, False)
-    """
-    return a + '0' * n if right else n * '0' + a
+    return s + '0' * n if right else n * '0' + s
 
 
-def zero_pad(a: str, b: str, right: bool = True) -> [str, str]:
-    """
-    Takes two string-like numbers and if these lengths not equal returns less number with 0 before or after
-    :param a: string-like integer
-    :param b: string-like integer
-    :param right: after (true) or before (false)
-    :return: list contains two string-like numbers
+def align_strings(a: str, b: str, right: bool = True) -> (str, str):
+    """Takes two strings and if these lengths not equal returns shorten string with leading or trailing zeros
+
+    Args:
+        a: First string
+        b: Second string
+        right: Whether add 0 to right or left side
+
+    Returns:
+        Tuple of 2 strings with equal lengths
+
+    Examples:
+        >>> print(align_strings("123", "123456"))
+        ('123000', '123456')
+        >>> print(align_strings("123456", "123", False))
+        ('123456', '000123')
     """
     if len(a) > len(b):
         b = pad(b, len(a) - len(b), right)
     elif len(b) > len(a):
         a = pad(a, len(b) - len(a), right)
-    return [a, b]
+    return a, b
+
+
+def mul_s(a: 'BigInt', b: 'BigInt') -> 'BigInt':
+    if len(a) + len(b) < 19:
+        return BigInt(str(int(a.str) * int(b.str)) if a.positive == b.positive else '-' + str(int(a.str) * int(b.str)))
+    g, h = a.str[::-1], b.str[::-1]
+    result = BigInt(0)
+    for i in range(len(g)):
+        carry = 0
+        sub_result = '0' * i
+        for j in range(len(h)):
+            carry += int(g[i]) * int(h[j])
+            sub_result += str(carry % 10)
+            carry //= 10
+        sub_result = sub_result[::-1]
+        result += BigInt((str(carry) + sub_result).lstrip('0'))
+    result.positive = a.positive == b.positive
+    return result
 
 
 class BigInt:
-    def __init__(self, n=None):
+    """Class for big integers math
+
+    Attributes:
+        str: str
+            Represents absolute value of number
+        positive: bool
+            Whether is number bigger or not than -1
+    """
+    def __init__(self, n: Union[int, str, 'BigInt']):
+        """
+        Params:
+            n: Number represented as str, int or BigInt
+        """
         if n:
             if isinstance(n, str):
                 self.str = n if n[0] != '-' else n[1:]
                 self.positive = n[0] != '-'
             elif isinstance(n, int):
-                self.str = str(n)
-                self.positive = n > 0
+                self.str = str(abs(n))
+                self.positive = n >= 0
             elif isinstance(n, BigInt):
                 self.str, self.positive = n.str, n.positive
             else:
@@ -45,12 +94,17 @@ class BigInt:
             self.positive = True
 
     def __len__(self) -> int:
+        """Get number of digits"""
         return len(self.str)
 
     def __getitem__(self, item: int) -> str:
+        """Get n-th digit"""
         return self.str[item]
 
     def __repr__(self) -> str:
+        return str(self)
+
+    def __str__(self) -> str:
         return self.str if self.positive else '-' + self.str
 
     def __neg__(self) -> 'BigInt':
@@ -93,7 +147,7 @@ class BigInt:
         other = BigInt(other)
         if self.positive == other.positive:
             if self == other:
-                return BigInt()
+                return BigInt(0)
             if self.positive:
                 if self > other:
                     positive = True
@@ -108,7 +162,7 @@ class BigInt:
                 else:
                     positive = False
                     x, y = self.str, other.str
-            x, y = zero_pad(x, y, right=False)
+            x, y = align_strings(x, y, right=False)
             result = ''
             carry = 0
             for i in range(ceil(len(x) / 18)):
@@ -134,7 +188,7 @@ class BigInt:
     def __add__(self, other) -> 'BigInt':
         other = BigInt(other)
         if self.positive == other.positive:
-            x, y = zero_pad(self.str, other.str, right=False)
+            x, y = align_strings(self.str, other.str, right=False)
             result = ''
             carry = 0
             for i in range(ceil(len(x) / 18)):
@@ -160,28 +214,10 @@ class BigInt:
         return self + BigInt(other)
 
     def __mul__(self, other) -> 'BigInt':
-        def mul(e: 'BigInt', f: 'BigInt') -> 'BigInt':
-            if max(len(e), len(f)) < 10:
-                return BigInt(str(int(e.str) * int(f.str)) if e.positive == f.positive else '-' + str(
-                    int(e.str) * int(f.str)))
-            g, h = e.str[::-1], f.str[::-1]
-            result = BigInt()
-            for i in range(len(g)):
-                carry = 0
-                sub_result = '0' * i
-                for j in range(len(h)):
-                    carry += int(g[i]) * int(h[j])
-                    sub_result += str(carry % 10)
-                    carry //= 10
-                sub_result = sub_result[::-1]
-                result += BigInt((str(carry) + sub_result).lstrip('0'))
-            result.positive = e.positive == f.positive
-            return result
-
         other = BigInt(other)
-        if max(len(self), len(other)) < 10 or min(len(self), len(other)) == 1:
-            return mul(self, other)
-        n = max(len(self), len(other))
+        if len(self) + len(other) < 19 or len(self) == 1 or len(other) == 1:
+            return mul_s(self, other)
+        n = len(self) if len(self) > len(other) else len(other)
         m = n // 2
         a, b, c, d = BigInt(self[:-m]), BigInt(self[-m:]), BigInt(other[:-m]), BigInt(other[-m:])
         ac, bd, ab_cd = a * c, b * d, (a + b) * (c + d)
@@ -197,7 +233,7 @@ class BigInt:
     def __floordiv__(self, other) -> 'BigInt':
         other = BigInt(other)
         if abs(self) < abs(other):
-            result = BigInt()
+            result = BigInt(0)
         else:
             value = other.copy()
             multipliers = {1: value.copy()}
@@ -217,7 +253,7 @@ class BigInt:
     def __mod__(self, other) -> 'BigInt':
         other = BigInt(other)
         if self.str == other.str:
-            return BigInt()
+            return BigInt(0)
         elif abs(self) > abs(other):
             return self - self // other * other
         elif self.positive == other.positive:

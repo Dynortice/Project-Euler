@@ -1,21 +1,20 @@
+include("euler/euler.jl")
+using .Numbers: get_digits
 using Combinatorics: with_replacement_combinations
 using StatsBase: countmap
 
-function compute(n::Int64)::Int64
-    sum_squares_digits(x::AbstractString)::Int64 = sum(parse.(Int64, collect(x)) .^ 2)
-
+function compute(n::Int)::Int
+    squares = (0:9) .* (0:9)
     result = 0
     for i ∈ with_replacement_combinations(0:9, n)
-        combination = join(i)
+        combination = parse(Int, join(i))
         while true
-            combination = sum_squares_digits(combination)
+            combination = sum(squares[get_digits(combination) .+ 1])
             if combination == 89
                 result += factorial(n) ÷ prod(factorial.(values(countmap(i))))
                 break
             elseif combination ≤ 1
                 break
-            else
-                combination = string(combination)
             end
         end
     end

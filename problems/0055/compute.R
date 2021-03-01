@@ -7,13 +7,11 @@ compute <- function(n) {
         number <- as.bigint(i)
         number %+=% as.bigint(intToUtf8(rev(utf8ToInt(number$str))))
         j <- 1
-        while ((j <= 50) & (!is.palindrome(number))) {
+        while (j <= 50 && !is.palindrome(number)) {
             number %+=% as.bigint(intToUtf8(rev(utf8ToInt(number$str))))
             j <- j + 1
         }
-        if (j > 50) {
-            result <- result + 1
-        }
+        if (j > 50) result <- result + 1
     }
     return(result)
 }

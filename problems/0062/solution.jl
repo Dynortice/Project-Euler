@@ -1,11 +1,10 @@
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(n::Int64)::Int64
-    cubes = Dict{String, Int64}()
-    permutations = Dict{String, Int64}()
+function compute(n::Int)::Int
+    cubes, permutations = Dict{String, Int}(), Dict{String, Int}()
     for i ∈ 1:10 ^ n
-        permutation = join(sort(split(string(i ^ 3), "")))
+        permutation = join(sort(collect(string(i ^ 3))))
         if haskey(cubes, permutation)
             permutations[permutation] += 1
             if permutations[permutation] == n

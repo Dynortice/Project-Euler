@@ -1,7 +1,7 @@
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute()::Int64
+function compute()::Int
     numerators_product = 1
     denominators_product = 1
     for i ∈ 1:9
@@ -14,7 +14,7 @@ function compute()::Int64
             end
         end
     end
-    return(denominators_product // gcd(numerators_product, denominators_product))
+    return(denominators_product ÷ gcd(numerators_product, denominators_product))
 end
 
 compute()

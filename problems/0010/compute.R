@@ -1,5 +1,3 @@
 source("euler/R/primes.R")
 
-compute <- function(n) {
-    return(sum(get_primes(n)))
-}
+compute <- function(n) sum(prime_numbers(n))

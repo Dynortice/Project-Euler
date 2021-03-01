@@ -1,15 +1,16 @@
-include("euler/Julia/numbers.jl")
-using .Numbers: BigInteger, is_palindrome
+include("euler/euler.jl")
+using .BigIntegers: BigInteger
+using .Numbers: is_palindrome
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(n::Int64)::Int64
+function compute(n::Int)::Int
     result = 0
     for i ∈ 1:n
-        number = BigInteger(i)
+        number = BigInteger(string(i))
         number += BigInteger(reverse(number.str))
         j = 1
-        while (j ≤ 50) & (!is_palindrome(number))
+        while j ≤ 50 && !is_palindrome(number)
             number += BigInteger(reverse(number.str))
             j += 1
         end

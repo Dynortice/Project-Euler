@@ -3,7 +3,7 @@ from euler.primes import is_prime
 
 
 def compute(n):
-    harshad_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    harshad_numbers = list(range(1, 10))
     result = 0
     for _ in range(1, n - 1):
         new_harshad_numbers = list()

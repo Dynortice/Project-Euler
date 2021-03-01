@@ -1,16 +1,15 @@
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(n::Int64)::Int64
-    limit_powers = trunc(Int64, log2(n))
-    limit_numbers = trunc(Int64, √n)
+function compute(n::Int)::Int
+    limit_powers, limit_numbers = trunc(Int, log2(n)), trunc(Int, √n)
     power_counts = repeat([0], limit_powers)
     for i ∈ 2:limit_numbers
-        power = trunc(Int64, log(i, n))
+        power = trunc(Int, log(i, n))
         power_counts[power] += 1
         j = i * i
         while j ≤ limit_numbers
-            power_counts[trunc(Int64, log(j, n))] -= 1
+            power_counts[trunc(Int, log(j, n))] -= 1
             j *= i
         end
     end

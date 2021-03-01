@@ -1,11 +1,11 @@
-include("euler/Julia/primes.jl")
-using .Primes: get_primes
+include("euler/euler.jl")
+using .Primes: prime_numbers
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(n::Int64)::Int64
+function compute(n::Int)::Int
     result = 1
-    for prime ∈ get_primes(trunc(Int64, √n))
+    for prime ∈ prime_numbers(trunc(Int, √n))
         result *= prime
         if result * prime > n
             return result

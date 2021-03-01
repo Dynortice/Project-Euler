@@ -1,9 +1,9 @@
-include("euler/Julia/big_int.jl")
+include("euler/euler.jl")
 using .BigIntegers: BigInteger
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-compute(n::Int64, list_numbers::String)::SubString = sum(map(BigInteger, split(list_numbers, "\n")))[1:n]
+compute(n::Int, list_numbers::String)::SubString = sum(map(BigInteger, split(list_numbers, "\n")))[1:n]
 
 str_numbers = """37107287533902102798797998220837590246510135740250
 46376937677490009712648124896970078050417018260538

@@ -54,9 +54,7 @@ $$1 + \frac{\left(N - 1\right)\left(8\left(\frac{N - 1}{2}\right)^2 + 15\frac{N 
 library(microbenchmark)
 ```
 ```{r}
-compute <- function(n) {
-    return((((4 * n + 3) * n + 8) * n - 9) / 6)
-}
+compute <- function(n) (((4 * n + 3) * n + 8) * n - 9) / 6
 ```
 ```{r}
 compute(5)

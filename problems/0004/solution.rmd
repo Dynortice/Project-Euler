@@ -17,7 +17,7 @@ $$'abccba'=100000a+10000b+1000c+100c+10b+a=100001a+10010b+1100c=11(9091a+910b+10
 
 It's mean that one of two number must be divisible by $11$.
 
-```{r}
+```{r, message = FALSE}
 library(microbenchmark)
 setwd("../../")
 source("euler/R/numbers.R")
@@ -26,7 +26,6 @@ source("euler/R/numbers.R")
 ```{r}
 compute <- function(n) {
     result <- 0
-    numbers <- c(0, 0)
     for (i in seq(10 ^ n %/% 11 * 11, 10 ^ (n - 1), -11)) {
         for (j in seq(10 ^ n - 1, 10 ^ (n - 1))) {
             candidate <- i * j
@@ -34,11 +33,10 @@ compute <- function(n) {
                 break
             } else if (is.palindrome(candidate)) {
                 result <- candidate
-                numbers <- c(i, j)
             }
         }
     }
-    return(list(result, numbers))
+    return(result)
 }
 ```
 

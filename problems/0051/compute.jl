@@ -1,21 +1,13 @@
-include("euler/Julia/primes.jl")
+include("euler/euler.jl")
+using .Primes: prime_sieve
 import StatsBase: countmap
-using .Primes: get_primality
 
-function compute(n::Int64)::Int64
-    get_family(candidate::String, digit::SubString{String}) = [parse(Int64, replace(candidate, digit => i)) for i ∈ parse(Int64, digit):9]
-    sieve = get_primality(10 ^ (n - 1))
+function compute(n::Int)::Int
+    sieve = prime_sieve(10 ^ (n - 1))
     for (number, is_prime) ∈ enumerate(sieve)
-        if !is_prime | number < 10
-            continue
-        end
-        most_common = findmax(countmap(split(string(number), "")))
-        if most_common[1] == 1 & parse(Int64, most_common[2]) > 9 - n
-            continue
-        end
-        if sum(sieve[get_family(string(number), most_common[2])]) ≥ n
-            return number
-        end
+        if !is_prime || number < 10 continue end
+        most_common = findmax(countmap(collect(string(number)[1:end - 1])))
+        if most_common[1] == 1 && parse(Int, most_common[2]) > 9 - n continue end
+        if sum(sieve[map(x->parse(Int, replace(string(number), most_common[2] => x)), parse(Int, most_common[2]):9)]) ≥ n return number end
     end
-    return n
 end

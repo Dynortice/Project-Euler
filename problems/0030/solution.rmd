@@ -41,16 +41,9 @@ compute <- function(n) {
     while (nchar(as.character(max_len * 9 ^ n)) >= max_len) {
         combs <- combinations(0:9, max_len, replace = TRUE)
         for (i in seq_len(nrow(combs))) {
-            candidate <- 0
-            for (j in seq_len(max_len)) {
-                candidate <- candidate + powers[combs[i, j] + 1]
-            }
-            candidate_digits <- sort(as.integer(strsplit(as.character(candidate), NULL)[[1]]))
-            if (length(candidate_digits) == max_len) {
-                if (sum(candidate_digits == sort(combs[i,])) == max_len) {
-                    result <- result + candidate
-                }
-            }
+            candidate <- sum(powers[combs[i,] + 1])
+            digits <- sort(intToUtf8(utf8ToInt(as.character(candidate)), multiple = TRUE))
+            if (length(digits) == max_len && all(digits == sort(combs[i,]))) result <- result + candidate
         }
         max_len <- max_len + 1
     }
