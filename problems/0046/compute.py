@@ -3,7 +3,7 @@ from euler.calculus import is_square
 
 
 def compute() -> int:
-    sieve = prime_sieve(6000)
+    sieve = prime_sieve(6_000)
     primes = [i for (i, is_prime) in enumerate(sieve) if is_prime]
     i = 9
     while True:

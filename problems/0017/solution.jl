@@ -14,10 +14,10 @@ function compute(number::Int)::Int
     sum_hundreds = length("hundred")
     sum_and = length("and")
     sum_thousands = length("thousand")
-    thousands, hundreds = number ÷ 1000, number % 1000 ÷ 100
+    thousands, hundreds = number ÷ 1_000, number % 1_000 ÷ 100
     tenths, digits = number % 100 ÷ 10, number % 10
     sum_numbers_below_10 = 190thousands * sum_numbers_below_10 +
-        (thousands > 0 ? 1000sum(numbers_below_10[1:thousands - 1]) +
+        (thousands > 0 ? 1_000sum(numbers_below_10[1:thousands - 1]) +
             (100hundreds + 10tenths + digits + 1)numbers_below_10[thousands] : 0) +
         (hundreds > 0 ? 100sum(numbers_below_10[1:hundreds - 1]) + (10tenths + digits + 1) *
             numbers_below_10[hundreds] : 0) +
@@ -34,7 +34,7 @@ function compute(number::Int)::Int
         (hundreds > 0 ? (10tenths + digits + 1)sum_hundreds : 0)
     sum_and = 891thousands * sum_and + fast_max(99 * (hundreds - 1)sum_and, 0) +
         (hundreds > 0 ? (10tenths + digits)sum_and : 0)
-    sum_thousands = fast_max(1000 * (thousands - 1), 0) +
+    sum_thousands = fast_max(1_000 * (thousands - 1), 0) +
         (thousands > 0 ? (100hundreds + 10tenths + digits + 1)sum_thousands : 0)
     return sum_numbers_below_10 + sum_numbers_below_20 + sum_tenths + sum_hundreds + sum_and +
         sum_thousands
@@ -42,6 +42,6 @@ end
 
 compute(5)
 
-compute(1000)
+compute(1_000)
 
-@benchmark compute(1000)
+@benchmark compute(1_000)

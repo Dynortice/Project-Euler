@@ -5,6 +5,6 @@ compute(n::Int)::Int = (((4n + 3)n + 8)n - 9) ÷ 6
 
 compute(5)
 
-compute(1001)
+compute(1_001)
 
-@benchmark compute(1001)
+@benchmark compute(1_001)

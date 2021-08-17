@@ -5,7 +5,7 @@ using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
 function compute()::Int
-    n = 28123
+    n = 28_123
     primes = prime_numbers(trunc(Int, √n))
     abundant_sieve, not_expressible = repeat([false], n), repeat([true], n)
     result = 0

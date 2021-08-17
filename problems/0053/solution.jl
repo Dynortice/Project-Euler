@@ -14,6 +14,6 @@ function compute(n::Int, limit::Int)::Int
     return result
 end
 
-compute(100, 1000000)
+compute(100, 1_000_000)
 
-@benchmark compute(100, 1000000)
+@benchmark compute(100, 1_000_000)

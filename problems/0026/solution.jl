@@ -15,6 +15,6 @@ end
 
 compute(10)
 
-compute(1000)
+compute(1_000)
 
-@benchmark compute(1000)
+@benchmark compute(1_000)

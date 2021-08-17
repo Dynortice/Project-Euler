@@ -5,8 +5,8 @@ using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
 function compute(n::Int, modulo::Int)::BigInteger
-    function get_digits(k::Int, limit::Int)::Array{Array{Int, 1}, 1}
-        result = Array{Array{Int, 1}, 1}()
+    function get_digits(k::Int, limit::Int)::Vector{Vector{Int}}
+        result = Vector{Vector{Int}}()
         if k ≤ 0 return result end
         if k ≤ limit append!(result, [[k]]) end
         for i ∈ 1:limit for j ∈ get_digits(k - i, i) append!(result, [vcat(i, j)]) end end
@@ -34,10 +34,10 @@ function compute(n::Int, modulo::Int)::BigInteger
     return total
 end
 
-compute(3, 10000000000000000)
+compute(3, 10_000_000_000_000_000)
 
-compute(7, 10000000000000000)
+compute(7, 10_000_000_000_000_000)
 
-compute(2020, 10000000000000000)
+compute(2_020, 10_000_000_000_000_000)
 
-@benchmark compute(2020, 10000000000000000)
+@benchmark compute(2_020, 10_000_000_000_000_000)

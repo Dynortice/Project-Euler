@@ -14,8 +14,8 @@ function compute(n::Int)::Int
     end
 end
 
-compute(13195)
+compute(13_195)
 
-compute(600851475143)
+compute(600_851_475_143)
 
-@benchmark compute(600851475143)
+@benchmark compute(600_851_475_143)

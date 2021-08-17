@@ -1,8 +1,8 @@
-from math import log, log2, sqrt
+from math import isqrt, log, log2
 
 
 def compute(n: int) -> int:
-    limit_powers, limit_numbers = int(log2(n)), int(sqrt(n))
+    limit_powers, limit_numbers = int(log2(n)), isqrt(n)
     power_counts = [0] * (limit_powers + 1)
     for i in range(2, limit_numbers + 1):
         power = int(log(n, i))

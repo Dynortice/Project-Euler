@@ -3,7 +3,7 @@ using .Primes: prime_numbers
 using Combinatorics: permutations
 
 function compute(n::Int)::Int
-    function get_permutation_numbers(used::Array{Int, 1}, prime_index::Int)::Int
+    function get_permutation_numbers(used::Vector{Int}, prime_index::Int)::Int
         sub_result = 0
         for i ∈ setdiff(digits, used)
             if parse(Int, string(i, join(used[1:2]))) % primes[prime_index] == 0

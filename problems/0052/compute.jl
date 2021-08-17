@@ -1,4 +1,4 @@
-function compute(n::Int64)::Int64
+function compute(n::Int)::Int
     i = 1
     while true
         for j ∈ 10 ^ i:10 ^ (i + 1) ÷ n - 1

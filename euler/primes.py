@@ -1,8 +1,8 @@
-from collections.abc import Generator, Iterable
-from math import sqrt
+from math import isqrt
+from typing import Iterator, Iterable, Optional
 
 
-def prime_sieve(n: int) -> [bool]:
+def prime_sieve(n: int) -> list[bool]:
     """Get the sieve of primes below `n`
 
     Args:
@@ -19,14 +19,14 @@ def prime_sieve(n: int) -> [bool]:
     sieve[0] = sieve[1] = False
     for i in range(4, n + 1, 2):
         sieve[i] = False
-    for i in range(3, int(sqrt(n)) + 1, 2):
+    for i in range(3, isqrt(n) + 1, 2):
         if sieve[i]:
             for j in range(i * i, n + 1, 2 * i):
                 sieve[j] = False
     return sieve
 
 
-def prime_numbers(n: int) -> Generator:
+def prime_numbers(n: int) -> Iterator[int]:
     """Generate prime numbers below `n`
 
     Args:
@@ -65,18 +65,18 @@ def is_prime(n: int) -> bool:
         return True
     elif n % 2 == 0 or n % 3 == 0:
         return False
-    for i in range(6, int(sqrt(n)) + 2, 6):
+    for i in range(6, isqrt(n) + 2, 6):
         if n % (i - 1) == 0 or n % (i + 1) == 0:
             return False
     return True
 
 
-def smallest_prime_factor(n: int, primes: Iterable = None) -> int:
+def smallest_prime_factor(n: int, primes: Optional[Iterable[int]] = None) -> int:
     """Get smallest prime factor of number
 
     Args:
         n: Number
-        primes: Generator of prime numbers below at least sqrt(n)
+        primes: Generator of prime numbers below at least isqrt(n)
 
     Returns:
         Smallest prime number which proper divides n
@@ -85,12 +85,12 @@ def smallest_prime_factor(n: int, primes: Iterable = None) -> int:
         >>> print(smallest_prime_factor(23))
         23
         >>> n = 22
-        >>> primes = list(prime_numbers(int(sqrt(n))))
+        >>> primes = list(prime_numbers(isqrt(n)))
         >>> print(smallest_prime_factor(n, primes))
         2
     """
     if primes is None:
-        primes = prime_numbers(int(sqrt(n)))
+        primes = prime_numbers(isqrt(n))
     for prime in primes:
         if n % prime == 0:
             return prime

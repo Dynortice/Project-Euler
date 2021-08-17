@@ -23,6 +23,6 @@ function compute(n::Int)::Int
 end
 
 compute(18)
-compute(2000000)
+compute(2_000_000)
 
-@benchmark compute(2000000)
+@benchmark compute(2_000_000)

@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Optional, Union
 from math import ceil
 
 
@@ -73,6 +73,7 @@ class BigInt:
         positive: bool
             Whether is number bigger or not than -1
     """
+
     def __init__(self, n: Union[int, str, 'BigInt']):
         """
         Params:
@@ -116,11 +117,11 @@ class BigInt:
     def __abs__(self) -> 'BigInt':
         return BigInt(self.str)
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Union[int, str, 'BigInt']) -> bool:
         other = BigInt(other)
         return self.str == other.str and self.positive == other.positive
 
-    def __lt__(self, other) -> bool:
+    def __lt__(self, other: Union[int, str, 'BigInt']) -> bool:
         other = BigInt(other)
         if self.positive == other.positive:
             if len(self) == len(other):
@@ -137,13 +138,13 @@ class BigInt:
         else:
             return not self.positive
 
-    def __gt__(self, other) -> bool:
+    def __gt__(self, other: Union[int, str, 'BigInt']) -> bool:
         return not self <= BigInt(other)
 
-    def __le__(self, other) -> bool:
+    def __le__(self, other: Union[int, str, 'BigInt']) -> bool:
         return self == other or self < other
 
-    def __sub__(self, other) -> 'BigInt':
+    def __sub__(self, other: Union[int, str, 'BigInt']) -> 'BigInt':
         other = BigInt(other)
         if self.positive == other.positive:
             if self == other:
@@ -185,7 +186,7 @@ class BigInt:
             else:
                 return -(-self + other)
 
-    def __add__(self, other) -> 'BigInt':
+    def __add__(self, other: Union[int, str, 'BigInt']) -> 'BigInt':
         other = BigInt(other)
         if self.positive == other.positive:
             x, y = align_strings(self.str, other.str, right=False)
@@ -210,10 +211,10 @@ class BigInt:
             else:
                 return other - -self
 
-    def __radd__(self, other) -> 'BigInt':
+    def __radd__(self, other: Union[int, str, 'BigInt']) -> 'BigInt':
         return self + BigInt(other)
 
-    def __mul__(self, other) -> 'BigInt':
+    def __mul__(self, other: Union[int, str, 'BigInt']) -> 'BigInt':
         other = BigInt(other)
         if len(self) + len(other) < 19 or len(self) == 1 or len(other) == 1:
             return mul_s(self, other)
@@ -227,10 +228,10 @@ class BigInt:
         res.positive = self.positive == other.positive
         return res
 
-    def __rmul__(self, other) -> 'BigInt':
+    def __rmul__(self, other: Union[int, str, 'BigInt']) -> 'BigInt':
         return self * BigInt(other)
 
-    def __floordiv__(self, other) -> 'BigInt':
+    def __floordiv__(self, other: Union[int, str, 'BigInt']) -> 'BigInt':
         other = BigInt(other)
         if abs(self) < abs(other):
             result = BigInt(0)
@@ -250,7 +251,7 @@ class BigInt:
                     value += multipliers[i]
         return result if self.positive == other.positive else -(result + 1)
 
-    def __mod__(self, other) -> 'BigInt':
+    def __mod__(self, other: Union[int, str, 'BigInt']) -> 'BigInt':
         other = BigInt(other)
         if self.str == other.str:
             return BigInt(0)
@@ -261,7 +262,7 @@ class BigInt:
         else:
             return self + other
 
-    def __pow__(self, other, modulo=None) -> 'BigInt':
+    def __pow__(self, other: Union[int, str, 'BigInt'], modulo: Optional[int] = None) -> 'BigInt':
         value = self.copy()
         other = BigInt(other)
         result = BigInt(1)
@@ -281,7 +282,7 @@ class BigInt:
                 other //= 2
         return result
 
-    def __rpow__(self, other, modulo=None) -> 'BigInt':
+    def __rpow__(self, other: Union[int, str, 'BigInt'], modulo: Optional[int] = None) -> 'BigInt':
         return pow(BigInt(other), self, BigInt(other))
 
     def copy(self):

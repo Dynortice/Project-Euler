@@ -21,6 +21,6 @@ function compute(n::Int)::Int
     return result
 end
 
-compute(10000)
+compute(10_000)
 
-@benchmark compute(10000)
+@benchmark compute(10_000)

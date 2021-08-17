@@ -1,6 +1,5 @@
-function compute()::Int
-    modulo = 4503599627370517
-    min_value = max_value = result = 1504170715041707
+function compute(first::Int, modulo::Int)::Int
+    min_value = max_value = result = first
     candidate = 0
     while candidate ≠ 1
         candidate = (min_value + max_value) % modulo

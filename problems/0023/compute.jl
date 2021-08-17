@@ -3,7 +3,7 @@ using .Primes: prime_numbers
 using .Numbers: sum_proper_divisors
 
 function compute()::Int
-    n = 28123
+    n = 28_123
     primes = prime_numbers(trunc(Int, √n))
     abundant_sieve, not_expressible = repeat([false], n), repeat([true], n)
     result = 0

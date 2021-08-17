@@ -1,6 +1,5 @@
-from collections.abc import Iterable, Iterator
-from typing import Union
-from math import sqrt
+from typing import Iterable, Iterator, Union
+from math import isqrt
 from euler.big_int import BigInt
 from euler.calculus import sum_geometric_series
 from euler.primes import prime_numbers
@@ -61,12 +60,12 @@ def count_divisors(n: int) -> int:
     return divisors
 
 
-def sum_proper_divisors(n: int, primes: Iterable = None) -> int:
+def sum_proper_divisors(n: int, primes: Iterable[int] = None) -> int:
     """Get sum of proper divisors of `n`
 
     Args:
         n: Number
-        primes: Generator of prime numbers below at least sqrt(n)
+        primes: Generator of prime numbers below at least isqrt(n)
 
     Returns:
         Sum of proper divisors of n (except n)
@@ -75,12 +74,12 @@ def sum_proper_divisors(n: int, primes: Iterable = None) -> int:
         >>> print(sum_proper_divisors(23))
         1
         >>> n = 284
-        >>> primes = prime_numbers(int(sqrt(n)))
+        >>> primes = prime_numbers(isqrt(n))
         >>> print(sum_proper_divisors(n, primes))
         6
     """
     if primes is None:
-        primes = prime_numbers(int(sqrt(n)))
+        primes = prime_numbers(isqrt(n))
     result = 1
     number = n
     for prime in primes:
@@ -94,7 +93,7 @@ def sum_proper_divisors(n: int, primes: Iterable = None) -> int:
     return result - n
 
 
-def get_digits(n: Union[int, BigInt]) -> Iterator:
+def get_digits(n: Union[int, BigInt]) -> Iterator[int]:
     """Get digits of number
 
     Args:

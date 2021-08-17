@@ -3,9 +3,9 @@ from itertools import combinations_with_replacement
 from collections import Counter
 
 
-def compute(n: int, m: int):
+def compute(n: int, m: int) -> int:
     factorials = [factorial(i) for i in range(10)]
-    chains = dict()
+    chains: dict[int, int] = dict()
     result = 0
     for combination in combinations_with_replacement(range(9, -1, -1), n):
         combination = list(combination)

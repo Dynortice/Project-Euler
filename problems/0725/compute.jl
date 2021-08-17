@@ -3,8 +3,8 @@ import StatsBase: countmap
 using .BigIntegers: BigInteger
 
 function compute(n::Int, modulo::Int)::BigInteger
-    function get_digits(k::Int, limit::Int)::Array{Array{Int, 1}, 1}
-        result = Array{Array{Int, 1}, 1}()
+    function get_digits(k::Int, limit::Int)::Vector{Vector{Int}}
+        result = Vector{Vector{Int}}()
         if k ≤ 0 return result end
         if k ≤ limit append!(result, [[k]]) end
         for i ∈ 1:limit for j ∈ get_digits(k - i, i) append!(result, [vcat(i, j)]) end end

@@ -1,7 +1,7 @@
 from euler.primes import prime_numbers
 
 
-def compute(n: int, m: int = 1000000007) -> int:
+def compute(n: int, m: int = 1_000_000_007) -> int:
     result = [0] + [1] * n
     for prime in prime_numbers(n):
         past_super, last_super, new_super = 0, 0, 0
@@ -15,7 +15,6 @@ def compute(n: int, m: int = 1000000007) -> int:
                 number //= prime
             new_super, new_hyper = last_super + j, last_hyper + i * j
             past_super = last_super = last_super + past_super
-            print(f'{prime}: {last_hyper - last_super + 1}')
             result[i - 1] *= ((pow(prime, last_hyper - last_super + 1, m) - 1) * inv_mod) % m
             result[i - 1] %= m
             last_super, last_hyper = new_super, new_hyper

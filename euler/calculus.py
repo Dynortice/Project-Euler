@@ -1,6 +1,5 @@
-from collections.abc import Generator
-from typing import Union
-from math import sqrt, log
+from typing import Iterator, Union
+from math import isqrt, log, sqrt
 from euler.big_int import BigInt
 
 
@@ -38,7 +37,7 @@ def sum_geometric_series(a: Union[int, float], r: Union[int, float], n: int) -> 
     return a * (r ** n - 1) / (r - 1)
 
 
-def fibonacci_numbers(n: int, t: type = BigInt) -> Generator:
+def fibonacci_numbers(n: int, t: type = int) -> Iterator[Union[int, BigInt]]:
     """Generate `n` first Fibonacci numbers `OEIS A000045 <https://oeis.org/A000045>`_
 
     Args:
@@ -51,7 +50,7 @@ def fibonacci_numbers(n: int, t: type = BigInt) -> Generator:
     Examples:
         >>> print(list(fibonacci_numbers(10)))
         [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
-        >>> print(list(fibonacci_numbers(10, int)))
+        >>> print(list(fibonacci_numbers(10, BigInt)))
         [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
     """
     f_previous, f_current = t(0), t(1)
@@ -95,7 +94,7 @@ def fibonacci_index(n: int) -> int:
     return int(log(n * sqrt(5) + 0.5, (sqrt(5) + 1) / 2))
 
 
-def len_collatz_chain(n: int, hashmap: {int: int}) -> int:
+def len_collatz_chain(n: int, hashmap: dict[int, int]) -> int:
     """Get length of Collatz chain
 
     Args:
@@ -117,7 +116,7 @@ def len_collatz_chain(n: int, hashmap: {int: int}) -> int:
     return hashmap[n]
 
 
-def triangular_numbers(n: int) -> Generator:
+def triangular_numbers(n: int) -> Iterator[int]:
     """Generate `n` first numbers in triangular numbers sequence `OEIS A000217 <https://oeis.org/A000217>`_
 
     Args:
@@ -167,7 +166,7 @@ def triangular_index(n: int) -> int:
         >>> print(triangular_index(54))
         9
     """
-    return int(sqrt(8 * n + 1) - 1) // 2
+    return (isqrt(8 * n + 1) - 1) // 2
 
 
 def is_triangular(n: int) -> bool:
@@ -185,7 +184,7 @@ def is_triangular(n: int) -> bool:
     return sqrt(8 * n + 1) % 2 == 1
 
 
-def square_numbers(n: int) -> Generator:
+def square_numbers(n: int) -> Iterator[int]:
     """Generate `n` first numbers in square numbers sequence `OEIS A000290 <https://oeis.org/A000290>`_
 
     Args:
@@ -235,7 +234,7 @@ def square_index(n: int) -> int:
         >>> print(triangular_index(99))
         9
     """
-    return int(sqrt(n))
+    return isqrt(n)
 
 
 def is_square(n: int) -> bool:
@@ -253,7 +252,7 @@ def is_square(n: int) -> bool:
     return sqrt(n) % 1 == 0
 
 
-def pentagonal_numbers(n: int) -> Generator:
+def pentagonal_numbers(n: int) -> Iterator[int]:
     """Generate `n` first numbers in pentagonal numbers sequence `OEIS A000326 <https://oeis.org/A000326>`_
 
     Args:
@@ -303,7 +302,7 @@ def pentagonal_index(n: int) -> int:
         >>> print(pentagonal_index(144))
         9
     """
-    return int(sqrt(24 * n + 1) + 1) // 6
+    return (isqrt(24 * n + 1) + 1) // 6
 
 
 def is_pentagonal(n: int) -> bool:
@@ -321,7 +320,7 @@ def is_pentagonal(n: int) -> bool:
     return sqrt(24 * n + 1) % 6 == 5
 
 
-def hexagonal_numbers(n: int) -> Generator:
+def hexagonal_numbers(n: int) -> Iterator[int]:
     """Generate `n` first numbers in hexagonal numbers sequence `OEIS A000384 <https://oeis.org/A000384>`_
 
     Args:
@@ -371,7 +370,7 @@ def hexagonal_index(n: int) -> int:
         >>> print(hexagonal_index(189))
         9
     """
-    return int(sqrt(8 * n + 1) + 1) // 4
+    return (isqrt(8 * n + 1) + 1) // 4
 
 
 def is_hexagonal(n: int) -> bool:

@@ -2,7 +2,7 @@ from euler.big_int import BigInt
 
 
 def compute() -> BigInt:
-    number = BigInt(138902663)
+    number = BigInt(138_902_663)
     j = 3
     while not all((number * number)[i * 2] == str(i + 1) for i in range(9)):
         if j == 3:

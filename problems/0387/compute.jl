@@ -6,7 +6,7 @@ function compute(n::Int)::Int
     harshad_numbers = collect(1:9)
     result = 0
     for _ ∈ 1:n - 2
-        new_harshad_numbers = Array{Int, 1}()
+        new_harshad_numbers = Vector{Int}()
         for i ∈ 0:9
             for harshad ∈ harshad_numbers
                 if (harshad * 10 + i) % (digits_sum(harshad) + i) == 0

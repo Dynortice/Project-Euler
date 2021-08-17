@@ -1,9 +1,9 @@
-from math import sqrt
+from math import isqrt
 from euler.calculus import triangular_numbers
 
 
 def compute(n: int) -> int:
-    limit = int(sqrt(n))
+    limit = isqrt(n)
     triangles = list(triangular_numbers(limit))
     min_difference = n
     nearest = 0

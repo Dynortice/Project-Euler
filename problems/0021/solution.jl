@@ -16,8 +16,8 @@ function compute(n::Int)::Int
     return result
 end
 
-compute(1000)
+compute(1_000)
 
-compute(10000)
+compute(10_000)
 
-@benchmark compute(10000)
+@benchmark compute(10_000)

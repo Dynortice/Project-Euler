@@ -4,7 +4,7 @@ using .Calculus: fibonacci_numbers
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(n::Int, m::Int)
+function compute(n::Int, m::Int = 1_000_000_007)
     inverted_modulo = invmod(2, m)
     result = BigInteger(-1)
     for f ∈ fibonacci_numbers(n, BigInteger)
@@ -14,6 +14,6 @@ function compute(n::Int, m::Int)
     return result % m
 end
 
-compute(90, 1000000007)
+compute(90)
 
-@benchmark compute(90, 1000000007)
+@benchmark compute(90)

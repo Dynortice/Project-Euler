@@ -4,10 +4,10 @@ using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
 function compute()::String
-    sieve = prime_sieve(10000)
+    sieve = prime_sieve(10_000)
     primes = findall(sieve)
-    for prime ∈ primes[primes .> 4817]
-        first, third = prime - 3330, prime + 3330
+    for prime ∈ primes[primes .> 4_817]
+        first, third = prime - 3_330, prime + 3_330
         if sieve[first] && sieve[third] && (sort(∪(string(prime))) == sort(∪(string(first)))) && (sort(∪(string(prime))) == sort(∪(string(third))))
             return string(first, prime, third)
         end

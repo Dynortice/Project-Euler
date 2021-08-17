@@ -1,23 +1,21 @@
 from euler.math import fast_max
 
 
-def compute(number):
-    numbers_below_10 = list(map(len, ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']))
-    numbers_below_20 = list(map(len, ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
-                                      'seventeen', 'eighteen', 'nineteen']))
-    tenth = list(map(len, ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']))
+def compute(number: int) -> int:
+    numbers_below_10 = list(map(len, ('one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine')))
+    numbers_below_20 = list(map(len, ('ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
+                                      'seventeen', 'eighteen', 'nineteen')))
+    tenth = list(map(len, ('twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety')))
     sum_numbers_below_10 = sum(numbers_below_10)
     sum_numbers_below_20 = sum(numbers_below_20)
     sum_tenth = sum(tenth)
     sum_hundreds = len('hundred')
     sum_and = len('and')
     sum_thousands = len('thousand')
-    thousands, hundreds, tenths, digits = number // 1000, number % 1000 // 100, number % 100 // 10, number % 10
-    hundreds = number % 1000 // 100
-    tenths = number % 100 // 10
-    digits = number % 10
+    thousands, hundreds, tenths, digits = number // 1_000, number % 1_000 // 100, number % 100 // 10, number % 10
+    hundreds, tenths, digits = number % 1_000 // 100, number % 100 // 10, number % 10
     sum_numbers_below_10 = 190 * thousands * sum_numbers_below_10 \
-        + (1000 * sum(numbers_below_10[0:thousands - 1])
+        + (1_000 * sum(numbers_below_10[0:thousands - 1])
            + (100 * hundreds + 10 * tenths + digits + 1) * numbers_below_10[thousands - 1] if thousands > 0 else 0) \
         + (100 * sum(numbers_below_10[0:hundreds - 1])
            + (10 * tenths + digits + 1) * numbers_below_10[hundreds - 1] if hundreds > 0 else 0) \
@@ -34,6 +32,6 @@ def compute(number):
         + ((10 * tenths + digits + 1) * sum_hundreds if hundreds > 0 else 0)
     sum_and = 891 * thousands * sum_and + fast_max(99 * (hundreds - 1) * sum_and, 0)\
         + ((10 * tenths + digits) * sum_and if hundreds > 0 else 0)
-    sum_thousands = fast_max(1000 * (thousands - 1), 0) \
+    sum_thousands = fast_max(1_000 * (thousands - 1), 0) \
         + ((100 * hundreds + 10 * tenths + digits + 1) * sum_thousands if thousands > 0 else 0)
     return sum_numbers_below_10 + sum_numbers_below_20 + sum_tenth + sum_hundreds + sum_and + sum_thousands

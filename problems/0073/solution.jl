@@ -13,6 +13,6 @@ end
 
 compute(8)
 
-compute(12000)
+compute(12_000)
 
-@benchmark compute(12000)
+@benchmark compute(12_000)

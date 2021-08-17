@@ -17,6 +17,6 @@ end
 
 compute(13)
 
-compute(23416728348467685)
+compute(23_416_728_348_467_685)
 
-@benchmark compute(23416728348467685)
+@benchmark compute(23_416_728_348_467_685)

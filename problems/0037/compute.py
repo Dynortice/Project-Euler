@@ -2,7 +2,7 @@ from euler.primes import prime_sieve
 
 
 def compute() -> int:
-    sieve = prime_sieve(1000000)
+    sieve = prime_sieve(1_000_000)
     primes = [i for (i, is_prime) in enumerate(sieve) if is_prime and i > 10]
     i, result, truncatable = 0, 0, 0
     for prime in primes:

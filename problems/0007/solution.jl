@@ -7,6 +7,6 @@ compute(n::Int)::Int = prime_numbers(20n)[n]
 
 compute(6)
 
-compute(10001)
+compute(10_001)
 
-@benchmark compute(10001)
+@benchmark compute(10_001)

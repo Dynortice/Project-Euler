@@ -1,4 +1,4 @@
-def triangle_area(a: (int, int), b: (int, int), c: (int, int)) -> float:
+def triangle_area(a: tuple[int, int], b: tuple[int, int], c: tuple[int, int]) -> float:
     """Get area of triangle using coordinates of points
 
     Args:

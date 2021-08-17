@@ -16,6 +16,6 @@ end
 
 compute(2, 8)
 
-compute(2, 1000)
+compute(2, 1_000)
 
-@benchmark compute(2, 1000)
+@benchmark compute(2, 1_000)

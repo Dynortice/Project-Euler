@@ -22,6 +22,6 @@ function compute(max_a::Int, max_b::Int)::Int
     return result
 end
 
-compute(1000, 1000)
+compute(1_000, 1_000)
 
-@benchmark compute(1000, 1000)
+@benchmark compute(1_000, 1_000)

@@ -23,6 +23,6 @@ function compute(n::Int)::Int
     return result
 end
 
-compute(100000000)
+compute(100_000_000)
 
-@benchmark compute(100000000)
+@benchmark compute(100_000_000)

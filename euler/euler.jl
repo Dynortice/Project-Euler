@@ -4,7 +4,7 @@ module BigIntegers
         positive::Bool
 
         BigInteger(str::AbstractString, positive::Bool) = new(str == "" ? "0" : str, positive)
-        BigInteger(x::Int64) = new(string(abs(x)), x ≥ 0)
+        BigInteger(x::Int) = new(string(abs(x)), x ≥ 0)
         BigInteger(x::BigInteger) = copy(x)
         function BigInteger(x::AbstractString)
             if x == ""
@@ -329,7 +329,7 @@ module Calculus
     # Examples
     ```
      julia> fibonacci_numbers(10)
-     10-element Array{Int64,1}:
+     10-element Vector{Int64}:
       1
       1
       2
@@ -341,7 +341,7 @@ module Calculus
      34
      55
     julia> fibonacci_numbers(10, BigInteger)
-    11-element Array{BigInteger,1}:
+    11-element Vector{BigInteger}:
      "1"
      "1"
      "2"
@@ -354,7 +354,7 @@ module Calculus
      "55"
     ```
     """
-    function fibonacci_numbers(n::Int, T::Type=Int)::Array{T, 1}
+    function fibonacci_numbers(n::Int, T::Type=Int)::Vector{T}
         f_prev, f_curr = T(1), T(1)
         result = [f_prev, f_curr]
         for i ∈ 1:n - 2
@@ -434,7 +434,7 @@ module Calculus
     # Examples
     ```
     julia> triangular_numbers(10)
-    10-element Array{Int64,1}:
+    10-element Vector{Int64}:
       1
       3
       6
@@ -447,7 +447,7 @@ module Calculus
      55
     ```
     """
-    function triangular_numbers(n::Int)::Array{Int, 1}
+    function triangular_numbers(n::Int)::Vector{Int}
         result = [1]
         for i ∈ 2:n
             push!(result, result[end] + i)
@@ -514,7 +514,7 @@ module Calculus
     # Examples
     ```
     julia> square_numbers(10)
-    10-element Array{Int64,1}:
+    10-element Vector{Int64}:
        1
        4
        9
@@ -527,7 +527,7 @@ module Calculus
      100
     ```
     """
-    square_numbers(n::Int)::Array{Int, 1} = (1:n) .^ 2
+    square_numbers(n::Int)::Vector{Int} = (1:n) .^ 2
 
     """
         get_square(n::Int)
@@ -588,7 +588,7 @@ module Calculus
     # Examples
     ```
     julia> pentagonal_numbers(10)
-    10-element Array{Int64,1}:
+    10-element Vector{Int64}:
        1
        5
       12
@@ -601,7 +601,7 @@ module Calculus
      145
     ```
     """
-    function pentagonal_numbers(n::Int)::Array{Int, 1}
+    function pentagonal_numbers(n::Int)::Vector{Int}
         result = [1]
         for i ∈ 4:3:3n
             push!(result, result[end] + i)
@@ -668,7 +668,7 @@ module Calculus
     # Examples
     ```
     julia> hexagonal_numbers(10)
-    10-element Array{Int64,1}:
+    10-element Vector{Int64}:
        1
        6
       15
@@ -681,7 +681,7 @@ module Calculus
      190
     ```
     """
-    function hexagonal_numbers(n::Int)::Array{Int, 1}
+    function hexagonal_numbers(n::Int)::Vector{Int}
         result = [1]
         for i ∈ 5:4:4n
             push!(result, result[end] + i)
@@ -800,20 +800,20 @@ module Grid
     using ..Math: fast_max
 
     """
-        adjacent_product(grid::Array{Array{Int, 1}, 1}, n::Int, coordinate::Tuple{Int, Int},
+        adjacent_product(grid::Vector{Vector{Int}}, n::Int, coordinate::Tuple{Int, Int},
                          direction::Tuple{Int, Int})
 
     Get product of `n` adjacent numbers in `grid`
 
     # Arguments:
-    - `grid::Array{Array{Int, 1}, 1}`: Matrix-like array
+    - `grid::Vector{Vector{Int}}`: Matrix-like array
     - `n::Int`: Number of adjacent numbers in product
     - `coordinate::Tuple{Int, Int}`: Start position in product
     - `direction::Tuple{Int, Int}`: Direction for getting adjacent numbers (vertical, horizontal, diagonal)
 
     # Examples:
     julia> grid = [[8, 2, 22, 97], [49, 49, 99, 40], [81, 49, 31, 73], [52, 70, 95, 23]]
-    4-element Array{Array{Int64,1},1}:
+    4-element Vector{Vector{Int64}}:
      [8, 2, 22, 97]
      [49, 49, 99, 40]
      [81, 49, 31, 73]
@@ -831,7 +831,7 @@ module Grid
     julia> adjacent_product(grid, 2, (4, 1), (-1, 1))
     9603
     """
-    function adjacent_product(grid::Array{Array{Int, 1}, 1}, n::Int, coordinate::Tuple{Int, Int},
+    function adjacent_product(grid::Vector{Vector{Int}}, n::Int, coordinate::Tuple{Int, Int},
                               direction::Tuple{Int, Int})::Int
         product = 1
         for i ∈ 0:n - 1
@@ -845,18 +845,18 @@ module Grid
     end
 
     """
-        grid::Array{Array{Int, 1}, 1}
+        grid::Vector{Vector{Int}}
 
     Get triangle maximum path sum
 
     # Arguments:
-    - `grid::Array{Array{Int, 1}, 1}`: Triangle-like list
+    - `grid::Vector{Vector{Int}}`: Triangle-like list
 
     # Examples:
     julia> max_path_sum([[3], [7, 4], [2, 4, 6], [8, 5, 9, 3]])
     23
     """
-    function max_path_sum(grid::Array{Array{Int, 1}, 1})::Int
+    function max_path_sum(grid::Vector{Vector{Int}})::Int
         while length(grid) > 1
             for i ∈ 1:length(grid) - 1
                 grid[end - 1][i] += fast_max(grid[end][i:i + 1]...)
@@ -942,13 +942,13 @@ module Numbers
     end
 
     """
-        sum_proper_factors(n::Int, primes::Array{Int, 1} = prime_numbers(trunc(Int, √n)))
+        sum_proper_factors(n::Int, primes::Vector{Int} = prime_numbers(trunc(Int, √n)))
 
     Get sum of proper divisors of `n`
 
     # Arguments
     - `n::Int`: Number
-    - `primes::Array{Int, 1} = prime_numbers(trunc(Int, √n))`: Array of prime numbers below at least √n
+    - `primes::Vector{Int} = prime_numbers(trunc(Int, √n))`: Vector of prime numbers below at least √n
 
     # Examples
     ```
@@ -958,7 +958,7 @@ module Numbers
     220
     ```
     """
-    function sum_proper_divisors(n::Int, primes::Array{Int, 1} = prime_numbers(trunc(Int, √n)))::Int
+    function sum_proper_divisors(n::Int, primes::Vector{Int} = prime_numbers(trunc(Int, √n)))::Int
         result = 1
         number = n
         for prime ∈ primes
@@ -984,13 +984,13 @@ module Numbers
     # Examples
     ```
     julia> get_digits(123)
-    3-element Array{Int64,1}:
+    3-element Vector{Int64}:
      1
      2
      3
     ```
     """
-    get_digits(n::Int)::Array{Int, 1} = parse.(Int, collect(string(n)))
+    get_digits(n::Int)::Vector{Int} = parse.(Int, collect(string(n)))
 
     """
         get_digits(n::BigInteger)
@@ -1003,7 +1003,7 @@ module Numbers
     # Examples
     ```
     julia> get_digits(BigInteger(123456))
-    6-element Array{Int64,1}:
+    6-element Vector{Int64}:
      1
      2
      3
@@ -1012,7 +1012,7 @@ module Numbers
      6
     ```
     """
-    get_digits(n::BigInteger)::Array{Int, 1} = parse.(Int, collect(n.str))
+    get_digits(n::BigInteger)::Vector{Int} = parse.(Int, collect(n.str))
 
     """
         sum_digits(n::Int)
@@ -1112,7 +1112,7 @@ module Primes
     # Examples:
     ```
     julia> prime_sieve(10)
-    10-element Array{Bool,1}:
+    10-element Vector{Bool}:
      0
      1
      1
@@ -1125,7 +1125,7 @@ module Primes
      0
     ```
     """
-    function prime_sieve(n::Int)::Array{Bool, 1}
+    function prime_sieve(n::Int)::Vector{Bool}
         sieve = repeat([true], n)
         sieve[1] = false
         sieve[4:2:n] .= false
@@ -1146,7 +1146,7 @@ module Primes
     # Examples
     ```
     julia> prime_numbers(20)
-    8-element Array{Int64,1}:
+    8-element Vector{Int64}:
       2
       3
       5
@@ -1157,7 +1157,7 @@ module Primes
      19
     ```
     """
-    prime_numbers(n::Int)::Array{Int, 1} = findall(prime_sieve(n))
+    prime_numbers(n::Int)::Vector{Int} = findall(prime_sieve(n))
 
     """
         is_prime(n::Int)
@@ -1190,13 +1190,13 @@ module Primes
     end
 
     """
-        smallest_prime_factor(n::Int, primes:: Array{Int, 1} = prime_numbers(trunc(Int, √n)))
+        smallest_prime_factor(n::Int, primes:: Vector{Int} = prime_numbers(trunc(Int, √n)))
 
     Get smallest prime factor of number
 
     # Arguments
     - `n::Int`: Number
-    - `primes:: Array{Int, 1} = prime_numbers(trunc(Int, √n))`: Array of primes below at least √n
+    - `primes:: Vector{Int} = prime_numbers(trunc(Int, √n))`: Vector of primes below at least √n
 
     # Examples
     ```
@@ -1208,7 +1208,7 @@ module Primes
     2
     ```
     """
-    function smallest_prime_factor(n::Int, primes:: Array{Int, 1} = prime_numbers(trunc(Int, √n)))::Int
+    function smallest_prime_factor(n::Int, primes:: Vector{Int} = prime_numbers(trunc(Int, √n)))::Int
         for prime ∈ primes
             if n % prime == 0; return prime end
         end
@@ -1218,7 +1218,7 @@ end
 
 module Geometry
     """
-        triangle_area(a::Array{Int, 1}, b::Array{Int, 1}, c::Array{Int, 1})
+        triangle_area(a::Vector{Int}, b::Vector{Int}, c::Vector{Int})
 
     Get area of triangle using coordinates of points
 
@@ -1228,7 +1228,7 @@ module Geometry
     julia> triangle_area([-23, 11], [19, 95], [-12, 114])
     1701.0
     """
-    triangle_area(a::Array{Int, 1}, b::Array{Int, 1}, c::Array{Int, 1})::Float64 = abs((a[1] - c[1]) * (b[2] - a[2]) - (a[1] - b[1]) * (c[2] - a[2])) / 2
+    triangle_area(a::Vector{Int}, b::Vector{Int}, c::Vector{Int})::Float64 = abs((a[1] - c[1]) * (b[2] - a[2]) - (a[1] - b[1]) * (c[2] - a[2])) / 2
 end
 
 module Game

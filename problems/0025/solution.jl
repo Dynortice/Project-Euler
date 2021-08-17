@@ -5,6 +5,6 @@ compute(n::Int)::Int = Int(ceil((log(10) * (n - 1) + 0.5log(5)) / log(0.5(1 + âˆ
 
 compute(3)
 
-compute(1000)
+compute(1_000)
 
-@benchmark compute(1000)
+@benchmark compute(1_000)

@@ -3,12 +3,12 @@ using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
 function compute(path::String)::Int
-    is_flush(suits::Array{Char,1})::Bool = length(Set(suits)) == 1
-    is_royal(c_values::Array{Int, 1})::Bool = sum(c_values) == 55
-    is_consecutive(c_values::Array{Int, 1}, hand_value::Int)::Bool = sum(c_values) == (5 * (hand_value - 2))
+    is_flush(suits::Vector{Char})::Bool = length(Set(suits)) == 1
+    is_royal(c_values::Vector{Int})::Bool = sum(c_values) == 55
+    is_consecutive(c_values::Vector{Int}, hand_value::Int)::Bool = sum(c_values) == (5 * (hand_value - 2))
     get_rank_value(counted_values::Dict{Int, Int})::Int = maximum(value for (value, kinds) ∈ counted_values if kinds == maximum(collect(values(counted_values))))
 
-    function get_rank(cards::Array{SubString{String}, 1})::Tuple{String, Int, Int}
+    function get_rank(cards::Vector{SubString{String}})::Tuple{String, Int, Int}
         c_values, suits = map(x -> card_ranks[x], getindex.(cards, 1)), getindex.(cards, 2)
         counted_values, hand_value = countmap(c_values), maximum(c_values)
         unique_values = length(counted_values)
@@ -50,7 +50,7 @@ function compute(path::String)::Int
         return rank, rank_value, hand_value
     end
 
-    function is_winner(hands::Array{SubString{String}, 1})::Bool
+    function is_winner(hands::Vector{SubString{String}})::Bool
         player_1, player_2 = map(get_rank, [hands[1:5], hands[6:end]])
         if hand_ranks[player_1[1]] > hand_ranks[player_2[1]]
             return true

@@ -2,7 +2,7 @@ from euler.game import dice_combinations
 from euler.math import fast_max
 
 
-def compute(a: (int, int), b: (int, int)) -> float:
+def compute(a: tuple[int, int], b: tuple[int, int]) -> float:
     limit = fast_max(a[0] * a[1], b[0] * b[1])
     looses = [0] * (limit + 1)
     result = 0

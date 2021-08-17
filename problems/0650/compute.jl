@@ -1,7 +1,7 @@
 include("euler/euler.jl")
 using .Primes: prime_numbers
 
-function compute(n::Int, m::Int = 1000000007)::Int
+function compute(n::Int, m::Int = 1_000_000_007)::Int
     result = ones(Int, n)
     for prime ∈ prime_numbers(n)
         past_super, last_super, new_super = 0, 0, 0
@@ -19,7 +19,7 @@ function compute(n::Int, m::Int = 1000000007)::Int
             result[i - 1] %= m
             last_super, last_hyper = new_super, new_hyper
         end
-        result[n] *= ((powermod(prime, new_hyper - new_super - past_super + 1, modulo) - 1) * inv_mod) % m
+        result[n] *= ((powermod(prime, new_hyper - new_super - past_super + 1, m) - 1) * inv_mod) % m
         result[n] %= m
     end
     return sum(result) % m

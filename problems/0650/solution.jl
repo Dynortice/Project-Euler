@@ -3,7 +3,7 @@ using .Primes: prime_numbers
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(n::Int, m::Int = 1000000007)::Int
+function compute(n::Int, m::Int = 1_000_000_007)::Int
     result = ones(Int, n)
     for prime ∈ prime_numbers(n)
         past_super, last_super, new_super = 0, 0, 0
@@ -33,6 +33,6 @@ compute(10)
 
 compute(100)
 
-compute(20000)
+compute(20_000)
 
-@benchmark compute(20000)
+@benchmark compute(20_000)

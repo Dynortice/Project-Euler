@@ -1,7 +1,7 @@
 from math import gcd
 
 
-def compute():
+def compute() -> int:
     numerators_product = 1
     denominators_product = 1
     for i in range(1, 10):

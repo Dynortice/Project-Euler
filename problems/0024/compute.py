@@ -1,7 +1,7 @@
 from math import factorial
 
 
-def compute(n: int, digits: list) -> str:
+def compute(n: int, digits: list[int, ...]) -> str:
     k = len(digits)
     result = ''
     remain = n - 1

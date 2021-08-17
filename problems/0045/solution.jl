@@ -9,6 +9,6 @@ function compute(n::Int)::Int
     return get_hexagonal(i)
 end
 
-compute(40755)
+compute(40_755)
 
-@benchmark compute(40755)
+@benchmark compute(40_755)

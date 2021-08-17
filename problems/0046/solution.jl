@@ -5,7 +5,7 @@ using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
 function compute()::Int
-    sieve = prime_sieve(6000)
+    sieve = prime_sieve(6_000)
     prime_numbers = findall(sieve)
     i = 9
     while true

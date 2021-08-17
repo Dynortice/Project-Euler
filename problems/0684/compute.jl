@@ -2,7 +2,7 @@ include("euler/euler.jl")
 using .BigIntegers: BigInt
 using .Calculus: fibonacci_numbers
 
-function compute(n::Int, m::Int)
+function compute(n::Int, m::Int = 1_000_000_007)
     inverted_modulo = invmod(2, m)
     result = BigInteger(-1)
     for f ∈ fibonacci_numbers(n, BigInteger)

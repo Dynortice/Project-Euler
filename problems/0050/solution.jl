@@ -29,8 +29,8 @@ end
 
 compute(100)
 
-compute(1000)
+compute(1_000)
 
-compute(1000000)
+compute(1_000_000)
 
-@benchmark compute(1000000)
+@benchmark compute(1_000_000)

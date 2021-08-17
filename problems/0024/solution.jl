@@ -1,7 +1,7 @@
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute(n::Int, digits::Array{Int, 1})::String
+function compute(n::Int, digits::Vector{Int})::String
     k = length(digits)
     result = ""
     remain = n - 1
@@ -17,6 +17,6 @@ end
 
 compute(6, collect(0:2))
 
-compute(1000000, collect(0:9))
+compute(1_000_000, collect(0:9))
 
-@benchmark compute(1000000, collect(0:9))
+@benchmark compute(1_000_000, collect(0:9))

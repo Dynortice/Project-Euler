@@ -1,9 +1,8 @@
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
-function compute()::Int
-    modulo = 4503599627370517
-    min_value = max_value = result = 1504170715041707
+function compute(first::Int, modulo::Int)::Int
+    min_value = max_value = result = first
     candidate = 0
     while candidate ≠ 1
         candidate = (min_value + max_value) % modulo
@@ -17,6 +16,6 @@ function compute()::Int
     return result
 end
 
-compute()
+compute(1_504_170_715_041_707, 4_503_599_627_370_517)
 
-@benchmark compute()
+@benchmark compute(1_504_170_715_041_707, 4_503_599_627_370_517)

@@ -1,5 +1,5 @@
 include("euler/euler.jl")
-using .Math: fast_max
+using .Grid: max_path_sum
 using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 

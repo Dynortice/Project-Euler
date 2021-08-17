@@ -7,6 +7,6 @@ compute(n::Int)::Int = sum(prime_numbers(n))
 
 compute(10)
 
-compute(2000000)
+compute(2_000_000)
 
-@benchmark compute(2000000)
+@benchmark compute(2_000_000)

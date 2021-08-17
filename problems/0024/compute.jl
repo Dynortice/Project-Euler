@@ -1,4 +1,4 @@
-function compute(n::Int, digits::Array{Int, 1})::String
+function compute(n::Int, digits::Vector{Int})::String
     k = length(digits)
     result = ""
     remain = n - 1

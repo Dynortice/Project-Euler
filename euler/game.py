@@ -1,7 +1,7 @@
 from math import comb
 
 
-def dice_combinations(p, n, s):
+def dice_combinations(p: int, n: int, s: int) -> int:
     """Get number of combinations of totals `p` for `n` `s`-sided dices
 
     Args:

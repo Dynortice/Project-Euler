@@ -1,4 +1,4 @@
-from math import sqrt
+from math import isqrt, sqrt
 
 
 def compute(n: int) -> int:
@@ -7,7 +7,7 @@ def compute(n: int) -> int:
         for b in range(a, n // 2):
             k = a * a + b * b
             if sqrt(k) % 1 == 0:
-                p = a + b + int(sqrt(k))
+                p = a + b + isqrt(k)
                 if p in perimeters:
                     perimeters[p] += 1
                 else:

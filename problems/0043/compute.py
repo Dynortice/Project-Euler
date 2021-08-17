@@ -3,7 +3,7 @@ from euler.primes import prime_numbers
 
 
 def compute(n: int) -> int:
-    def get_permutation_numbers(used: tuple, prime_index):
+    def get_permutation_numbers(used: tuple[str, ...], prime_index: int) -> int:
         sub_result = 0
         for i in digits.difference(used):
             if int(i + ''.join(used[:2])) % primes[prime_index] == 0:

@@ -1,1 +1,1 @@
-compute(n::Int)::Int = sum(powermod.(1:n, 1:n, 10000000000)) % 10000000000
+compute(n::Int)::Int = sum(powermod.(1:n, 1:n, 10_000_000_000)) % 10_000_000_000

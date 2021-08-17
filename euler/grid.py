@@ -1,7 +1,7 @@
 from euler.math import fast_max
 
 
-def adjacent_product(grid: [[int]], n: int, coordinate: (int, int), direction: (int, int)) -> int:
+def adjacent_product(grid: list[list[int]], n: int, coordinate: tuple[int, int], direction: tuple[int, int]) -> int:
     """Get product of `n` adjacent numbers in `grid`
 
     Args:
@@ -33,7 +33,7 @@ def adjacent_product(grid: [[int]], n: int, coordinate: (int, int), direction: (
     return product
 
 
-def max_path_sum(grid: [[int]]):
+def max_path_sum(grid: list[list[int]]) -> int:
     """Get triangle maximum path sum
 
     Args:

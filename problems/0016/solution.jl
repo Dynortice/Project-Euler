@@ -8,6 +8,6 @@ compute(n::Int, p::Int)::Int = digits_sum(BigInteger(n) ^ p)
 
 compute(2, 15)
 
-compute(2, 1000)
+compute(2, 1_000)
 
-@benchmark compute(2, 1000)
+@benchmark compute(2, 1_000)

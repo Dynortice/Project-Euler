@@ -11,6 +11,6 @@ end
 
 compute(3, 5, 10)
 
-compute(3, 5, 1000)
+compute(3, 5, 1_000)
 
-@benchmark compute(3, 5, 1000)
+@benchmark compute(3, 5, 1_000)

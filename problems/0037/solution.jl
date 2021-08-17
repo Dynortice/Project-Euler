@@ -4,7 +4,7 @@ using BenchmarkTools
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 100
 
 function compute()::Int
-    sieve = prime_sieve(1000000)
+    sieve = prime_sieve(1_000_000)
     primes = findall(sieve)[5:end]
     truncatable, result = 0, 0
     for prime in primes
